@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./../template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <h1 class="ui-state-default ui-corner-all"><h:outputText value="Crear/Editar Usuario"/></h1>
+        <h:form>
+            <p:panelGrid columns="3">
+                <p:outputLabel value="DescripcionRol:" for="descripcionRol" />
+                <p:inputText id="descripcionRol" value="#{RolController.rol.descripcionRol}" title="DescripcionRol" required="true" requiredMessage="#{bundle.Requerido}" />
+                <p:message for="descripcionRol"/>
+            </p:panelGrid>
+            <p:panel>
+                <p:commandButton ajax="false" value="#{bundle.GuardarBoton}" action="#{RolController.doGuardar()}" icon="ui-icon-disk"/>
+                <p:commandButton immediate="true" ajax="false" value="#{bundle.CancelarBoton}" action="#{RolController.doListarForm()}" icon="ui-icon-close"/>
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

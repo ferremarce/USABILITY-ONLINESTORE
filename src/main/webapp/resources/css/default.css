@@ -1,0 +1,23 @@
+
+@import url(LocalFonts.css);
+
+* {
+    font-family: 'Exo', arial, serif !important;
+}
+
+.ui-widget,
+.ui-widget-header,
+.ui-widget-content,
+.ui-datatable ui-widget,
+.ui-datatable-data ui-widget-content,
+.ui-column-title
+{
+    font-size: 12px !important;
+}
+.top{
+    vertical-align: top;
+}
+
+.ui-fileupload-content {
+    height: 80px;
+} 

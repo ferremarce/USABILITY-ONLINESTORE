@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./../template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <h1 class="ui-state-default ui-corner-all"><h:outputText value="Listar Tipos"/></h1>
+        <h:form id="mainForm">
+            <p:growl life="3000" globalOnly="true" id="messages"/>
+            <p:panel header="Información del SubTipo">
+                <h:panelGrid id="panelClasi" columns="2">
+                    <h:outputLabel for="idTipo" value="Tipificaciones:"/>
+                    <h:panelGrid columns="2">
+                        <p:selectOneMenu converter="TipoConverter" effect="fade" id="idTipo" value="#{SubTipoController.tipo}" required="true" requiredMessage="#{bundle.Requerido}">  
+                            <f:selectItems value="#{TipoController.tipoSet}"/>
+                            <p:ajax event="change" listener="#{SubTipoController.actualizarDataTable}" update="tableSubTipo"/>
+                        </p:selectOneMenu>
+                        <p:message for="idTipo"/>
+                    </h:panelGrid>
+                    <h:outputLabel for="descripcionSubTipo" value="SubTipo:"/>
+                    <h:panelGrid columns="2">
+                        <p:inputText size="60" id="descripcionSubTipo" value="#{SubTipoController.subTipo.descripcionSubTipo}" title="Descripción" />
+                    </h:panelGrid>
+                </h:panelGrid>
+                <p:commandButton ajax="false" value="#{bundle.GuardarBoton}" action="#{SubTipoController.doGuardar()}" icon="ui-icon-disk"/>
+            </p:panel>
+            <p:dataTable id="tableSubTipo" value="#{SubTipoController.listaSubTipo}" var="item">
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Descripcion"/>
+                    </f:facet>
+                    <p:inplace id="ajax" event="dblclick" editor="true">
+                        <p:inputText value="#{item.descripcionSubTipo}" required="true" label="text"/>
+                        <p:ajax event="save" listener="#{SubTipoController.onCellEdit(item)}" update="@form"/>
+                    </p:inplace>
+                </p:column>
+                <p:column>
+                    <p:commandButton icon="ui-icon-close" value="#{bundle.EliminarBoton}" actionListener="#{SubTipoController.doBorrar(item.idSubTipo)}" update="@form" >
+                        <p:confirm header="Confirmación" message="#{bundle.ConfirmacionMensaje}" icon="ui-icon-alert" />
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

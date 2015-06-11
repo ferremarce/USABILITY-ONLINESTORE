@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./../template.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <ui:define name="content">
+        <h1 class="ui-state-default ui-corner-all"><h:outputText value="Cambiar Contraseña"/></h1>
+        <h:form id="formMain">
+            <p:growl life="3000" globalOnly="true" id="messages"/> 
+            <h:panelGrid>
+                <h:outputText value="#{LoginManager.usuarioLogeado.apellidos}, #{LoginManager.usuarioLogeado.nombres} [#{LoginManager.usuarioLogeado.idRol}]"/> 
+                <h:outputText style="font-size: 14px;color: red" value="Combine LETRAS y NUMEROS para obtener una buena seguridad. Por ejemplo: amartinez5631, 5631martinez, etc"/>
+            </h:panelGrid>
+            <h:panelGrid columns="2">
+                <p:outputLabel for="nuevacontra" value="Nueva Contraseña:"/>
+                <h:panelGrid columns="2">
+                    <p:password goodLabel="Bueno" promptLabel="Ingrese Password" feedback="true" weakLabel="Débil" strongLabel="Excelente" size="20" id="nuevacontra" value="#{LoginManager.contrasenha}" required="true" requiredMessage="#{bundle.Requerido}"/> 
+                    <p:message for="nuevacontra" />  
+                </h:panelGrid>
+                <p:outputLabel for="repetircontra" value="Repertir Contraseña:"/>
+                <h:panelGrid columns="2">
+                    <p:password goodLabel="Bueno" promptLabel="Ingrese Password" feedback="true" weakLabel="Débil" strongLabel="Excelente" size="20" id="repetircontra" value="#{LoginManager.contrasenha2}" required="true" requiredMessage="#{bundle.Requerido}"/> 
+                    <p:message for="repetircontra" />  
+                </h:panelGrid>
+            </h:panelGrid>
+            <p:panel>
+                <p:commandButton icon="ui-icon-disk" action="#{LoginManager.doCambiarContrasenha()}" ajax="false"  value="Actualizar"/>  
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./../template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <h:form>
+            <h1 class="ui-state-default ui-corner-all"><h:outputText value="Ver Usuario"/></h1>
+            <p:panelGrid style="width: 50%" columns="2">
+                <p:outputLabel value="Nombres:" for="nombres" />
+                <h:outputText id="nombres" value="#{UsuarioController.usuario.nombres}" title="Nombres" />
+                <p:outputLabel value="Apellidos:" for="apellidos" />
+                <h:outputText id="apellidos" value="#{UsuarioController.usuario.apellidos}" title="Apellidos" />
+                <p:outputLabel value="Cuenta:" for="cuenta" />
+                <h:outputText id="cuenta" value="#{UsuarioController.usuario.cuenta}" title="Cuenta"  />
+                <p:outputLabel value="Activo:" for="activo" />
+                <h:outputText id="activo" value="#{UsuarioController.usuario.esActivo?'SI':'NO'}" />
+            </p:panelGrid>
+            <p:commandButton ajax="false" value="#{bundle.CancelarBoton}" action="#{UsuarioController.doListarForm()}" icon="ui-icon-close"/>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

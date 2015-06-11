@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./../template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <h1 class="ui-state-default ui-corner-all"><h:outputText value="Crear/Editar Usuario"/></h1>
+        <h:form>
+            <p:panelGrid columns="3">
+                <p:outputLabel value="Rol:" for="idRol" />
+                <p:selectOneMenu converter="RolConverter" id="idRol" value="#{UsuarioController.usuario.idRol}" >
+                    <f:selectItems value="#{RolController.rolSet}"/>
+                </p:selectOneMenu>
+                <p:message for="idRol"/>
+                <p:outputLabel value="Nombres:" for="nombres" />
+                <p:inputText id="nombres" value="#{UsuarioController.usuario.nombres}" title="Nombres" required="true" requiredMessage="#{bundle.Requerido}" />
+                <p:message for="nombres"/>
+                <p:outputLabel value="Apellidos:" for="apellidos" />
+                <p:inputText id="apellidos" value="#{UsuarioController.usuario.apellidos}" title="Apellidos" required="true" requiredMessage="#{bundle.Requerido}"/>
+                <p:message for="apellidos"/>
+                <p:outputLabel value="Cuenta:" for="cuenta" />
+                <p:inputText id="cuenta" value="#{UsuarioController.usuario.cuenta}" title="Cuenta" required="true" requiredMessage="#{bundle.Requerido}" />
+                <p:message for="cuenta"/>
+                <p:outputLabel value="Contrasenha:" for="contrasenha" />
+                <p:password id="contrasenha" value="#{UsuarioController.tmpPasswd}" title="Contrasenha"/>
+                <p:message for="contrasenha"/>
+                <p:outputLabel value="Activo:" for="activo" />
+                <p:selectBooleanCheckbox id="activo" value="#{UsuarioController.usuario.esActivo}" >
+                </p:selectBooleanCheckbox>
+                <p:message for="activo"/>
+                <p:outputLabel value="Pueder acceder desde afuera?:" for="loginexterno" />
+                <p:selectBooleanCheckbox id="loginexterno" value="#{UsuarioController.usuario.loginExterno}" >
+                </p:selectBooleanCheckbox>
+                <p:message for="loginexterno"/>
+            </p:panelGrid>
+            <p:panel>
+                <p:commandButton ajax="false" value="#{bundle.GuardarBoton}" action="#{UsuarioController.doGuardar()}" icon="ui-icon-disk"/>
+                <p:commandButton immediate="true" ajax="false" value="#{bundle.CancelarBoton}" action="#{UsuarioController.doListarForm()}" icon="ui-icon-close"/>
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

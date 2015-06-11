@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./../template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <h1 class="ui-state-default ui-corner-all"><h:outputText value="Listar Usuarios"/></h1>
+        <h:form id="mainForm">
+            <p:growl life="3000" globalOnly="true" id="messages"/>
+            <p:panel>
+                <p:commandButton value="#{bundle.NuevoBoton}" ajax="false" action="#{UsuarioController.doCrearForm()}" icon="ui-icon-document"/>
+            </p:panel>
+            <p:dataTable value="#{UsuarioController.listaUsuario}" var="item" emptyMessage="#{bundle.SinRegistrosMensaje}">
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Cuenta"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cuenta}"/>
+                </p:column>
+                <p:column sortBy="#{item.apellidos}">
+                    <f:facet name="header">
+                        <h:outputText value="Apellidos"/>
+                    </f:facet>
+                    <h:outputText value="#{item.apellidos}, #{item.nombres}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Info. Acceso"/>
+                    </f:facet>
+                    <h:outputText value="Activo: #{item.esActivo?'SI':'NO'}"/><hr/>
+                    <h:outputText value="Acceso Externo: #{item.loginExterno?'SI':'NO'}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Rol"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idRol}"/>
+                </p:column>
+                <p:column headerText="Acción">
+                    <p:menuButton value="Acción"> 
+                        <p:menuitem>
+                            <p:commandLink styleClass="ui-menuitem-link" ajax="false"  action="#{UsuarioController.doEditarForm(item)}">
+                                <h:outputText styleClass="ui-menuitem-icon ui-icon ui-icon-pencil" />
+                                <h:outputText styleClass="ui-menuitem-text" value="#{bundle.EditarBoton}" />
+                            </p:commandLink>
+                        </p:menuitem>
+                        <p:menuitem>
+                            <p:commandLink styleClass="ui-menuitem-link" ajax="false" action="#{UsuarioController.doBorrar(item)}" >
+                                <h:outputText styleClass="ui-menuitem-icon ui-icon ui-icon-close" />
+                                <h:outputText styleClass="ui-menuitem-text" value="#{bundle.EliminarBoton}" />
+                                <p:confirm header="Confirmación" message="#{bundle.ConfirmacionMensaje}" icon="ui-icon-alert" />
+                            </p:commandLink>
+                        </p:menuitem>
+                        <p:menuitem>
+                            <p:commandLink styleClass="ui-menuitem-link" ajax="false"  action="#{UsuarioController.doVerForm(item)}">
+                                <h:outputText styleClass="ui-menuitem-icon ui-icon ui-icon-search" />
+                                <h:outputText styleClass="ui-menuitem-text" value="#{bundle.VerBoton}" />
+                            </p:commandLink>
+                        </p:menuitem>
+                    </p:menuButton>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

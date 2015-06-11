@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./../template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <h1 class="ui-state-default ui-corner-all"><h:outputText value="Listar Rol"/></h1>
+        <h:form>
+            <p:growl life="3000" globalOnly="true" id="messages"/>
+            <p:panel>
+                <p:commandButton value="#{bundle.NuevoBoton}" ajax="false" action="#{RolController.doCrearForm()}" icon="ui-icon-document"/>
+            </p:panel>
+            <p:dataTable value="#{RolController.listaRol}" var="item">
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Descripcion"/>
+                    </f:facet>
+                    <h:outputText value="#{item.descripcionRol}"/>
+                </p:column>
+                <p:column headerText="Acción">
+                    <p:menuButton value="Acción"> 
+                        <p:menuitem>
+                            <p:commandLink styleClass="ui-menuitem-link" ajax="false"  action="#{RolController.doEditarForm(item)}">
+                                <h:outputText styleClass="ui-menuitem-icon ui-icon ui-icon-pencil" />
+                                <h:outputText styleClass="ui-menuitem-text" value="#{bundle.EditarBoton}" />
+                            </p:commandLink>
+                        </p:menuitem>
+                        <p:menuitem>
+                            <p:commandLink styleClass="ui-menuitem-link" ajax="false" action="#{RolController.doBorrar(item)}" >
+                                <h:outputText styleClass="ui-menuitem-icon ui-icon ui-icon-close" />
+                                <h:outputText styleClass="ui-menuitem-text" value="#{bundle.EliminarBoton}" />
+                                <p:confirm header="Confirmación" message="#{bundle.ConfirmacionMensaje}" icon="ui-icon-alert" />
+                            </p:commandLink>
+                        </p:menuitem>
+                    </p:menuButton>
+                    <p:commandButton ajax="false" icon="ui-icon-person" value="#{bundle.VerPermisosBoton}" action="#{RolController.doVerPermisoForm(item)}"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

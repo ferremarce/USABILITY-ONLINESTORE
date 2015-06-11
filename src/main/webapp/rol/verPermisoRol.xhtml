@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./../template.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <ui:define name="content">
+        <h1 class="ui-state-default ui-corner-all"><h:outputText value="Listar Rol"/></h1>
+        <h:form>
+            <h2><h:outputText value="#{RolController.rol}"/></h2>
+            <p:pickList addAllLabel="Agregar Todos" addLabel="Agregar" removeLabel="Quitar" removeAllLabel="Quitar Todo" value="#{RolController.dualPermiso}"  
+                        converter="PermisoConverter"
+                        var="rp" 
+                        itemLabel="#{rp}"  
+                        itemValue="#{rp}" >  
+                <f:facet name="sourceCaption">Disponibles</f:facet>  
+                <f:facet name="targetCaption">Asignado</f:facet> 
+            </p:pickList>
+            <p:panel>
+                <p:commandButton ajax="false" value="#{bundle.GuardarBoton}" action="#{RolController.doUpdatePermiso()}" icon="ui-icon-disk"/>
+                <p:commandButton immediate="true" ajax="false" value="#{bundle.CancelarBoton}" action="#{RolController.doListarForm()}" icon="ui-icon-close"/>
+            </p:panel>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

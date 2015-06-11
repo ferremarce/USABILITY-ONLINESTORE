@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Acceso al Sistema</title>
+    </h:head>
+    <h:body>
+        <p:graphicImage value="/img/logo-admin.png"/>
+        <h:form>
+            <p:growl life="3000" globalOnly="true" id="messages"/>
+            <p:panel style="width: 50%" header="Credenciales de Acceso">
+                <p:panelGrid columns="3">
+                    <p:outputLabel for="cuenta" value="Cuenta"/>
+                    <p:inputText id="cuenta" value="#{LoginManager.cuenta}" required="true" requiredMessage="#{bundle.Requerido}"/>
+                    <p:message for="cuenta"/>
+                    <p:outputLabel for="passwd" value="Clave"/>
+                    <p:password id="passwd" value="#{LoginManager.contrasenha}" required="true" requiredMessage="#{bundle.Requerido}"/>
+                    <p:message for="passwd"/>
+                    <p:outputLabel rendered="#{LoginManager.intento>3}" for="captcha" value="Validar"/>
+                    <p:captcha rendered="#{LoginManager.intento>3}" id="captcha" label="captcha" language="es" validatorMessage="No coincide el código de validación"/>
+                    <p:message rendered="#{LoginManager.intento>3}" for="captcha"/>
+                </p:panelGrid>
+                <p:separator/>
+                <p:commandButton ajax="false" value="#{bundle.AccederBoton}" action="#{LoginManager.doLogin()}" icon="ui-icon-disk"/>
+            </p:panel>
+        </h:form>
+    </h:body>
+</html>
+
