@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html  xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:p="http://primefaces.org/ui"
+       xmlns:ui="http://java.sun.com/jsf/facelets"
+       xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:f="http://java.sun.com/jsf/core">
+    <ui:fragment>
+        <p:ajaxStatus onstart="PF('statusDialog').show()" onerror="PF('statusDialog').hide();PF('errorStatusDialog').show();" onsuccess="PF('statusDialog').hide()" />
+        <p:dialog widgetVar="statusDialog" draggable="false" closable="true" resizable="false" showHeader="false">
+            <h:panelGrid columns="2">
+                <p:graphicImage height="100" width="100" value="/img/ai.gif" />
+                <h:outputText value="Procesando..."/>
+            </h:panelGrid>
+        </p:dialog>
+        <p:dialog hideEffect="drop"  id="panelError" height="100" width="250" widgetVar="errorStatusDialog" header="Error de procesamiento..."   
+                  draggable="false" closable="true">  
+            <h:panelGrid columns="2" >
+                <h:graphicImage height="30" width="30" value="/img/cancel.png" />
+                <h:outputLabel value="Error durante el procesamiento..."/>
+                <f:facet name="footer">
+                    <h:form>
+                        <p:commandButton value="#{bundle.AceptarBoton}" type="button" onclick="PF('errorStatusDialog').hide()"/>
+                    </h:form>
+                </f:facet>
+            </h:panelGrid>
+        </p:dialog>
+    </ui:fragment>
+</html>
+

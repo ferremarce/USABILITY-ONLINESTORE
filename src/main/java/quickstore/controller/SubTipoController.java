@@ -132,93 +132,15 @@ public class SubTipoController implements Serializable {
         return "/tipo/ListarSubTipo";
     }
 
+    
     /**
-     * Obtiene una coleccion de Rol desde una lista con opcion de seleccion
-     *
-     * @return
-     */
-    public SelectItem[] getOrganizadorAPSet() {
-        return JSFutil.getSelectItems(subTipoDAO.findAll(), Boolean.TRUE);
-    }
-
-    /**
-     * Obtiene una coleccion de TipoAdjuntoTablero desde una lista con opcion de
+     * Obtiene una coleccion de Categoria Articulo desde una lista con opcion de
      * seleccion
      *
      * @return
      */
-    public SelectItem[] getTipoAdjuntoTableroControlSet() {
-        return JSFutil.getSelectItems(subTipoDAO.findAllbyTipo(2), Boolean.TRUE);
-    }
-
-    /**
-     * Obtiene una coleccion de TipoAdjuntoTablero desde una lista con opcion de
-     * seleccion
-     *
-     * @return
-     */
-    public SelectItem[] getTipoAdjuntoSalaCongresoSet() {
-        return JSFutil.getSelectItems(subTipoDAO.findAllbyTipo(5), Boolean.TRUE);
-    }
-
-    /**
-     * Obtiene una coleccion de TipoAdjuntoTablero desde una lista con opcion de
-     * seleccion
-     *
-     * @return
-     */
-    public SelectItem[] getTipoAdjuntoInformeDiarioSesionSet() {
-        return JSFutil.getSelectItems(subTipoDAO.findAllbyTipo(10), Boolean.TRUE);
-    }
-
-    /**
-     * Obtiene una coleccion de TipoAdjuntoNómina desde una lista con opcion de
-     * seleccion
-     *
-     * @return
-     */
-    public SelectItem[] getTipoAdjuntoNominaSet() {
-        return JSFutil.getSelectItems(subTipoDAO.findAllbyTipo(7), Boolean.TRUE);
-    }
-
-    /**
-     * Obtiene una coleccion de TipoAdjuntoPggn desde una lista con opcion de
-     * seleccion
-     *
-     * @return
-     */
-    public SelectItem[] getTipoAdjuntoPggnSet() {
-        return JSFutil.getSelectItems(subTipoDAO.findAllbyTipo(8), Boolean.TRUE);
-    }
-
-    /**
-     * Obtiene una coleccion de TipoAdjuntoInventarioBien desde una lista con
-     * opcion de seleccion
-     *
-     * @return
-     */
-    public SelectItem[] getTipoAdjuntoInventarioBienSet() {
-        return JSFutil.getSelectItems(subTipoDAO.findAllbyTipo(9), Boolean.TRUE);
-    }
-
-    /**
-     * Obtiene una coleccion de TipoAdjuntoMision desde una lista con opcion de
-     * seleccion
-     *
-     * @return
-     */
-    public SelectItem[] getTipoAdjuntoMisionParlamentariaSet() {
-        return JSFutil.getSelectItems(subTipoDAO.findAllbyTipo(3), Boolean.TRUE);
-    }
-
-    /**
-     * Obtiene una coleccion de TipoMision desde una lista con opcion de
-     * seleccion
-     *
-     * @return
-     */
-    public SelectItem[] getTipoMisionSet() {
-        return JSFutil.getSelectItems(subTipoDAO.findAllbyTipo(4), Boolean.TRUE);
+    public SelectItem[] getIdCategoriaArticuloSet() {
+        return JSFutil.getSelectItems(subTipoDAO.findAllbyTipo(1), Boolean.TRUE);
     }
 
     /**

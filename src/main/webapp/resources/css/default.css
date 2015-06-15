@@ -2,7 +2,7 @@
 @import url(LocalFonts.css);
 
 * {
-    font-family: 'Exo', arial, serif !important;
+    font-family: 'Droid Sans', arial, serif !important;
 }
 
 .ui-widget,
@@ -12,12 +12,8 @@
 .ui-datatable-data ui-widget-content,
 .ui-column-title
 {
-    font-size: 12px !important;
+    font-size: 14px !important;
 }
 .top{
     vertical-align: top;
 }
-
-.ui-fileupload-content {
-    height: 80px;
-} 

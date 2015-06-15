@@ -6,6 +6,7 @@ package quickstore.ejb.entity;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,6 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Permiso.findAll", query = "SELECT p FROM Permiso p")})
 public class Permiso implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,7 +51,7 @@ public class Permiso implements Serializable {
     @Column(name = "URL_IMAGEN")
     private String urlImagen;
     @OneToMany(mappedBy = "idPermiso")
-    private Collection<PermisoRol> permisoRolCollection;
+    private List<PermisoRol> permisoRolList;
 
     public Permiso() {
     }
@@ -106,13 +108,12 @@ public class Permiso implements Serializable {
         this.urlImagen = urlImagen;
     }
 
-    @XmlTransient
-    public Collection<PermisoRol> getPermisoRolCollection() {
-        return permisoRolCollection;
+    public List<PermisoRol> getPermisoRolList() {
+        return permisoRolList;
     }
 
-    public void setPermisoRolCollection(Collection<PermisoRol> permisoRolCollection) {
-        this.permisoRolCollection = permisoRolCollection;
+    public void setPermisoRolList(List<PermisoRol> permisoRolList) {
+        this.permisoRolList = permisoRolList;
     }
 
     @Override
@@ -134,7 +135,7 @@ public class Permiso implements Serializable {
 
     @Override
     public String toString() {
-        return this.nivel+" "+this.getDescripcionPermiso();
+        return this.nivel + " " + this.getDescripcionPermiso();
     }
-    
+
 }

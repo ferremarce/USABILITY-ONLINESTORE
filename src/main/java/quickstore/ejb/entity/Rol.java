@@ -6,6 +6,7 @@ package quickstore.ejb.entity;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -39,9 +40,9 @@ public class Rol implements Serializable {
     @Column(name = "DESCRIPCION_ROL")
     private String descripcionRol;
     @OneToMany(mappedBy = "idRol")
-    private Collection<Usuario> usuarioCollection;
+    private List<Usuario> usuarioList;
     @OneToMany(mappedBy = "idRol")
-    private Collection<PermisoRol> permisoRolCollection;
+    private List<PermisoRol> permisoRolList;
 
     public Rol() {
     }
@@ -66,22 +67,20 @@ public class Rol implements Serializable {
         this.descripcionRol = descripcionRol;
     }
 
-    @XmlTransient
-    public Collection<Usuario> getUsuarioCollection() {
-        return usuarioCollection;
+    public List<Usuario> getUsuarioList() {
+        return usuarioList;
     }
 
-    public void setUsuarioCollection(Collection<Usuario> usuarioCollection) {
-        this.usuarioCollection = usuarioCollection;
+    public void setUsuarioList(List<Usuario> usuarioList) {
+        this.usuarioList = usuarioList;
     }
 
-    @XmlTransient
-    public Collection<PermisoRol> getPermisoRolCollection() {
-        return permisoRolCollection;
+    public List<PermisoRol> getPermisoRolList() {
+        return permisoRolList;
     }
 
-    public void setPermisoRolCollection(Collection<PermisoRol> permisoRolCollection) {
-        this.permisoRolCollection = permisoRolCollection;
+    public void setPermisoRolList(List<PermisoRol> permisoRolList) {
+        this.permisoRolList = permisoRolList;
     }
 
     @Override

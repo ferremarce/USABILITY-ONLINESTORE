@@ -9,7 +9,16 @@
     <ui:define name="content">
         <p:messages id="messages" />
         <h:panelGrid columnClasses="top" columns="2">
-            Bienvenido.
+            <p:panel header="Sistema">
+                Release: #{sistema.version}<p/>
+                Fecha: #{sistema.buildDate}<p/>
+                Versión: #{sistema.buildNumber} - Rev. #{sistema.revision}<p/>
+            </p:panel>
+            <p:panel header="Arquitectura">
+                Arquitectura: #{sistema.system}<p/>
+                Java: #{sistema.java}<p/>
+                JavaVM: #{sistema.javavm}<p/>
+            </p:panel>
         </h:panelGrid>
     </ui:define>
 

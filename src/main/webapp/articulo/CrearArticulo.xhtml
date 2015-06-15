@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./../template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <h1 class="ui-state-default ui-corner-all"><h:outputText value="Crear/Editar Artículo"/></h1>
+        <h:form>
+            <p:panelGrid columns="3">
+                <p:outputLabel value="Nombre:" for="nombreArticulo" />
+                <p:inputText size="50" id="nombreArticulo" value="#{ArticuloController.articulo.nombreArticulo}" title="Nombre Artículo" />
+                <p:separator/>
+                <p:outputLabel value="Categoría:" for="idCategoria" />
+                <p:selectOneMenu id="idCategoria" converter="SubTipoConverter" value="#{ArticuloController.articulo.idCategoria}" >
+                    <!-- TODO: update below reference to list of available items-->
+                    <f:selectItems value="#{SubTipoController.idCategoriaArticuloSet}"/>
+                </p:selectOneMenu>
+                <p:separator/>
+                <p:outputLabel value="Descripción:" for="descripcionArticulo" />
+                <p:editor height="200" id="descripcionArticulo" value="#{ArticuloController.articulo.descripcionArticulo}" />
+                <p:separator/>
+            </p:panelGrid>
+            <p:panel header="Imágenes">
+                <p:fileUpload id="archivo" label="#{bundle.SeleccionarBoton}" cancelLabel="#{bundle.EliminarBoton}" uploadLabel="#{bundle.AgregarBoton}" 
+                              fileUploadListener="#{ArticuloController.handleFileUploadArticulo}"
+                              mode="advanced"
+                              multiple="true"
+                              sizeLimit="#{sistema.tamanho_upload}"
+                              allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+                              invalidFileMessage="#{sistema.msg_tipo_permitido}"
+                              invalidSizeMessage="El archivo no puede ser mayor a #{sistema.tamanho_upload}"
+                              update="dataTableAdjunto"/>                
+                <p:dataGrid  id="dataTableAdjunto" value="#{ArticuloController.listaAdjuntoArticulo}" rowIndexVar="index" var="item" emptyMessage="#{bundle.SinRegistrosMensaje}" >
+                    <p:panel>
+                        <p:graphicImage height="100" width="100" value="#{ArticuloController.imagenToDisplay()}" cache="false" >
+                            <f:param name="index" value="#{index}" />
+                        </p:graphicImage>
+                        <p:commandButton rendered="#{ArticuloController.articulo.idArticulo!=null}" icon="ui-icon-closethick" update="dataTableAdjunto" action="#{ArticuloController.doSacarArticuloAdjuntoLista(index)}"/>
+                    </p:panel>
+                </p:dataGrid>
+            </p:panel>
+            <p:panel>
+                <p:commandButton ajax="false" value="#{bundle.GuardarBoton}" action="#{ArticuloController.doGuardar()}" icon="ui-icon-disk"/>
+                <p:commandButton immediate="true" ajax="false" value="#{bundle.CancelarBoton}" action="#{ArticuloController.doListarForm()}" icon="ui-icon-close"/>
+            </p:panel>  
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

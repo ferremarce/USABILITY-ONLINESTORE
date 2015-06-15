@@ -5,7 +5,7 @@
 package quickstore.ejb.entity;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,7 +17,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -29,6 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Tipo.findAll", query = "SELECT t FROM Tipo t")})
 public class Tipo implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -39,7 +39,7 @@ public class Tipo implements Serializable {
     @Column(name = "DESCRIPCION_TIPO")
     private String descripcionTipo;
     @OneToMany(mappedBy = "idTipo")
-    private Collection<SubTipo> subTipoCollection;
+    private List<SubTipo> subTipoList;
 
     public Tipo() {
     }
@@ -64,13 +64,12 @@ public class Tipo implements Serializable {
         this.descripcionTipo = descripcionTipo;
     }
 
-    @XmlTransient
-    public Collection<SubTipo> getSubTipoCollection() {
-        return subTipoCollection;
+    public List<SubTipo> getSubTipoList() {
+        return subTipoList;
     }
 
-    public void setSubTipoCollection(Collection<SubTipo> subTipoCollection) {
-        this.subTipoCollection = subTipoCollection;
+    public void setSubTipoList(List<SubTipo> subTipoList) {
+        this.subTipoList = subTipoList;
     }
 
     @Override
@@ -94,5 +93,5 @@ public class Tipo implements Serializable {
     public String toString() {
         return this.getDescripcionTipo();
     }
-    
+
 }
