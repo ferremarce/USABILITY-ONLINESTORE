@@ -10,31 +10,49 @@
             <f:facet name="first">
                 <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
                 <h:outputStylesheet name="./css/default.css"/>
-                <title>Admin Senado</title>
+                <title>QUICKSTORE</title>
             </f:facet>
         </h:head>
 
         <h:body>
 
             <p:layout fullPage="true">
-                <p:layoutUnit position="west" size="250" header="Menú" collapsible="true">
+                <p:layoutUnit rendered="#{LoginManager.usuarioLogeado!=null}" position="west" size="250" header="Administración" collapsible="true">
                     <h:form>
                         <p:menu style="width: 90%" model="#{MenuController.model}" />
                     </h:form>
                 </p:layoutUnit>
-
+                <p:layoutUnit position="east" size="250" header="Opciones" collapsible="true" >
+                    <h:form>
+                        <p:dataList value="#{SubTipoController.idCategoriaArticuloList}" var="categoria" type="ordered">
+                            <f:facet name="header">
+                                Categorías
+                            </f:facet>
+                            <p:commandLink styleClass="nav" ajax="false" value="#{categoria}" action="#{ArticuloFE.doListarCategoriaForm()}">
+                                <f:param name="idCategoria" value="#{categoria.idSubTipo}" />
+                            </p:commandLink>
+                        </p:dataList>
+                        <p:panel header="Mi carrito">
+                            
+                        </p:panel>
+                    </h:form>
+                </p:layoutUnit>
                 <p:layoutUnit position="center">
                     <ui:insert name="top">
-                        <p:graphicImage value="/img/logo-admin.png"/>
                         <h:form>
+                            <p:link  outcome="/frontend/index">
+                                <p:graphicImage value="/img/logo-admin.png"/>
+                            </p:link>
+
                             <p:toolbar>
                                 <f:facet name="left">
-                                    <h:outputText value="#{LoginManager.usuarioLogeado.nombres} #{LoginManager.usuarioLogeado.apellidos} [#{LoginManager.usuarioLogeado.idRol}]"/>
+                                    <h:outputText rendered="#{LoginManager.usuarioLogeado!=null}" value="#{LoginManager.usuarioLogeado.nombres} #{LoginManager.usuarioLogeado.apellidos} [#{LoginManager.usuarioLogeado.idRol}]"/>
                                     <span class="ui-separator">
                                         <span class="ui-icon ui-icon-grip-dotted-vertical" />
                                     </span>
-                                    <p:commandButton ajax="false" value="#{bundle.CambiarContrasenhaBoton}" action="#{LoginManager.doCambiarContrasenhaForm()}" icon="ui-icon-locked" />
-                                    <p:commandButton ajax="false" value="#{bundle.SalirBoton}" action="#{LoginManager.doLogout()}" icon="ui-icon-circle-triangle-w" />
+                                    <p:commandButton rendered="#{LoginManager.usuarioLogeado==null}" ajax="false" value="#{bundle.AccederBoton}" action="#{LoginManager.doLoginFrom()}" icon="ui-icon-locked" />
+                                    <p:commandButton rendered="#{LoginManager.usuarioLogeado!=null}" ajax="false" value="#{bundle.CambiarContrasenhaBoton}" action="#{LoginManager.doCambiarContrasenhaForm()}" icon="ui-icon-locked" />
+                                    <p:commandButton rendered="#{LoginManager.usuarioLogeado!=null}" ajax="false" value="#{bundle.SalirBoton}" action="#{LoginManager.doLogout()}" icon="ui-icon-circle-triangle-w" />
                                 </f:facet>
                             </p:toolbar>
                         </h:form>

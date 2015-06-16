@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <h1 class="ui-state-default ui-corner-all"><h:outputText value="Ver Artículo"/></h1>
+        <h:form>
+            <h1><h:outputText value="View"/></h1>
+            <p:panelGrid columns="2">
+                <h:outputText value="Artículo:"/>
+                <h:outputText value="#{ArticuloController.articulo.nombreArticulo}" title="Nombre Artículo"/>
+                <h:outputText value="Categoría:"/>
+                <h:outputText value="#{ArticuloController.articulo.idCategoria}" title="Categoría"/>
+                <h:outputText value="Descripción:"/>
+                <h:outputText escape="false" value="#{ArticuloController.articulo.descripcionArticulo}" title="Descripción"/>
+            </p:panelGrid>
+            <p:panel header="Imágenes">
+                <p:dataGrid  id="dataTableAdjunto" value="#{ArticuloController.listaAdjuntoArticulo}" rowIndexVar="index" var="item" emptyMessage="#{bundle.SinRegistrosMensaje}" >
+                    <p:panel>
+                        <p:graphicImage height="100" width="100" value="#{ArticuloController.imagenToDisplay()}" cache="false" >
+                            <f:param name="index" value="#{index}" />
+                        </p:graphicImage>
+                    </p:panel>
+                </p:dataGrid>
+            </p:panel>
+            <p:commandButton immediate="true" ajax="false" value="#{bundle.VolverBoton}" action="#{ArticuloController.doListarForm()}" icon="ui-icon-arrowreturnthick-1-w"/>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

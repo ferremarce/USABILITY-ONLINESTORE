@@ -2,12 +2,13 @@
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                template="./template.xhtml"
+                template="/template.xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui">
 
     <ui:define name="content">
         <p:messages id="messages" />
+        <h1 class="ui-state-default ui-corner-all"><h:outputText value="Bienvenido al Administrador"/></h1>
         <h:panelGrid columnClasses="top" columns="2">
             <p:panel header="Sistema">
                 Release: #{sistema.version}<p/>

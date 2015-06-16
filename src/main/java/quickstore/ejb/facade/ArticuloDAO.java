@@ -5,9 +5,11 @@
  */
 package quickstore.ejb.facade;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import quickstore.ejb.entity.Articulo;
 
 /**
@@ -16,6 +18,7 @@ import quickstore.ejb.entity.Articulo;
  */
 @Stateless
 public class ArticuloDAO extends AbstractFacade<Articulo> {
+
     @PersistenceContext(unitName = "quickstore_QUICKSTORE_war_1.0-SNAPSHOTPU")
     private EntityManager em;
 
@@ -27,5 +30,21 @@ public class ArticuloDAO extends AbstractFacade<Articulo> {
     public ArticuloDAO() {
         super(Articulo.class);
     }
-    
+
+    public List<Articulo> findAllbyCriterio(String criterio) {
+        Query q = em.createQuery("SELECT a FROM Articulo a WHERE UPPER(a.nombreArticulo) LIKE :xCriterio ORDER BY a.nombreArticulo ");
+        q.setParameter("xCriterio", "%" + criterio.toUpperCase() + "%");
+        //LOG.log(Level.INFO, "findAllbyTipo: {0}", sql);
+        List<Articulo> tr = q.getResultList();
+        return tr;
+    }
+
+    public List<Articulo> findAllbyCategoria(Integer idCategoria) {
+        Query q = em.createQuery("SELECT a FROM Articulo a WHERE a.idCategoria.idSubTipo=:xIdCategoria ORDER BY a.nombreArticulo ");
+        q.setParameter("xIdCategoria", idCategoria);
+        //LOG.log(Level.INFO, "findAllbyTipo: {0}", sql);
+        List<Articulo> tr = q.getResultList();
+        return tr;
+    }
+
 }

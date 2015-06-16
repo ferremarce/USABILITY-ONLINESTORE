@@ -129,10 +129,9 @@ public class SubTipoController implements Serializable {
         if (this.tipo != null) {
             this.listaSubTipo = subTipoDAO.findAllbyTipo(this.tipo.getIdTipo());
         }
-        return "/tipo/ListarSubTipo";
+        return "/backend/tipo/ListarSubTipo";
     }
 
-    
     /**
      * Obtiene una coleccion de Categoria Articulo desde una lista con opcion de
      * seleccion
@@ -143,14 +142,8 @@ public class SubTipoController implements Serializable {
         return JSFutil.getSelectItems(subTipoDAO.findAllbyTipo(1), Boolean.TRUE);
     }
 
-    /**
-     * Obtiene una coleccion de TipoInstitucion desde una lista con opcion de
-     * seleccion
-     *
-     * @return
-     */
-    public SelectItem[] getTipoInstitucionSet() {
-        return JSFutil.getSelectItems(subTipoDAO.findAllbyTipo(6), Boolean.TRUE);
+    public List<SubTipo> getIdCategoriaArticuloList() {
+        return subTipoDAO.findAllbyTipo(1);
     }
 
     /**

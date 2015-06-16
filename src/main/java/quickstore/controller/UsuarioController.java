@@ -108,7 +108,7 @@ public class UsuarioController implements Serializable {
      */
     public String doListarForm() {
         this.listaUsuario = usuarioDAO.findAll();
-        return "/usuario/ListarUsuario";
+        return "/backend/usuario/ListarUsuario";
     }
 
     /**
@@ -119,7 +119,7 @@ public class UsuarioController implements Serializable {
      */
     public String doVerForm(Usuario u) {
         this.usuario = u;
-        return "/usuario/VerUsuario";
+        return "/backend/usuario/VerUsuario";
     }
 
     /**
@@ -130,7 +130,7 @@ public class UsuarioController implements Serializable {
      */
     public String doEditarForm(Usuario u) {
         this.usuario = u;
-        return "/usuario/CrearUsuario";
+        return "/backend/usuario/CrearUsuario";
     }
 
     /**
@@ -141,7 +141,7 @@ public class UsuarioController implements Serializable {
     public String doCrearForm() {
         this.tmpPasswd = "";
         this.usuario = new Usuario();
-        return "/usuario/CrearUsuario";
+        return "/backend/usuario/CrearUsuario";
     }
 
     /**

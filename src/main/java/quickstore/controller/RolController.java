@@ -134,7 +134,7 @@ public class RolController implements Serializable {
      */
     public String doListarForm() {
         this.listaRol = rolDAO.findAll();
-        return "/rol/ListarRol";
+        return "/backend/rol/ListarRol";
     }
 
     /**
@@ -145,7 +145,7 @@ public class RolController implements Serializable {
      */
     public String doVerForm(Rol u) {
         this.rol = u;
-        return "/rol/VerRol";
+        return "/backend/rol/VerRol";
     }
 
     /**
@@ -156,7 +156,7 @@ public class RolController implements Serializable {
      */
     public String doEditarForm(Rol u) {
         this.rol = u;
-        return "/rol/CrearRol";
+        return "/backend/rol/CrearRol";
     }
 
     /**
@@ -166,7 +166,7 @@ public class RolController implements Serializable {
      */
     public String doCrearForm() {
         this.rol = new Rol();
-        return "/rol/CrearRol";
+        return "/backend/rol/CrearRol";
     }
 
     /**
@@ -178,7 +178,7 @@ public class RolController implements Serializable {
     public String doVerPermisoForm(Rol r) {
         this.rol = r;
         this.doCargarPermisos(r);
-        return "/rol/verPermisoRol";
+        return "/backend/rol/verPermisoRol";
     }
 
     /**
@@ -276,7 +276,7 @@ public class RolController implements Serializable {
         } catch (Exception e) {
             JSFutil.addErrorMessage(e, this.bundle.getString("UpdateError"));
         }
-        return "/rol/ListarRol";
+        return "/backend/rol/ListarRol";
     }
 
     /**

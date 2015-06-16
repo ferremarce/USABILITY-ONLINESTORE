@@ -2,8 +2,9 @@
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                template="./../template.xhtml"
+                template="/template.xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:pe="http://primefaces.org/ui/extensions"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:p="http://primefaces.org/ui">
 
@@ -23,6 +24,15 @@
                 <p:outputLabel value="Descripción:" for="descripcionArticulo" />
                 <p:editor height="200" id="descripcionArticulo" value="#{ArticuloController.articulo.descripcionArticulo}" />
                 <p:separator/>
+                <p:outputLabel value="Precio:" for="precio" />
+                <pe:inputNumber id="precio" symbol="USD " value="#{ArticuloController.articulo.precio}" title="Precio"/>
+                <p:separator/>
+                <p:outputLabel value="Está en promoción?:" for="esPromocion" />
+                <p:selectBooleanCheckbox id="esPromocion" value="#{ArticuloController.articulo.esPromocion}" />
+                <p:separator/>
+                <p:outputLabel value="Descuento:" for="descuento" />
+                <pe:inputNumber maxValue="99" decimalPlaces="0" id="descuento" symbol="% " value="#{ArticuloController.articulo.porcentajeDescuento}" title="Precio"/>
+
             </p:panelGrid>
             <p:panel header="Imágenes">
                 <p:fileUpload id="archivo" label="#{bundle.SeleccionarBoton}" cancelLabel="#{bundle.EliminarBoton}" uploadLabel="#{bundle.AgregarBoton}" 
@@ -48,7 +58,6 @@
                 <p:commandButton immediate="true" ajax="false" value="#{bundle.CancelarBoton}" action="#{ArticuloController.doListarForm()}" icon="ui-icon-close"/>
             </p:panel>  
         </h:form>
-
     </ui:define>
-
 </ui:composition>
+

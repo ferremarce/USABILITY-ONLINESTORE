@@ -114,7 +114,7 @@ public class LoginManager implements Serializable {
                 if (JSFutil.checkSecurePassword(this.contrasenha, usuario.getContrasenha())) {
                     JSFutil.addSuccessMessage("Acceso concedido");
                     JSFutil.putSessionVariable(USER_SESSION_KEY, usuario);
-                    return "index";
+                    return "/backend/index";
                 } else {
                     this.intento++;
                     JSFutil.addErrorMessage("Acceso incorrecto!... credenciales no válidas.");
@@ -155,7 +155,7 @@ public class LoginManager implements Serializable {
         if (session != null) {
             session.invalidate();
         }
-        return "/login";
+        return "/frontend/index";
     }
 
     /**
@@ -170,7 +170,7 @@ public class LoginManager implements Serializable {
     public String doCambiarContrasenhaForm() {
         this.contrasenha = "";
         this.contrasenha2 = "";
-        return "/usuario/CambiarContrasenha";
+        return "/backend/usuario/CambiarContrasenha";
     }
 
     public String doCambiarContrasenha() {
@@ -201,5 +201,9 @@ public class LoginManager implements Serializable {
      */
     public TimeZone getMyTimeZone() {
         return JSFutil.getMyTimeZone();
+    }
+    
+    public String doLoginFrom(){
+        return "/login";
     }
 }

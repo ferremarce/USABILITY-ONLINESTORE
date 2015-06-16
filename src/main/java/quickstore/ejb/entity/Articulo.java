@@ -7,8 +7,6 @@ package quickstore.ejb.entity;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,7 +19,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -52,6 +49,12 @@ public class Articulo implements Serializable {
     private String descripcionArticulo;
     @OneToMany(mappedBy = "idArticulo")
     private List<ArticuloAdjunto> articuloAdjuntoList;
+    @Column(name = "PRECIO")
+    private float precio;
+    @Column(name = "ES_PROMOCION")
+    private Boolean esPromocion;
+    @Column(name = "PORCENTAJE_DESCUENTO")
+    private Integer porcentajeDescuento;
 
     public Articulo() {
     }
@@ -84,7 +87,6 @@ public class Articulo implements Serializable {
         this.idCategoria = idCategoria;
     }
 
-    
     public String getDescripcionArticulo() {
         return descripcionArticulo;
     }
@@ -99,6 +101,30 @@ public class Articulo implements Serializable {
 
     public void setArticuloAdjuntoList(List<ArticuloAdjunto> articuloAdjuntoList) {
         this.articuloAdjuntoList = articuloAdjuntoList;
+    }
+
+    public float getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(float precio) {
+        this.precio = precio;
+    }
+
+    public Boolean getEsPromocion() {
+        return esPromocion;
+    }
+
+    public void setEsPromocion(Boolean esPromocion) {
+        this.esPromocion = esPromocion;
+    }
+
+    public Integer getPorcentajeDescuento() {
+        return porcentajeDescuento;
+    }
+
+    public void setPorcentajeDescuento(Integer porcentajeDescuento) {
+        this.porcentajeDescuento = porcentajeDescuento;
     }
 
     @Override

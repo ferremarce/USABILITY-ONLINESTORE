@@ -1,13 +1,12 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
-    <h:head>
-        <title>Acceso al Sistema</title>
-    </h:head>
-    <h:body>
-        <p:graphicImage value="/img/logo-admin.png"/>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
         <h:form>
             <p:growl life="3000" globalOnly="true" id="messages"/>
             <p:panel style="width: 50%" header="Credenciales de Acceso">
@@ -26,6 +25,6 @@
                 <p:commandButton ajax="false" value="#{bundle.AccederBoton}" action="#{LoginManager.doLogin()}" icon="ui-icon-disk"/>
             </p:panel>
         </h:form>
-    </h:body>
-</html>
+    </ui:define>
 
+</ui:composition>
