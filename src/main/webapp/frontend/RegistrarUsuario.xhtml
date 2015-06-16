@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <h1 class="ui-state-default ui-corner-all"><h:outputText value="Formulario de Registro"/></h1>
+        <h:form>
+            <p:growl globalOnly="true" id="messages"/>
+            <p:panelGrid columns="3">
+                <p:outputLabel value="Nombres:" for="nombres" />
+                <p:inputText size="50" id="nombres" value="#{DatosUsuarioController.datosUsuario.nombres}" title="Nombres" required="true" requiredMessage="#{bundle.Requerido}"/>
+                <p:message for="nombres"/>
+                <p:outputLabel value="Apellidos:" for="apellidos" />
+                <p:inputText size="50" id="apellidos" value="#{DatosUsuarioController.datosUsuario.apellidos}" title="Apellidos" required="true" requiredMessage="#{bundle.Requerido}"/>
+                <p:message for="apellidos"/>
+                <p:outputLabel  value="Email:" for="email" />
+                <p:panelGrid styleClass="panelNoBorder">
+                    <p:inputText size="50" id="email" value="#{DatosUsuarioController.datosUsuario.email}" title="Email" required="true" requiredMessage="#{bundle.Requerido}">
+                        <f:validator validatorId="EmailValidator" />
+                        <p:ajax event="change" update="mailDisponible"/>
+                    </p:inputText>
+                    <h:outputText id="mailDisponible" style="color: red" value="#{DatosUsuarioController.verificarCorreoExistente()}"/>
+                </p:panelGrid>
+                <p:message for="email"/>
+                <p:outputLabel value="Fecha Nacimiento:" for="fechaNacimiento" />
+                <p:panelGrid styleClass="panelNoBorder" columns="2">
+                    <p:calendar navigator="true" size="12" id="fechaNacimiento"  value="#{DatosUsuarioController.datosUsuario.fechaNacimiento}" yearRange="c-70:c" pattern="dd/MM/yyyy" title="FechaNacimiento" required="true" requiredMessage="#{bundle.Requerido}">
+                        <p:ajax event="dateSelect" update="edad"/>
+                    </p:calendar>
+                    <h:outputText id="edad" value="Edad: #{DatosUsuarioController.calcularEdad()} años"/>
+                </p:panelGrid>
+                <p:message for="fechaNacimiento"/>
+                <p:outputLabel value="País:" for="idPais" />
+                <p:selectOneMenu id="idPais" converter="SubTipoConverter" value="#{DatosUsuarioController.datosUsuario.idPais}" required="true" requiredMessage="#{bundle.Requerido}">
+                    <f:selectItems value="#{SubTipoController.idPaisSet}"/>
+                </p:selectOneMenu>
+                <p:message for="idPais"/>
+                <p:outputLabel value="Profesión" for="panelEsInformatico" />
+                <h:panelGrid id="panelEsInformatico" columns="2">
+                    <p:outputLabel value="Soy Profesional en el Área de Informática/Computación? " for="esInformatico" />
+                    <p:selectBooleanButton id="esInformatico" offLabel="NO" onLabel="SI" onIcon="ui-icon-check" offIcon="ui-icon-close" value="#{DatosUsuarioController.esInformatico}">
+                        <p:ajax event="change" update="panelProfesion"/>
+                    </p:selectBooleanButton>
+                    <h:panelGrid id="panelProfesion">
+                        <p:outputLabel rendered="#{DatosUsuarioController.esInformatico==false}" id="lblprofesion" value="Indique su Perfil Profesional" for="profesion"/>
+                        <p:inputText size="50" rendered="#{DatosUsuarioController.esInformatico==false}" id="profesion" value="#{DatosUsuarioController.datosUsuario.profesion}" required="true" requiredMessage="#{bundle.Requerido}"/>
+                    </h:panelGrid>
+                </h:panelGrid>
+                <p:message for="profesion"/>
+            </p:panelGrid>
+            <p:watermark for="fechaNacimiento" value="dd/mm/aaaa"/>
+            <p:panel>
+                <p:commandButton ajax="false" value="#{bundle.GuardarBoton}" action="#{DatosUsuarioController.doGuardarRegistro()}" icon="ui-icon-disk"/>
+                <p:commandButton immediate="true" ajax="false" value="#{bundle.CancelarBoton}" action="/frontend/index" icon="ui-icon-close"/>
+            </p:panel>  
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

@@ -146,6 +146,10 @@ public class SubTipoController implements Serializable {
         return subTipoDAO.findAllbyTipo(1);
     }
 
+    public SelectItem[] getIdPaisSet() {
+       return JSFutil.getSelectItems(subTipoDAO.findAllbyTipo(2), Boolean.TRUE);
+    }
+
     /**
      * Actualizar DataTable de SubTipos conforme al tipo seleccionado
      */

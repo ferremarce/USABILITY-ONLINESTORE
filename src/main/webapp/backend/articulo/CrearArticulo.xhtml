@@ -11,6 +11,7 @@
     <ui:define name="content">
         <h1 class="ui-state-default ui-corner-all"><h:outputText value="Crear/Editar Artículo"/></h1>
         <h:form>
+            <p:growl life="3000" globalOnly="true" id="messages"/>
             <p:panelGrid columns="3">
                 <p:outputLabel value="Nombre:" for="nombreArticulo" />
                 <p:inputText size="50" id="nombreArticulo" value="#{ArticuloController.articulo.nombreArticulo}" title="Nombre Artículo" />

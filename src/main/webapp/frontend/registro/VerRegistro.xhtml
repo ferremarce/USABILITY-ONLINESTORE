@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <h1 class="ui-state-default ui-corner-all"><h:outputText value="Ver Registro"/></h1>
+        <h:form>
+            <p:messages autoUpdate="true"/>
+            <p:panelGrid columns="2">
+                <h:outputText value="Nombres:"/>
+                <h:outputText value="#{DatosUsuarioController.datosUsuario.nombres}" title="Nombres"/>
+                <h:outputText value="Apellidos:"/>
+                <h:outputText value="#{DatosUsuarioController.datosUsuario.apellidos}" title="Apellidos"/>
+                <h:outputText value="Email:"/>
+                <h:outputText value="#{DatosUsuarioController.datosUsuario.email}" title="Email"/>
+                <h:outputText value="Fecha Nacimiento:"/>
+                <h:outputText value="#{DatosUsuarioController.datosUsuario.fechaNacimiento}" title="FechaNacimiento">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </h:outputText>
+                <h:outputText value="País:"/>
+                <h:outputText value="#{DatosUsuarioController.datosUsuario.idPais}" title="IdPais"/>
+                <h:outputText value="Profesión:"/>
+                <h:outputText rendered="#{DatosUsuarioController.datosUsuario.profesion!=null}" value="#{DatosUsuarioController.datosUsuario.profesion}" title="Profesion"/>
+                <h:outputText rendered="#{DatosUsuarioController.datosUsuario.profesion==null}" value="Profesional en Informática/Computación"/>
+            </p:panelGrid>
+            <p:panel>
+                <p:commandButton immediate="true" ajax="false" value="#{bundle.AceptarBoton}" action="/frontend/index" icon="ui-icon-close"/>
+            </p:panel>  
+
+        </h:form>
+
+    </ui:define>
+</ui:composition>

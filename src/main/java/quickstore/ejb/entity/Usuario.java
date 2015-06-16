@@ -61,6 +61,9 @@ public class Usuario implements Serializable {
     private SubTipo idSubRol;
     @Column(name = "LOGIN_EXTERNO")
     private Boolean loginExterno;
+    @JoinColumn(name = "ID_DATOS_USUARIO", referencedColumnName = "ID_DATOS_USUARIO")
+    @ManyToOne
+    private DatosUsuario idDatosUsuario;
 
     public Usuario() {
     }
@@ -147,6 +150,14 @@ public class Usuario implements Serializable {
 
     public void setLoginExterno(Boolean loginExterno) {
         this.loginExterno = loginExterno;
+    }
+
+    public DatosUsuario getIdDatosUsuario() {
+        return idDatosUsuario;
+    }
+
+    public void setIdDatosUsuario(DatosUsuario idDatosUsuario) {
+        this.idDatosUsuario = idDatosUsuario;
     }
 
     @Override
