@@ -17,12 +17,13 @@
         <h:body>
 
             <p:layout fullPage="true">
-                <p:layoutUnit rendered="#{LoginManager.usuarioLogeado!=null}" position="west" size="250" header="Administración" collapsible="true">
+                <p:ajax event="toggle" listener="#{LoginManager.doToggleHandler}"/>
+                <p:layoutUnit id="admin" rendered="#{LoginManager.usuarioLogeado!=null}" position="west" size="250" header="Administración" collapsed="#{LoginManager.adminCollapse}" collapsible="true">
                     <h:form>
                         <p:menu style="width: 90%" model="#{MenuController.model}" />
                     </h:form>
                 </p:layoutUnit>
-                <p:layoutUnit  rendered="#{LoginManager.usuarioLogeado!=null}" position="east" size="250" header="Opciones" collapsible="true" >
+                <p:layoutUnit id="client"  rendered="#{LoginManager.usuarioLogeado!=null}" position="east" size="250" header="Opciones" collapsed="#{LoginManager.clientCollapse}" collapsible="true" >
                     <h:form>
                         <p:dataList value="#{SubTipoController.idCategoriaArticuloList}" var="categoria" >
                             <f:facet name="header">

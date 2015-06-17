@@ -13,10 +13,10 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import org.primefaces.event.ToggleEvent;
 import quickstore.ejb.entity.Usuario;
 import quickstore.ejb.facade.UsuarioDAO;
 import quickstore.util.JSFutil;
-
 
 /**
  *
@@ -33,6 +33,8 @@ public class LoginManager implements Serializable {
     private String contrasenha;
     private String contrasenha2;
     private Integer intento = 1;
+    private Boolean adminCollapse = Boolean.FALSE;
+    private Boolean clientCollapse = Boolean.FALSE;
 
     /**
      * Creates a new instance of LoginManager
@@ -100,6 +102,22 @@ public class LoginManager implements Serializable {
      */
     public void setContrasenha2(String contrasenha2) {
         this.contrasenha2 = contrasenha2;
+    }
+
+    public Boolean getAdminCollapse() {
+        return adminCollapse;
+    }
+
+    public void setAdminCollapse(Boolean adminCollapse) {
+        this.adminCollapse = adminCollapse;
+    }
+
+    public Boolean getClientCollapse() {
+        return clientCollapse;
+    }
+
+    public void setClientCollapse(Boolean clientCollapse) {
+        this.clientCollapse = clientCollapse;
     }
 
     /**
@@ -193,8 +211,8 @@ public class LoginManager implements Serializable {
         }
         return "";
     }
-    
-     /**
+
+    /**
      * getter timeZone
      *
      * @return
@@ -202,8 +220,27 @@ public class LoginManager implements Serializable {
     public TimeZone getMyTimeZone() {
         return JSFutil.getMyTimeZone();
     }
-    
-    public String doLoginFrom(){
+
+    public String doLoginFrom() {
         return "/login";
+    }
+
+    public void doToggleHandler(ToggleEvent event) {
+        String idLayout = event.getComponent().getId();
+        if (idLayout.compareTo("admin") == 0) {
+            if (this.adminCollapse) {
+                this.adminCollapse = Boolean.FALSE;
+            } else {
+                this.adminCollapse = Boolean.TRUE;
+            }
+
+        } else if (idLayout.compareTo("client") == 0) {
+            if (this.clientCollapse) {
+                this.clientCollapse = Boolean.FALSE;
+            } else {
+                this.clientCollapse = Boolean.TRUE;
+            }
+
+        }
     }
 }
