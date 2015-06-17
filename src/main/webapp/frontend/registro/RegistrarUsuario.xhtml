@@ -4,6 +4,7 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 template="/template.xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:b="http://bootsfaces.net/ui"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:p="http://primefaces.org/ui">
 
@@ -11,7 +12,7 @@
         <h1 class="ui-state-default ui-corner-all"><h:outputText value="Formulario de Registro"/></h1>
         <h:form>
             <p:growl globalOnly="true" id="messages"/>
-            <p:panelGrid columns="3">
+            <p:panelGrid style="width: 100%" columns="3">
                 <p:outputLabel value="Nombres:" for="nombres" />
                 <p:inputText size="50" id="nombres" value="#{DatosUsuarioController.datosUsuario.nombres}" title="Nombres" required="true" requiredMessage="#{bundle.Requerido}"/>
                 <p:message for="nombres"/>
@@ -52,12 +53,47 @@
                     </h:panelGrid>
                 </h:panelGrid>
                 <p:message for="profesion"/>
+                <br/>
+                <p:panel id="basic" header="Información y Consentimiento" style="margin-bottom:20px">
+                    <f:facet name="footer">
+                        <h:outputText styleClass="itemResaltado1" value="Gracias por participar de este estudio!"/>
+                        <b:alert severity="warning">
+                            <h:outputText value="Si tiene problemas durante el registro, por favor no dude en comunicarse con "/>
+                            <h:outputLink value="mailto:jmferreira1978@gmail.com">
+                                <f:param name="subject" value="" />
+                                <f:param name="body" value="Describa el problema que experimentó durante el registro" />
+                                <h:outputText value="Juan Marcelo Ferreira (jmferreira1978@gmail.com)" />
+                            </h:outputLink>
+                        </b:alert>
+                    </f:facet>
+                    <p:outputPanel>
+                        <p:panelGrid styleClass="panelNoBorder" columns="2">
+
+                            <p:graphicImage value="/img/commitment.png" />
+                            <h2>#{sistema.nombreInvestigacion}</h2>
+                        </p:panelGrid>
+                        <h4>Información</h4>
+                        En el presente experimento se investiga los beneficios reales que proporcionan los mecanismos de usabilidad en un sistema software.
+                        El estudio constará de sesiones en la que ud. interactuará con un sistema software realizando tareas elementales de limitada duración.<br/>
+                        Los resultados obtenidos en este experimento serán utilizados para sustentar una investigación en el marco de la Maestría en TIC de la Facultad Politécnica (UNA).
+                        <h4>Consentimiento</h4>
+                        Manifiesto mi deseo participar de este experimento y entiendo que puedo retirar mi consentimiento en cualquier momento sin recibir penalización alguna.
+                    </p:outputPanel>
+                    <br/>
+                    <p:panel>
+                        <p:outputLabel for="estoyDeAcuerdo" value="Estoy de acuerdo"/>
+                        <p:selectBooleanButton id="estoyDeAcuerdo" offLabel="NO" onLabel="SI" onIcon="ui-icon-check" offIcon="ui-icon-close" value="#{DatosUsuarioController.estoyDeAcuerdo}">
+                            <p:ajax event="change" update="panelAccion"/>
+                        </p:selectBooleanButton>
+                    </p:panel>
+                </p:panel>
             </p:panelGrid>
             <p:watermark for="fechaNacimiento" value="dd/mm/aaaa"/>
-            <p:panel>
-                <p:commandButton ajax="false" value="#{bundle.GuardarBoton}" action="#{DatosUsuarioController.doGuardarRegistro()}" icon="ui-icon-disk"/>
+            <p:panel id="panelAccion">
+                <p:commandButton disabled="#{!DatosUsuarioController.estoyDeAcuerdo}" ajax="false" value="#{bundle.EnviarBoton}" action="#{DatosUsuarioController.doGuardarRegistro()}" icon="ui-icon-disk"/>
                 <p:commandButton immediate="true" ajax="false" value="#{bundle.CancelarBoton}" action="/frontend/index" icon="ui-icon-close"/>
-            </p:panel>  
+            </p:panel>
+
         </h:form>
 
     </ui:define>

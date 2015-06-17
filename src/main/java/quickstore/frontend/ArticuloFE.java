@@ -142,7 +142,7 @@ public class ArticuloFE implements Serializable {
         } else {
             JSFutil.addSuccessMessage("Sin registros");
         }
-        return "/frontend/index";
+        return "/frontend/index2";
     }
 
     //********************************************

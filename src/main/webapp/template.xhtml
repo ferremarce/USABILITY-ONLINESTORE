@@ -22,9 +22,9 @@
                         <p:menu style="width: 90%" model="#{MenuController.model}" />
                     </h:form>
                 </p:layoutUnit>
-                <p:layoutUnit position="east" size="250" header="Opciones" collapsible="true" >
+                <p:layoutUnit  rendered="#{LoginManager.usuarioLogeado!=null}" position="east" size="250" header="Opciones" collapsible="true" >
                     <h:form>
-                        <p:dataList value="#{SubTipoController.idCategoriaArticuloList}" var="categoria" type="ordered">
+                        <p:dataList value="#{SubTipoController.idCategoriaArticuloList}" var="categoria" >
                             <f:facet name="header">
                                 Categorías
                             </f:facet>
@@ -50,8 +50,6 @@
                                     <span class="ui-separator">
                                         <span class="ui-icon ui-icon-grip-dotted-vertical" />
                                     </span>
-                                    <p:commandButton rendered="#{LoginManager.usuarioLogeado==null}" ajax="false" value="#{bundle.AccederBoton}" action="#{LoginManager.doLoginFrom()}" icon="ui-icon-locked" />
-                                    <p:commandButton rendered="#{LoginManager.usuarioLogeado==null}" ajax="false" value="#{bundle.RegistrarBoton}" action="#{DatosUsuarioController.doRegistrarForm()}" icon="ui-icon-person" />
                                     <p:commandButton rendered="#{LoginManager.usuarioLogeado!=null}" ajax="false" value="#{bundle.CambiarContrasenhaBoton}" action="#{LoginManager.doCambiarContrasenhaForm()}" icon="ui-icon-locked" />
                                     <p:commandButton rendered="#{LoginManager.usuarioLogeado!=null}" ajax="false" value="#{bundle.SalirBoton}" action="#{LoginManager.doLogout()}" icon="ui-icon-circle-triangle-w" />
                                 </f:facet>

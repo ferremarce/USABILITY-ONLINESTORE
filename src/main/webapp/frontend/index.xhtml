@@ -1,37 +1,26 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 template="/template.xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:b="http://bootsfaces.net/ui"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:bnu="http://bootsfaces.net/ui">
 
     <ui:define name="content">
-        <h1 class="ui-state-default ui-corner-all"><h:outputText value="Catálogo de Artículos"/></h1>
         <h:form>
-            <h:panelGrid columns="2">
-                <p:inputText value="#{ArticuloFE.criterioBusqueda}"/>
-                <p:commandButton value="#{bundle.BuscarBoton}" ajax="true" update="dataTableArticulo" action="#{ArticuloFE.doListar()}" icon="ui-icon-document"/>
-            </h:panelGrid>
-
-            <p:ajax global="false" event="click" listener="#{ClickCounter.increment()}"/>
-            <p:growl life="3000" globalOnly="true" id="messages"/>
-            <p:panel>
-                <p:dataGrid id="dataTableArticulo" value="#{ArticuloFE.listaArticulo}"  var="articulo" emptyMessage="#{bundle.SinRegistrosMensaje}">
-                    <h:panelGrid style="text-align: center">
-                        <p:graphicImage rendered="#{articulo.articuloAdjuntoList.size()>0}" height="150" width="150" value="#{ArticuloFE.imagenToDisplay()}" cache="false" >
-                            <f:param name="id" value="#{articulo.articuloAdjuntoList.get(0).idArchivoAdjunto}" />
-                        </p:graphicImage>
-                        <p:separator/>
-                        <h:outputText value="#{articulo.nombreArticulo}"/>
-                        <p:commandButton style="width: 100px; height: 30px" type="button" icon="fa fa-shopping-cart" value="#{bundle.AgregarBoton}"/>
-                    </h:panelGrid>
-                </p:dataGrid>
-            </p:panel>
+            <p/>
+            <b:panel look="primary" title="Bienvenido, Que desea hacer?">
+                <f:facet name="footer">
+                    <h:outputText value="#{sistema.nombreInvestigacion}"/>
+                </f:facet>
+                <h:panelGrid style="width: 70%" columns="2">
+                    <p:commandButton style="width: 250px; height: 100px; font-size: xx-large !important" title="#{bundle.AccederBoton}" rendered="#{LoginManager.usuarioLogeado==null}" ajax="false" value="#{bundle.AccederBoton}" action="#{LoginManager.doLoginFrom()}" icon="login" />
+                    <p:commandButton style="width: 250px; height: 100px; font-size: xx-large !important" title="#{bundle.RegistrarBoton}" rendered="#{LoginManager.usuarioLogeado==null}" ajax="false" value="#{bundle.RegistrarBoton}" action="#{DatosUsuarioController.doRegistrarForm()}" icon="sign-in" />
+                </h:panelGrid>
+            </b:panel>
         </h:form>
-
     </ui:define>
+
 
 </ui:composition>

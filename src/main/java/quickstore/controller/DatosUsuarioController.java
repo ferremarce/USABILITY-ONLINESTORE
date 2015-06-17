@@ -39,6 +39,7 @@ public class DatosUsuarioController implements Serializable {
     private List<DatosUsuario> listaDatosUsuario;
     private String criterioBusqueda;
     private Boolean esInformatico;
+    private Boolean estoyDeAcuerdo;
 
     /**
      * Creates a new instance of DatosUsuarioController
@@ -78,6 +79,14 @@ public class DatosUsuarioController implements Serializable {
         this.esInformatico = esInformatico;
     }
 
+    public Boolean getEstoyDeAcuerdo() {
+        return estoyDeAcuerdo;
+    }
+
+    public void setEstoyDeAcuerdo(Boolean estoyDeAcuerdo) {
+        this.estoyDeAcuerdo = estoyDeAcuerdo;
+    }
+
     //********************************************
     // METODOS DE ACCIÓN
     //********************************************
@@ -98,8 +107,9 @@ public class DatosUsuarioController implements Serializable {
      */
     public String doRegistrarForm() {
         this.esInformatico = Boolean.TRUE;
+        this.estoyDeAcuerdo = Boolean.FALSE;
         this.datosUsuario = new DatosUsuario();
-        return "/frontend/RegistrarUsuario";
+        return "/frontend/registro/RegistrarUsuario";
     }
 
     /**

@@ -23,6 +23,7 @@
                 </p:panelGrid>
                 <p:separator/>
                 <p:commandButton ajax="false" value="#{bundle.AccederBoton}" action="#{LoginManager.doLogin()}" icon="ui-icon-disk"/>
+                <p:commandButton immediate="true" ajax="false" value="#{bundle.CancelarBoton}" action="/frontend/index" icon="ui-icon-close"/>
             </p:panel>
         </h:form>
     </ui:define>

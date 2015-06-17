@@ -21,6 +21,19 @@
     background-image: url(../../icono/shoppingcart.png) !important;
     background-repeat: no-repeat;
 }
+.sign-in{
+    width: 40px;
+    height: 40px;
+    background-image: url(../../icono/sign-in.png) !important;
+    background-repeat: no-repeat;
+}
+.login{
+    width: 40px;
+    height: 40px;
+    background-image: url(../../icono/login.png) !important;
+    background-repeat: no-repeat;
+}
+
 .panelNoBorder, .panelNoBorder tr, .panelNoBorder td{
     border: none;
     border-color:  white;
