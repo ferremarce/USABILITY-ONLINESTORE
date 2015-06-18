@@ -4,9 +4,9 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 template="/template.xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:b="http://bootsfaces.net/ui"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:bnu="http://bootsfaces.net/ui">
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="content">
         <h1 class="ui-state-default ui-corner-all"><h:outputText value="Catálogo de Artículos"/></h1>
@@ -15,23 +15,39 @@
                 <p:inputText value="#{ArticuloFE.criterioBusqueda}"/>
                 <p:commandButton value="#{bundle.BuscarBoton}" ajax="true" update="dataTableArticulo" action="#{ArticuloFE.doListar()}" icon="ui-icon-document"/>
             </h:panelGrid>
-
             <p:ajax global="false" event="click" listener="#{ClickCounter.increment()}"/>
             <p:growl life="3000" globalOnly="true" id="messages"/>
-            <p:panel>
-                <p:dataGrid id="dataTableArticulo" value="#{ArticuloFE.listaArticulo}"  var="articulo" emptyMessage="#{bundle.SinRegistrosMensaje}">
-                    <h:panelGrid style="text-align: center">
-                        <p:graphicImage rendered="#{articulo.articuloAdjuntoList.size()>0}" height="150" width="150" value="#{ArticuloFE.imagenToDisplay()}" cache="false" >
+
+            <p:dataGrid id="dataTableArticulo" value="#{ArticuloFE.listaArticulo}"  var="articulo" emptyMessage="#{bundle.SinRegistrosMensaje}">
+                <h:panelGrid style="text-align: center" width="250">
+
+                    <p:panel>
+                        <f:facet name="header">
+                            <h:outputText value="#{articulo.nombreArticulo}"/>
+                        </f:facet>
+                        <p:graphicImage rendered="#{articulo.articuloAdjuntoList.size()>0}" width="150" value="#{ArticuloFE.imagenToDisplay()}" cache="false" >
                             <f:param name="id" value="#{articulo.articuloAdjuntoList.get(0).idArchivoAdjunto}" />
                         </p:graphicImage>
-                        <p:separator/>
-                        <h:outputText value="#{articulo.nombreArticulo}"/>
-                        <p:commandButton style="width: 100px; height: 30px" type="button" icon="fa fa-shopping-cart" value="#{bundle.AgregarBoton}"/>
-                    </h:panelGrid>
-                </p:dataGrid>
-            </p:panel>
-        </h:form>
+                        <br/>
+                        <h:outputText styleClass="#{articulo.esPromocion?'texto-tachado':'texto-no-tachado'}" value="#{articulo.precio}">
+                            <f:convertNumber currencySymbol="USD " type="currency"/>
+                        </h:outputText>
+                        <p:panel rendered="#{articulo.esPromocion}">
+                            <h:outputText styleClass="texto-promocion" value="#{articulo.precio-articulo.precio*articulo.porcentajeDescuento/100}">
+                                <f:convertNumber currencySymbol="USD " type="currency"/>
+                            </h:outputText><br/>
+                            <h:outputText rendered="#{articulo.esPromocion}" style="color: #000066;font-weight: bold;text-align: right" value="#{articulo.porcentajeDescuento}% OFF "/>
+                        </p:panel>
+                        <f:facet name="footer">
+                            <p:commandButton style="width: 100px; height: 40px" type="button" icon="ui-icon-zoomin" value="#{bundle.VerBoton}"/>
+                            <p:commandButton style="width: 100px; height: 40px" type="button" icon="shoppingcart" value="#{bundle.AgregarBoton}"/>
+                        </f:facet>
+                    </p:panel>
+                </h:panelGrid>
 
+            </p:dataGrid>
+
+        </h:form>
     </ui:define>
 
 </ui:composition>

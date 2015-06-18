@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -47,7 +48,7 @@ public class Articulo implements Serializable {
     @Lob
     @Column(name = "DESCRIPCION_ARTICULO")
     private String descripcionArticulo;
-    @OneToMany(mappedBy = "idArticulo")
+    @OneToMany(mappedBy = "idArticulo",fetch = FetchType.EAGER)
     private List<ArticuloAdjunto> articuloAdjuntoList;
     @Column(name = "PRECIO")
     private float precio;

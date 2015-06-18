@@ -41,20 +41,22 @@
                 <p:layoutUnit position="center">
                     <ui:insert name="top">
                         <h:form>
-                            <p:link  outcome="/frontend/index">
-                                <p:graphicImage value="/img/logo-admin.png"/>
-                            </p:link>
+                            <p:panel styleClass="header-background">
+                                <p:link  outcome="/frontend/index">
+                                    <p:graphicImage value="/img/logo-admin.png"/>
+                                </p:link>
 
-                            <p:toolbar>
-                                <f:facet name="left">
-                                    <h:outputText rendered="#{LoginManager.usuarioLogeado!=null}" value="#{LoginManager.usuarioLogeado.nombres} #{LoginManager.usuarioLogeado.apellidos} [#{LoginManager.usuarioLogeado.idRol}]"/>
-                                    <span class="ui-separator">
-                                        <span class="ui-icon ui-icon-grip-dotted-vertical" />
-                                    </span>
-                                    <p:commandButton rendered="#{LoginManager.usuarioLogeado!=null}" ajax="false" value="#{bundle.CambiarContrasenhaBoton}" action="#{LoginManager.doCambiarContrasenhaForm()}" icon="ui-icon-locked" />
-                                    <p:commandButton rendered="#{LoginManager.usuarioLogeado!=null}" ajax="false" value="#{bundle.SalirBoton}" action="#{LoginManager.doLogout()}" icon="ui-icon-circle-triangle-w" />
-                                </f:facet>
-                            </p:toolbar>
+                                <p:toolbar>
+                                    <f:facet name="left">
+                                        <h:outputText rendered="#{LoginManager.usuarioLogeado!=null}" value="#{LoginManager.usuarioLogeado.nombres} #{LoginManager.usuarioLogeado.apellidos} [#{LoginManager.usuarioLogeado.idRol}]"/>
+                                        <span class="ui-separator">
+                                            <span class="ui-icon ui-icon-grip-dotted-vertical" />
+                                        </span>
+                                        <p:commandButton rendered="#{LoginManager.usuarioLogeado!=null}" ajax="false" value="#{bundle.CambiarContrasenhaBoton}" action="#{LoginManager.doCambiarContrasenhaForm()}" icon="ui-icon-locked" />
+                                        <p:commandButton rendered="#{LoginManager.usuarioLogeado!=null}" ajax="false" value="#{bundle.SalirBoton}" action="#{LoginManager.doLogout()}" icon="ui-icon-circle-triangle-w" />
+                                    </f:facet>
+                                </p:toolbar>
+                            </p:panel>
                         </h:form>
                     </ui:insert>
                     <ui:insert name="content">

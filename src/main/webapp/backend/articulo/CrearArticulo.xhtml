@@ -42,7 +42,7 @@
                               multiple="true"
                               sizeLimit="#{sistema.tamanho_upload}"
                               allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
-                              invalidFileMessage="#{sistema.msg_tipo_permitido}"
+                              invalidFileMessage="#{sistema.msg_tipo_img}"
                               invalidSizeMessage="El archivo no puede ser mayor a #{sistema.tamanho_upload}"
                               update="dataTableAdjunto"/>                
                 <p:dataGrid  id="dataTableAdjunto" value="#{ArticuloController.listaAdjuntoArticulo}" rowIndexVar="index" var="item" emptyMessage="#{bundle.SinRegistrosMensaje}" >

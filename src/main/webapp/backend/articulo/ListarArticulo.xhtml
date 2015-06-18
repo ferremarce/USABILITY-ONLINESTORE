@@ -31,7 +31,6 @@
                         <h:outputText style="color: red" value="#{item.precio}">
                             <f:convertNumber currencySymbol=" USD " type="currency"/>
                         </h:outputText>
-                        
                         <p:panel rendered="#{item.esPromocion}">
                             <h:outputText value="Desc. % #{item.porcentajeDescuento} "/>
                             <h:outputText styleClass="itemResaltado2" value="#{item.precio-item.precio*item.porcentajeDescuento/100}">
