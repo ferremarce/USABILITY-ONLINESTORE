@@ -7,6 +7,7 @@ package quickstore.login;
 
 import java.io.Serializable;
 import java.util.TimeZone;
+import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -242,5 +243,12 @@ public class LoginManager implements Serializable {
             }
 
         }
+    }
+
+    @PostConstruct
+    public void init() {
+        this.cuenta = "jm";
+        this.contrasenha = "123456789";
+        this.doLogin();
     }
 }

@@ -35,6 +35,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "DatosUsuario.findAll", query = "SELECT p FROM DatosUsuario p")})
 public class DatosUsuario implements Serializable {
+    @Size(max = 255)
+    @Column(name = "IDIOMA")
+    private String idioma;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -208,5 +211,13 @@ public class DatosUsuario implements Serializable {
     @Override
     public String toString() {
         return "dominio.plapy.DatosUsuario[ idDatosUsuario=" + idDatosUsuario + " ]";
+    }
+
+    public String getIdioma() {
+        return idioma;
+    }
+
+    public void setIdioma(String idioma) {
+        this.idioma = idioma;
     }
 }

@@ -7,6 +7,7 @@ package quickstore.ejb.entity;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -22,40 +23,47 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author root
  */
 @Entity
-@Table(name = "ARTICULO")
+@Table(name = "QS_ARTICULO")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Articulo.findAll", query = "SELECT a FROM Articulo a")})
 public class Articulo implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
     @Column(name = "ID_ARTICULO")
     private Integer idArticulo;
+    @Lob
+    @Size(max = 2147483647)
+    @Column(name = "DESCRIPCION_ARTICULO")
+    private String descripcionArticulo;
+    @Column(name = "ES_PROMOCION")
+    private Boolean esPromocion;
     @Size(max = 255)
     @Column(name = "NOMBRE_ARTICULO")
     private String nombreArticulo;
+    @Column(name = "PORCENTAJE_DESCUENTO")
+    private Integer porcentajeDescuento;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "PRECIO")
+    private Float precio;
     @JoinColumn(name = "ID_CATEGORIA", referencedColumnName = "ID_SUB_TIPO")
     @ManyToOne
     private SubTipo idCategoria;
-    @Lob
-    @Column(name = "DESCRIPCION_ARTICULO")
-    private String descripcionArticulo;
-    @OneToMany(mappedBy = "idArticulo",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idArticulo", fetch = FetchType.EAGER)
     private List<ArticuloAdjunto> articuloAdjuntoList;
-    @Column(name = "PRECIO")
-    private float precio;
-    @Column(name = "ES_PROMOCION")
-    private Boolean esPromocion;
-    @Column(name = "PORCENTAJE_DESCUENTO")
-    private Integer porcentajeDescuento;
+    @OneToMany(mappedBy = "idArticulo")
+    private List<OrdenCarrito> ordenCarritoList;
+    @OneToMany(mappedBy = "idArticulo")
+    private List<DeseoArticulo> deseoArticuloList;
 
     public Articulo() {
     }
@@ -72,44 +80,12 @@ public class Articulo implements Serializable {
         this.idArticulo = idArticulo;
     }
 
-    public String getNombreArticulo() {
-        return nombreArticulo;
-    }
-
-    public void setNombreArticulo(String nombreArticulo) {
-        this.nombreArticulo = nombreArticulo;
-    }
-
-    public SubTipo getIdCategoria() {
-        return idCategoria;
-    }
-
-    public void setIdCategoria(SubTipo idCategoria) {
-        this.idCategoria = idCategoria;
-    }
-
     public String getDescripcionArticulo() {
         return descripcionArticulo;
     }
 
     public void setDescripcionArticulo(String descripcionArticulo) {
         this.descripcionArticulo = descripcionArticulo;
-    }
-
-    public List<ArticuloAdjunto> getArticuloAdjuntoList() {
-        return articuloAdjuntoList;
-    }
-
-    public void setArticuloAdjuntoList(List<ArticuloAdjunto> articuloAdjuntoList) {
-        this.articuloAdjuntoList = articuloAdjuntoList;
-    }
-
-    public float getPrecio() {
-        return precio;
-    }
-
-    public void setPrecio(float precio) {
-        this.precio = precio;
     }
 
     public Boolean getEsPromocion() {
@@ -120,12 +96,63 @@ public class Articulo implements Serializable {
         this.esPromocion = esPromocion;
     }
 
+    public String getNombreArticulo() {
+        return nombreArticulo;
+    }
+
+    public void setNombreArticulo(String nombreArticulo) {
+        this.nombreArticulo = nombreArticulo;
+    }
+
     public Integer getPorcentajeDescuento() {
         return porcentajeDescuento;
     }
 
     public void setPorcentajeDescuento(Integer porcentajeDescuento) {
         this.porcentajeDescuento = porcentajeDescuento;
+    }
+
+    public Float getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(Float precio) {
+        this.precio = precio;
+    }
+
+    public SubTipo getIdCategoria() {
+        return idCategoria;
+    }
+
+    public void setIdCategoria(SubTipo idCategoria) {
+        this.idCategoria = idCategoria;
+    }
+
+    @XmlTransient
+    public List<ArticuloAdjunto> getArticuloAdjuntoList() {
+        return articuloAdjuntoList;
+    }
+
+    public void setArticuloAdjuntoList(List<ArticuloAdjunto> articuloAdjuntoList) {
+        this.articuloAdjuntoList = articuloAdjuntoList;
+    }
+
+    @XmlTransient
+    public List<OrdenCarrito> getOrdenCarritoList() {
+        return ordenCarritoList;
+    }
+
+    public void setOrdenCarritoList(List<OrdenCarrito> ordenCarritoList) {
+        this.ordenCarritoList = ordenCarritoList;
+    }
+
+    @XmlTransient
+    public List<DeseoArticulo> getDeseoArticuloList() {
+        return deseoArticuloList;
+    }
+
+    public void setDeseoArticuloList(List<DeseoArticulo> deseoArticuloList) {
+        this.deseoArticuloList = deseoArticuloList;
     }
 
     @Override
@@ -142,12 +169,15 @@ public class Articulo implements Serializable {
             return false;
         }
         Articulo other = (Articulo) object;
-        return !((this.idArticulo == null && other.idArticulo != null) || (this.idArticulo != null && !this.idArticulo.equals(other.idArticulo)));
+        if ((this.idArticulo == null && other.idArticulo != null) || (this.idArticulo != null && !this.idArticulo.equals(other.idArticulo))) {
+            return false;
+        }
+        return true;
     }
 
     @Override
     public String toString() {
-        return "quickstore.ejb.entity.Articulo[ idArticulo=" + idArticulo + " ]";
+        return "quickstore.ejb.entity.Articulo_1[ idArticulo=" + idArticulo + " ]";
     }
-
+    
 }

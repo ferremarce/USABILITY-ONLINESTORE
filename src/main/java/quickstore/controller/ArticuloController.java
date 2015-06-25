@@ -30,7 +30,6 @@ import quickstore.ejb.facade.ArticuloAdjuntoDAO;
 import quickstore.ejb.facade.ArticuloDAO;
 import quickstore.util.JSFutil;
 import quickstore.util.JSFutil.PersistAction;
-import sun.misc.IOUtils;
 
 /**
  *
@@ -45,7 +44,7 @@ public class ArticuloController implements Serializable {
      */
     private static final Logger LOG = Logger.getLogger(UsuarioController.class.getName());
     ResourceBundle bundle = ResourceBundle.getBundle("quickstore.properties.bundle", JSFutil.getmyLocale());
-
+    
     @Inject
     private ArticuloDAO articuloDAO;
     @Inject
@@ -71,47 +70,47 @@ public class ArticuloController implements Serializable {
     public Articulo getArticulo() {
         return articulo;
     }
-
+    
     public void setArticulo(Articulo articulo) {
         this.articulo = articulo;
     }
-
+    
     public List<Articulo> getListaArticulo() {
         return listaArticulo;
     }
-
+    
     public void setListaArticulo(List<Articulo> listaArticulo) {
         this.listaArticulo = listaArticulo;
     }
-
+    
     public List<ArticuloAdjunto> getListaAdjuntoArticulo() {
         return listaAdjuntoArticulo;
     }
-
+    
     public void setListaAdjuntoArticulo(List<ArticuloAdjunto> listaAdjuntoArticulo) {
         this.listaAdjuntoArticulo = listaAdjuntoArticulo;
     }
-
+    
     public List<Articulo> getListaArticuloFiltrado() {
         return listaArticuloFiltrado;
     }
-
+    
     public void setListaArticuloFiltrado(List<Articulo> listaArticuloFiltrado) {
         this.listaArticuloFiltrado = listaArticuloFiltrado;
     }
-
+    
     public String getCriterioBusqueda() {
         return criterioBusqueda;
     }
-
+    
     public void setCriterioBusqueda(String criterioBusqueda) {
         this.criterioBusqueda = criterioBusqueda;
     }
-
+    
     public ClickCounter getClickCounter() {
         return clickCounter;
     }
-
+    
     public void setClickCounter(ClickCounter clickCounter) {
         this.clickCounter = clickCounter;
     }
@@ -193,7 +192,7 @@ public class ArticuloController implements Serializable {
         }
         return doListarForm();
     }
-
+    
     private void persist(PersistAction persistAction) {
         try {
             if (persistAction.compareTo(PersistAction.CREATE) == 0) {
@@ -251,7 +250,7 @@ public class ArticuloController implements Serializable {
         persist(PersistAction.DELETE);
         doListarForm();
     }
-
+    
     public void doSacarArticuloAdjuntoLista(int index) {
         this.listaAdjuntoArticulo.remove(index);
     }
@@ -271,12 +270,12 @@ public class ArticuloController implements Serializable {
             }
             UploadedFile uf = event.getFile();
             ArticuloAdjunto adj = new ArticuloAdjunto();
-            adj.setArchivo(IOUtils.readFully(uf.getInputstream(), -1, true));
+            adj.setArchivo(JSFutil.getBytesFromInputStream(uf.getInputstream()));
             adj.setNombreArchivo(uf.getFileName());
             adj.setTipoArchivo(uf.getContentType());
             adj.setTamanhoArchivo(uf.getSize());
             this.listaAdjuntoArticulo.add(adj);
-
+            
         } catch (IOException ex) {
             Logger.getLogger(ArticuloController.class
                     .getName()).log(Level.SEVERE, null, ex);
@@ -318,7 +317,7 @@ public class ArticuloController implements Serializable {
      * @return
      */
     public StreamedContent download(ArticuloAdjunto adj) {
-
+        
         if (adj.getNombreArchivo() != null) {
             InputStream stream = new ByteArrayInputStream(adj.getArchivo());
             StreamedContent file = new DefaultStreamedContent(stream, adj.getTipoArchivo(), adj.getNombreArchivo());

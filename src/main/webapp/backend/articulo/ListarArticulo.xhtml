@@ -50,7 +50,9 @@
                         <f:facet name="header">
                             <h:outputText value="Descripción"/>
                         </f:facet>
-                        <h:outputText escape="false" value="#{item.descripcionArticulo}"/>
+                        <p:panel header="Información" collapsed="true" toggleable="true">
+                            <h:outputText escape="false" value="#{item.descripcionArticulo}"/>
+                        </p:panel>
                     </p:column>
                     <p:column style="width: 100px" headerText="Acción">
                         <p:menuButton value="Acción"> 

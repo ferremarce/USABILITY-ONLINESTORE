@@ -4,6 +4,7 @@
  */
 package quickstore.util;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -483,7 +484,7 @@ public class JSFutil implements Serializable {
         int meses = fechaActual.get(Calendar.MONTH) - fechaNac.get(Calendar.MONTH);
         int dias = fechaActual.get(Calendar.DAY_OF_MONTH) - fechaNac.get(Calendar.DAY_OF_MONTH);
 
-    // Hay que comprobar si el día de su cumpleaños es posterior
+        // Hay que comprobar si el día de su cumpleaños es posterior
         // a la fecha actual, para restar 1 a la diferencia de años,
         // pues aún no ha sido su cumpleaños.</code>
         if (meses < 0 // Aún no es el mes de su cumpleaños
@@ -492,5 +493,19 @@ public class JSFutil implements Serializable {
             anios--;
         }
         return anios;
+    }
+
+    public static byte[] getBytesFromInputStream(InputStream is) throws IOException {
+        try (ByteArrayOutputStream os = new ByteArrayOutputStream();) {
+            byte[] buffer = new byte[0xFFFF];
+
+            for (int len; (len = is.read(buffer)) != -1;) {
+                os.write(buffer, 0, len);
+            }
+
+            os.flush();
+
+            return os.toByteArray();
+        }
     }
 }

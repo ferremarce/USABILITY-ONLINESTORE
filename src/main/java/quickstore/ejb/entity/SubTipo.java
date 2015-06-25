@@ -6,6 +6,7 @@
 package quickstore.ejb.entity;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,8 +16,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -27,6 +30,18 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "SubTipo.findAll", query = "SELECT s FROM SubTipo s")})
 public class SubTipo implements Serializable {
+    @OneToMany(mappedBy = "idCategoria")
+    private List<Articulo> articuloList;
+    @OneToMany(mappedBy = "idTipoAdjunto")
+    private List<ArticuloAdjunto> articuloAdjuntoList;
+    @OneToMany(mappedBy = "idMetodoPago")
+    private List<MetodoPagoCliente> metodoPagoClienteList;
+    @OneToMany(mappedBy = "idSubRol")
+    private List<Usuario> usuarioList;
+    @OneToMany(mappedBy = "idPais")
+    private List<DatosUsuario> datosUsuarioList;
+    @OneToMany(mappedBy = "idActividad")
+    private List<DatosUsuario> datosUsuarioList1;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -102,6 +117,60 @@ public class SubTipo implements Serializable {
     @Override
     public String toString() {
         return this.getDescripcionSubTipo();
+    }
+
+    @XmlTransient
+    public List<Articulo> getArticuloList() {
+        return articuloList;
+    }
+
+    public void setArticuloList(List<Articulo> articuloList) {
+        this.articuloList = articuloList;
+    }
+
+    @XmlTransient
+    public List<ArticuloAdjunto> getArticuloAdjuntoList() {
+        return articuloAdjuntoList;
+    }
+
+    public void setArticuloAdjuntoList(List<ArticuloAdjunto> articuloAdjuntoList) {
+        this.articuloAdjuntoList = articuloAdjuntoList;
+    }
+
+    @XmlTransient
+    public List<MetodoPagoCliente> getMetodoPagoClienteList() {
+        return metodoPagoClienteList;
+    }
+
+    public void setMetodoPagoClienteList(List<MetodoPagoCliente> metodoPagoClienteList) {
+        this.metodoPagoClienteList = metodoPagoClienteList;
+    }
+
+    @XmlTransient
+    public List<Usuario> getUsuarioList() {
+        return usuarioList;
+    }
+
+    public void setUsuarioList(List<Usuario> usuarioList) {
+        this.usuarioList = usuarioList;
+    }
+
+    @XmlTransient
+    public List<DatosUsuario> getDatosUsuarioList() {
+        return datosUsuarioList;
+    }
+
+    public void setDatosUsuarioList(List<DatosUsuario> datosUsuarioList) {
+        this.datosUsuarioList = datosUsuarioList;
+    }
+
+    @XmlTransient
+    public List<DatosUsuario> getDatosUsuarioList1() {
+        return datosUsuarioList1;
+    }
+
+    public void setDatosUsuarioList1(List<DatosUsuario> datosUsuarioList1) {
+        this.datosUsuarioList1 = datosUsuarioList1;
     }
 
 

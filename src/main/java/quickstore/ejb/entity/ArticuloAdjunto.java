@@ -6,40 +6,44 @@
 package quickstore.ejb.entity;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author root
  */
 @Entity
-@Table(name = "ARTICULO_ADJUNTO")
+@Table(name = "QS_ARTICULO_ADJUNTO")
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "ArticuloAdjunto.findAll", query = "SELECT a FROM ArticuloAdjunto a")})
 public class ArticuloAdjunto implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
     @Column(name = "ID_ARCHIVO_ADJUNTO")
     private Integer idArchivoAdjunto;
-    @Size(max = 500)
-    @Column(name = "DESCRIPCION")
-    private String descripcion;
-    @Basic(fetch = FetchType.LAZY)
     @Lob
     @Column(name = "ARCHIVO")
     private byte[] archivo;
+    @Size(max = 255)
+    @Column(name = "DESCRIPCION")
+    private String descripcion;
     @Size(max = 255)
     @Column(name = "NOMBRE_ARCHIVO")
     private String nombreArchivo;
@@ -58,6 +62,10 @@ public class ArticuloAdjunto implements Serializable {
     public ArticuloAdjunto() {
     }
 
+    public ArticuloAdjunto(Integer idArchivoAdjunto) {
+        this.idArchivoAdjunto = idArchivoAdjunto;
+    }
+
     public Integer getIdArchivoAdjunto() {
         return idArchivoAdjunto;
     }
@@ -66,20 +74,20 @@ public class ArticuloAdjunto implements Serializable {
         this.idArchivoAdjunto = idArchivoAdjunto;
     }
 
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
     public byte[] getArchivo() {
         return archivo;
     }
 
     public void setArchivo(byte[] archivo) {
         this.archivo = archivo;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public String getNombreArchivo() {
@@ -144,7 +152,7 @@ public class ArticuloAdjunto implements Serializable {
 
     @Override
     public String toString() {
-        return "senado.gov.py.entity.Pggn[ idArchivoAdjunto=" + idArchivoAdjunto + " ]";
+        return "quickstore.ejb.entity.ArticuloAdjunto_1[ idArchivoAdjunto=" + idArchivoAdjunto + " ]";
     }
-
+    
 }
