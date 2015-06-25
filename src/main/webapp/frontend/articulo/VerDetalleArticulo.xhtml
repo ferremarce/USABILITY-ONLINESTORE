@@ -10,23 +10,24 @@
     <ui:define name="content">
         <h1 class="ui-state-default ui-corner-all"><h:outputText value="Artículo"/></h1>
         <h:form>
+            <ui:include src="/ajax.xhtml"/>
             <h:panelGrid columnClasses="top" columns="2">
                 <h:panelGrid>
-                    <h:outputText styleClass="titulo1" value="#{ArticuloController.articulo.nombreArticulo}" title="Nombre Artículo"/>
-                    <h:outputText styleClass="titulo2" value="#{ArticuloController.articulo.idCategoria}" title="Categoría"/>
+                    <h:outputText styleClass="titulo1" value="#{ArticuloFE.articulo.nombreArticulo}" title="Nombre Artículo"/>
+                    <h:outputText styleClass="titulo2" value="#{ArticuloFE.articulo.idCategoria}" title="Categoría"/>
                     <p:separator/>
                     <h:outputLabel styleClass="titulo3" value="Información detallada"/>
                     <p:separator/>
-                    <h:outputText escape="false" value="#{ArticuloController.articulo.descripcionArticulo}" title="Descripción"/>
+                    <h:outputText escape="false" value="#{ArticuloFE.articulo.descripcionArticulo}" title="Descripción"/>
                 </h:panelGrid>
-                <p:galleria value="#{ArticuloController.listaAdjuntoArticulo}"  var="adjunto" frameHeight="70" showCaption="true" >
-                    <p:graphicImage width="500" height="400" value="#{ArticuloController.imagenToDisplayFromId()}" alt="" title="" cache="false" >
+                <p:galleria value="#{ArticuloFE.listaAdjuntoArticulo}"  var="adjunto" frameHeight="70" showCaption="true" >
+                    <p:graphicImage width="500" height="400" value="#{ArticuloFE.imagenToDisplayFromId()}" alt="" title="" cache="false" >
                         <f:param name="id" value="#{adjunto.idArchivoAdjunto}" />
                     </p:graphicImage>
                 </p:galleria>
                 <p:panel>
                     <p:commandButton immediate="true" ajax="false" value="#{bundle.VolverBoton}" action="/frontend/index2" icon="ui-icon-arrowreturnthick-1-w"/>
-                    <p:commandButton type="button" icon="shoppingcart" value="#{bundle.AgregarBoton}"/>
+                    <p:commandButton icon="shoppingcart" value="#{bundle.AgregarBoton}" update=":formCarrito" actionListener="#{CarritoFE.doAgregarCarrito(ArticuloFE.articulo)}"/>
                 </p:panel>
             </h:panelGrid>
         </h:form>

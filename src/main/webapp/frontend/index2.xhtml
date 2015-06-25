@@ -11,10 +11,10 @@
     <ui:define name="content">
         <h1 class="ui-state-default ui-corner-all"><h:outputText value="Catálogo de Artículos"/></h1>
         <h:form>
+            <ui:include src="/ajax.xhtml"/>
             <h:panelGrid columns="2">
                 <p:inputText value="#{ArticuloFE.criterioBusqueda}"/>
                 <p:commandButton value="#{bundle.BuscarBoton}" ajax="true" update="panelTableArticulo" action="#{ArticuloFE.doListar()}" icon="ui-icon-document"/>
-                <ui:include src="/ajax.xhtml"/>
             </h:panelGrid>
             <p:ajax global="false" event="click" listener="#{ClickCounter.increment()}"/>
             <p:growl life="3000" globalOnly="true" id="messages"/>
@@ -28,7 +28,7 @@
                                         <f:facet name="header">
                                             <h:outputText styleClass="titulo2" value="#{articulo.nombreArticulo}"/>
                                         </f:facet>
-                                        <p:graphicImage styleClass="texto-centrado" rendered="#{articulo.articuloAdjuntoList.size()>0}" width="150" height="150" value="#{ArticuloFE.imagenToDisplay()}" cache="false" >
+                                        <p:graphicImage styleClass="texto-centrado" rendered="#{articulo.articuloAdjuntoList.size()>0}" width="150" height="150" value="#{ArticuloFE.imagenToDisplayFromId()}" cache="false" >
                                             <f:param name="id" value="#{articulo.articuloAdjuntoList.get(0).idArchivoAdjunto}" />
                                         </p:graphicImage>
                                         <br/>
@@ -42,7 +42,7 @@
                                             <h:outputText rendered="#{articulo.esPromocion}" style="color: #000066;font-weight: bold;text-align: right" value="#{articulo.porcentajeDescuento}% OFF "/>
                                         </p:panel>
                                         <f:facet name="footer">
-                                            <p:commandButton ajax="false" style="width: 100px; height: 40px" icon="ui-icon-zoomin" value="#{bundle.VerBoton}" action="#{ArticuloController.doVerDetalleArticulo(articulo)}"/>
+                                            <p:commandButton ajax="false" style="width: 100px; height: 40px" icon="ui-icon-zoomin" value="#{bundle.VerBoton}" action="#{ArticuloFE.doVerDetalleArticulo(articulo)}"/>
                                         </f:facet>
                                     </p:panel>
                                 </h:panelGrid>

@@ -42,7 +42,7 @@ public class ArticuloController implements Serializable {
     /**
      * Configuraciones varias para Log y Bundle*
      */
-    private static final Logger LOG = Logger.getLogger(UsuarioController.class.getName());
+    private static final Logger LOG = Logger.getLogger(ArticuloController.class.getName());
     ResourceBundle bundle = ResourceBundle.getBundle("quickstore.properties.bundle", JSFutil.getmyLocale());
 
     @Inject
@@ -150,12 +150,6 @@ public class ArticuloController implements Serializable {
         this.listaAdjuntoArticulo = this.articuloAdjuntoDAO.findAllbyArticulo(u.getIdArticulo());
         this.articulo = u;
         return "/backend/articulo/VerArticulo";
-    }
-
-    public String doVerDetalleArticulo(Articulo u) {
-        this.articulo = u;
-        this.listaAdjuntoArticulo = u.getArticuloAdjuntoList();
-        return "/frontend/articulo/VerDetalleArticulo";
     }
 
     /**
@@ -306,24 +300,6 @@ public class ArticuloController implements Serializable {
             return new DefaultStreamedContent();
         } else {
             ArticuloAdjunto adj = this.listaAdjuntoArticulo.get(Integer.parseInt(indice));
-            StreamedContent file;
-            if (adj != null) {
-                InputStream stream = new ByteArrayInputStream(adj.getArchivo());
-                file = new DefaultStreamedContent(stream, adj.getTipoArchivo(), adj.getNombreArchivo());
-            } else {
-                file = new DefaultStreamedContent();
-            }
-            return file;
-        }
-    }
-    public StreamedContent imagenToDisplayFromId() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        String id = context.getExternalContext().getRequestParameterMap().get("id");
-        if (context.getCurrentPhaseId() == PhaseId.RENDER_RESPONSE) {
-            // So, we're rendering the HTML. Return a stub StreamedContent so that it will generate right URL.
-            return new DefaultStreamedContent();
-        } else {
-            ArticuloAdjunto adj = articuloAdjuntoDAO.find(Integer.parseInt(id));
             StreamedContent file;
             if (adj != null) {
                 InputStream stream = new ByteArrayInputStream(adj.getArchivo());

@@ -145,15 +145,22 @@ public class ArticuloFE implements Serializable {
         return "/frontend/index2";
     }
 
+    public String doVerDetalleArticulo(Articulo u) {
+        this.articulo = u;
+        this.listaAdjuntoArticulo = u.getArticuloAdjuntoList();
+        return "/frontend/articulo/VerDetalleArticulo";
+    }
+
     //********************************************
 // METODOS DEL LISTENER
 //********************************************
+    
     /**
-     * getter Imagen a mostrar desde Uploaded
+     * Render de la imagen desde el DAO
      *
      * @return
      */
-    public StreamedContent imagenToDisplay() {
+    public StreamedContent imagenToDisplayFromId() {
         FacesContext context = FacesContext.getCurrentInstance();
         String id = context.getExternalContext().getRequestParameterMap().get("id");
         if (context.getCurrentPhaseId() == PhaseId.RENDER_RESPONSE) {

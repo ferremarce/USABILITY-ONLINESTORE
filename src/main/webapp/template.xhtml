@@ -24,7 +24,13 @@
                     </h:form>
                 </p:layoutUnit>
                 <p:layoutUnit id="client"  rendered="#{LoginManager.usuarioLogeado!=null}" position="east" size="250" header="Opciones" collapsed="#{LoginManager.clientCollapse}" collapsible="true" >
-                    <h:form>
+                    <h:form id="formCarrito">
+                        <p:panel header="Mi carrito">
+                            <h:outputLabel for="listaArticuloCarrito" value="Mis Compras"/>
+                            <h:outputText styleClass="texto-promocion" id="listaArticuloCarrito" value="#{CarritoFE.listaArticuloCarrito.size()}"/>
+                        </p:panel>
+                    </h:form>
+                    <h:form id="formCategoriaArticulo">
                         <p:dataList value="#{SubTipoController.idCategoriaArticuloList}" var="categoria" >
                             <f:facet name="header">
                                 Categorías
@@ -33,9 +39,6 @@
                                 <f:param name="idCategoria" value="#{categoria.idSubTipo}" />
                             </p:commandLink>
                         </p:dataList>
-                        <p:panel header="Mi carrito">
-
-                        </p:panel>
                     </h:form>
                 </p:layoutUnit>
                 <p:layoutUnit position="center">

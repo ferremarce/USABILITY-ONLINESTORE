@@ -30,7 +30,7 @@ public class DatosUsuarioController implements Serializable {
     /**
      * Configuraciones varias para Log y Bundle*
      */
-    private static final Logger LOG = Logger.getLogger(UsuarioController.class.getName());
+    private static final Logger LOG = Logger.getLogger(DatosUsuarioController.class.getName());
     ResourceBundle bundle = ResourceBundle.getBundle("quickstore.properties.bundle", JSFutil.getmyLocale());
 
     @Inject
