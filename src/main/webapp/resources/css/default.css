@@ -9,12 +9,17 @@
 .ui-widget-content,
 .ui-datatable ui-widget,
 .ui-datatable-data ui-widget-content,
-.ui-column-title
+.ui-column-title,
+.ui-toolbar
 {
     font-size: 14px !important;
 }
+.ui-button, .ui-button-text {
+    height: 40px;
+    font-size: 18px;
+}
 .top{
-    vertical-align: top;
+    vertical-align: top !important;
 }
 .shoppingcart{
     width: 20px;
@@ -51,6 +56,24 @@
     padding: 5px;
     border-radius: 10px;
 }
+.titulo1 { 
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #000066;
+    padding: 5px;
+}
+.titulo2 { 
+    font-size: 1.6em;
+    color: #666666;
+    font-weight: bold;
+    padding: 5px;
+}
+.titulo3 { 
+    font-size: 1.4em;
+    font-weight: bold;
+    padding: 5px;
+}
+
 .texto-tachado {
     text-decoration:line-through;
     color: red;
@@ -68,6 +91,9 @@
     font-size: 25px;
     padding: 5px;
     border-radius: 10px;
+}
+.texto-centrado {
+    text-align: center;
 }
 .nav { 
     color: #546078;

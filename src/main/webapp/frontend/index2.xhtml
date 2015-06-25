@@ -14,7 +14,7 @@
             <h:panelGrid columns="2">
                 <p:inputText value="#{ArticuloFE.criterioBusqueda}"/>
                 <p:commandButton value="#{bundle.BuscarBoton}" ajax="true" update="panelTableArticulo" action="#{ArticuloFE.doListar()}" icon="ui-icon-document"/>
-                 <ui:include src="/ajax.xhtml"/>
+                <ui:include src="/ajax.xhtml"/>
             </h:panelGrid>
             <p:ajax global="false" event="click" listener="#{ClickCounter.increment()}"/>
             <p:growl life="3000" globalOnly="true" id="messages"/>
@@ -23,12 +23,12 @@
                     <div class="ui-grid-row">
                         <ui:repeat id="dataTableArticulo" value="#{ArticuloFE.listaArticulo}" var="articulo"> 
                             <div class="ui-grid-col-4">
-                                <p:panel style="display: inline-block; vertical-align: top">
-                                    <f:facet name="header">
-                                        <h:outputText value="#{articulo.nombreArticulo}"/>
-                                    </f:facet>
-                                    <h:panelGrid>
-                                        <p:graphicImage rendered="#{articulo.articuloAdjuntoList.size()>0}" width="150" height="150" value="#{ArticuloFE.imagenToDisplay()}" cache="false" >
+                                <h:panelGrid styleClass="texto-centrado">
+                                    <p:panel>
+                                        <f:facet name="header">
+                                            <h:outputText styleClass="titulo2" value="#{articulo.nombreArticulo}"/>
+                                        </f:facet>
+                                        <p:graphicImage styleClass="texto-centrado" rendered="#{articulo.articuloAdjuntoList.size()>0}" width="150" height="150" value="#{ArticuloFE.imagenToDisplay()}" cache="false" >
                                             <f:param name="id" value="#{articulo.articuloAdjuntoList.get(0).idArchivoAdjunto}" />
                                         </p:graphicImage>
                                         <br/>
@@ -41,13 +41,11 @@
                                             </h:outputText><br/>
                                             <h:outputText rendered="#{articulo.esPromocion}" style="color: #000066;font-weight: bold;text-align: right" value="#{articulo.porcentajeDescuento}% OFF "/>
                                         </p:panel>
-                                    </h:panelGrid>
-                                    <f:facet name="footer">
-                                        <p:commandButton style="width: 100px; height: 40px" type="button" icon="ui-icon-zoomin" value="#{bundle.VerBoton}"/>
-                                        <p:commandButton style="width: 100px; height: 40px" type="button" icon="shoppingcart" value="#{bundle.AgregarBoton}"/>
-                                    </f:facet>
-                                </p:panel>
-
+                                        <f:facet name="footer">
+                                            <p:commandButton ajax="false" style="width: 100px; height: 40px" icon="ui-icon-zoomin" value="#{bundle.VerBoton}" action="#{ArticuloController.doVerDetalleArticulo(articulo)}"/>
+                                        </f:facet>
+                                    </p:panel>
+                                </h:panelGrid>
                             </div>
                         </ui:repeat>
                     </div>

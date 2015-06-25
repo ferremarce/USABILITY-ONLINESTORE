@@ -44,7 +44,7 @@ public class ArticuloController implements Serializable {
      */
     private static final Logger LOG = Logger.getLogger(UsuarioController.class.getName());
     ResourceBundle bundle = ResourceBundle.getBundle("quickstore.properties.bundle", JSFutil.getmyLocale());
-    
+
     @Inject
     private ArticuloDAO articuloDAO;
     @Inject
@@ -70,47 +70,47 @@ public class ArticuloController implements Serializable {
     public Articulo getArticulo() {
         return articulo;
     }
-    
+
     public void setArticulo(Articulo articulo) {
         this.articulo = articulo;
     }
-    
+
     public List<Articulo> getListaArticulo() {
         return listaArticulo;
     }
-    
+
     public void setListaArticulo(List<Articulo> listaArticulo) {
         this.listaArticulo = listaArticulo;
     }
-    
+
     public List<ArticuloAdjunto> getListaAdjuntoArticulo() {
         return listaAdjuntoArticulo;
     }
-    
+
     public void setListaAdjuntoArticulo(List<ArticuloAdjunto> listaAdjuntoArticulo) {
         this.listaAdjuntoArticulo = listaAdjuntoArticulo;
     }
-    
+
     public List<Articulo> getListaArticuloFiltrado() {
         return listaArticuloFiltrado;
     }
-    
+
     public void setListaArticuloFiltrado(List<Articulo> listaArticuloFiltrado) {
         this.listaArticuloFiltrado = listaArticuloFiltrado;
     }
-    
+
     public String getCriterioBusqueda() {
         return criterioBusqueda;
     }
-    
+
     public void setCriterioBusqueda(String criterioBusqueda) {
         this.criterioBusqueda = criterioBusqueda;
     }
-    
+
     public ClickCounter getClickCounter() {
         return clickCounter;
     }
-    
+
     public void setClickCounter(ClickCounter clickCounter) {
         this.clickCounter = clickCounter;
     }
@@ -147,8 +147,15 @@ public class ArticuloController implements Serializable {
      * @return
      */
     public String doVerForm(Articulo u) {
+        this.listaAdjuntoArticulo = this.articuloAdjuntoDAO.findAllbyArticulo(u.getIdArticulo());
         this.articulo = u;
         return "/backend/articulo/VerArticulo";
+    }
+
+    public String doVerDetalleArticulo(Articulo u) {
+        this.articulo = u;
+        this.listaAdjuntoArticulo = u.getArticuloAdjuntoList();
+        return "/frontend/articulo/VerDetalleArticulo";
     }
 
     /**
@@ -192,7 +199,7 @@ public class ArticuloController implements Serializable {
         }
         return doListarForm();
     }
-    
+
     private void persist(PersistAction persistAction) {
         try {
             if (persistAction.compareTo(PersistAction.CREATE) == 0) {
@@ -250,7 +257,7 @@ public class ArticuloController implements Serializable {
         persist(PersistAction.DELETE);
         doListarForm();
     }
-    
+
     public void doSacarArticuloAdjuntoLista(int index) {
         this.listaAdjuntoArticulo.remove(index);
     }
@@ -275,7 +282,7 @@ public class ArticuloController implements Serializable {
             adj.setTipoArchivo(uf.getContentType());
             adj.setTamanhoArchivo(uf.getSize());
             this.listaAdjuntoArticulo.add(adj);
-            
+
         } catch (IOException ex) {
             Logger.getLogger(ArticuloController.class
                     .getName()).log(Level.SEVERE, null, ex);
@@ -309,6 +316,24 @@ public class ArticuloController implements Serializable {
             return file;
         }
     }
+    public StreamedContent imagenToDisplayFromId() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        String id = context.getExternalContext().getRequestParameterMap().get("id");
+        if (context.getCurrentPhaseId() == PhaseId.RENDER_RESPONSE) {
+            // So, we're rendering the HTML. Return a stub StreamedContent so that it will generate right URL.
+            return new DefaultStreamedContent();
+        } else {
+            ArticuloAdjunto adj = articuloAdjuntoDAO.find(Integer.parseInt(id));
+            StreamedContent file;
+            if (adj != null) {
+                InputStream stream = new ByteArrayInputStream(adj.getArchivo());
+                file = new DefaultStreamedContent(stream, adj.getTipoArchivo(), adj.getNombreArchivo());
+            } else {
+                file = new DefaultStreamedContent();
+            }
+            return file;
+        }
+    }
 
     /**
      * Descargar un adjunto desde la BD
@@ -317,7 +342,7 @@ public class ArticuloController implements Serializable {
      * @return
      */
     public StreamedContent download(ArticuloAdjunto adj) {
-        
+
         if (adj.getNombreArchivo() != null) {
             InputStream stream = new ByteArrayInputStream(adj.getArchivo());
             StreamedContent file = new DefaultStreamedContent(stream, adj.getTipoArchivo(), adj.getNombreArchivo());

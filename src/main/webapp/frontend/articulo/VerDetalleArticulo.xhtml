@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <h1 class="ui-state-default ui-corner-all"><h:outputText value="Artículo"/></h1>
+        <h:form>
+            <h:panelGrid columnClasses="top" columns="2">
+                <h:panelGrid>
+                    <h:outputText styleClass="titulo1" value="#{ArticuloController.articulo.nombreArticulo}" title="Nombre Artículo"/>
+                    <h:outputText styleClass="titulo2" value="#{ArticuloController.articulo.idCategoria}" title="Categoría"/>
+                    <p:separator/>
+                    <h:outputLabel styleClass="titulo3" value="Información detallada"/>
+                    <p:separator/>
+                    <h:outputText escape="false" value="#{ArticuloController.articulo.descripcionArticulo}" title="Descripción"/>
+                </h:panelGrid>
+                <p:galleria value="#{ArticuloController.listaAdjuntoArticulo}"  var="adjunto" frameHeight="70" showCaption="true" >
+                    <p:graphicImage width="500" height="400" value="#{ArticuloController.imagenToDisplayFromId()}" alt="" title="" cache="false" >
+                        <f:param name="id" value="#{adjunto.idArchivoAdjunto}" />
+                    </p:graphicImage>
+                </p:galleria>
+                <p:panel>
+                    <p:commandButton immediate="true" ajax="false" value="#{bundle.VolverBoton}" action="/frontend/index2" icon="ui-icon-arrowreturnthick-1-w"/>
+                    <p:commandButton type="button" icon="shoppingcart" value="#{bundle.AgregarBoton}"/>
+                </p:panel>
+            </h:panelGrid>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>
