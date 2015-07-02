@@ -22,6 +22,14 @@
     <!--lifecycle>
         <phase-listener>quickstore.login.AuthorizationListener</phase-listener>
     </lifecycle-->
+    <!-- Hace que el GoBack del navegador obligue a hacer refresh de la pagina -->
+    <!--lifecycle>
+        <phase-listener id="nocache">quickstore.sesion.CacheControlPhaseListener</phase-listener>
+    </lifecycle-->
+    <!-- PHASER PARA MANTENER LOS MENSAJES DESPUES DE UN REDIRECT -->
+    <lifecycle>
+        <phase-listener>quickstore.sesion.MultiPageMessagesSupport</phase-listener>
+    </lifecycle>
     <render-kit>
         <renderer>
             <component-family>org.primefaces.component</component-family>

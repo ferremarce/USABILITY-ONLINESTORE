@@ -15,19 +15,32 @@
         </h:head>
 
         <h:body>
-
             <p:layout fullPage="true">
                 <p:ajax event="toggle" listener="#{LoginManager.doToggleHandler}"/>
-                <p:layoutUnit id="admin" rendered="#{LoginManager.usuarioLogeado!=null}" position="west" size="250" header="Administración" collapsed="#{LoginManager.adminCollapse}" collapsible="true">
+                <p:layoutUnit id="admin" rendered="false" position="west" size="250" header="Administración" collapsed="#{LoginManager.adminCollapse}" collapsible="true">
                     <h:form>
-                        <p:menu style="width: 90%" model="#{MenuController.model}" />
+                        <p:ajax global="false" event="click" update=":formMetrica" listener="#{ClickCounter.increment()}"/>
+                        <p:menu style="width: 90%" model="#{MenuController.model}"/>
                     </h:form>
                 </p:layoutUnit>
                 <p:layoutUnit id="client"  rendered="#{LoginManager.usuarioLogeado!=null}" position="east" size="250" header="Opciones" collapsed="#{LoginManager.clientCollapse}" collapsible="true" >
                     <h:form id="formCarrito">
                         <p:panel header="Mi carrito">
-                            <h:outputLabel for="listaArticuloCarrito" value="Mis Compras"/>
-                            <h:outputText styleClass="texto-promocion" id="listaArticuloCarrito" value="#{CarritoFE.listaArticuloCarrito.size()}"/>
+                            <p:commandLink ajax="false" action="#{CarritoFE.doProcesarCarritoFrom()}">
+                                <h:panelGrid columns="3">
+                                    <p:graphicImage rendered="#{CarritoFE.listaOrdenCarrito.size()==0}" value="/icono/cart.png"/>
+                                    <p:graphicImage width="32" height="32" rendered="#{CarritoFE.listaOrdenCarrito.size()>0}" value="/icono/cart.gif"/>
+                                    <h:outputText styleClass="texto-promocion" id="listaArticuloCarrito" value="#{CarritoFE.listaOrdenCarrito.size()}"/>
+                                </h:panelGrid>
+                            </p:commandLink>
+                        </p:panel>
+                    </h:form>
+                    <h:form id="formMetrica">
+                        <p:panel header="Métricas">
+                            <h:panelGrid columns="2">
+                                <h:outputLabel for="contadorClick" value="Click Counter: "/>
+                                <h:outputText id="contadorClick" value="#{ClickCounter.count}"/>
+                            </h:panelGrid>
                         </p:panel>
                     </h:form>
                     <h:form id="formCategoriaArticulo">
@@ -45,7 +58,7 @@
                     <ui:insert name="top">
                         <h:form>
                             <p:panel styleClass="header-background">
-                                <p:link  outcome="/frontend/index">
+                                <p:link  outcome="/frontend/index2">
                                     <p:graphicImage value="/img/logo-admin.png"/>
                                 </p:link>
 
@@ -60,6 +73,11 @@
                                     </f:facet>
                                 </p:toolbar>
                             </p:panel>
+                            <h:panelGrid columns="2">
+                                <p:inputText value="#{ArticuloFE.criterioBusqueda}"/>
+                                <p:commandButton id="cmdBuscarArticulo" value="#{bundle.BuscarBoton}" ajax="true" action="#{ArticuloFE.doListar()}" icon="ui-icon-document"/>
+                            </h:panelGrid>
+                            <p:defaultCommand target="cmdBuscarArticulo" />
                         </h:form>
                     </ui:insert>
                     <ui:insert name="content">
@@ -71,6 +89,7 @@
                 </p:layoutUnit>
 
             </p:layout>
+
 
         </h:body>
 

@@ -11,13 +11,9 @@
     <ui:define name="content">
         <h1 class="ui-state-default ui-corner-all"><h:outputText value="Catálogo de Artículos"/></h1>
         <h:form>
+            <p:ajax global="false" event="click" update="#{sistema.form_update}," listener="#{ClickCounter.increment()}"/>
             <ui:include src="/ajax.xhtml"/>
-            <h:panelGrid columns="2">
-                <p:inputText value="#{ArticuloFE.criterioBusqueda}"/>
-                <p:commandButton value="#{bundle.BuscarBoton}" ajax="true" update="panelTableArticulo" action="#{ArticuloFE.doListar()}" icon="ui-icon-document"/>
-            </h:panelGrid>
-            <p:ajax global="false" event="click" listener="#{ClickCounter.increment()}"/>
-            <p:growl life="3000" globalOnly="true" id="messages"/>
+            <p:growl life="5000" globalOnly="true" id="messages"/>
             <h:panelGrid id="panelTableArticulo">
                 <div class="ui-grid ui-grid-responsive">
                     <div class="ui-grid-row">

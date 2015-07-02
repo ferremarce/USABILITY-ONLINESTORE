@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <h1 class="ui-state-default ui-corner-all"><h:outputText value="Mi Carrito de Compra"/></h1>
+        <h:form>
+            <p:ajax global="false" event="click" update="#{sistema.form_update}," listener="#{ClickCounter.increment()}"/>
+            <ui:include src="/ajax.xhtml"/>
+            <p:wizard showNavBar="false" flowListener="#{CarritoFE.onFlowProcess}" widgetVar="carritoWizard" backLabel="#{bundle.AtrasBoton}" nextLabel="#{bundle.SiguienteBoton}">
+                <p:tab id="carrito" title="Carrito">
+
+                    <p:dataTable value="#{CarritoFE.listaOrdenCarrito}" var="item" emptyMessage="#{bundle.SinRegistrosMensaje}" >
+                        <p:column style="width: 450px">
+                            <f:facet name="header">
+                                <h:outputText value="Artículo"/>
+                            </f:facet>
+                            <h:panelGrid rendered="#{item.idArticulo!=null}" styleClass="panelNoBorder" columns="3">                                        
+                                <p:graphicImage styleClass="texto-centrado" rendered="#{item.idArticulo.articuloAdjuntoList.size()>0}" width="150" height="150" value="#{ArticuloFE.imagenToDisplayFromId()}" cache="false" >
+                                    <f:param name="id" value="#{item.idArticulo.articuloAdjuntoList.get(0).idArchivoAdjunto}" />
+                                </p:graphicImage>
+                                <h:panelGrid>
+                                    <h:outputText value="#{item.idArticulo.nombreArticulo}"/>
+                                    <p:separator/>
+                                    <h:outputText value="#{item.idArticulo.idCategoria}"/>
+                                    <p:commandButton style="position: relative; right: 10px" title="#{bundle.EliminarBoton}" icon="ui-icon-closethick" update="#{sistema.form_update},@form" action="#{CarritoFE.doSacarArticuloOrdenCompra(item)}"/>
+                                </h:panelGrid>
+                            </h:panelGrid>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Precio"/>
+                            </f:facet>
+                            <h:outputText styleClass="#{item.idArticulo.esPromocion?'texto-tachado':'texto-no-tachado'}" value="#{item.idArticulo.precio}">
+                                <f:convertNumber currencySymbol="USD " type="currency"/>
+                            </h:outputText>
+                            <p:panel rendered="#{item.idArticulo.esPromocion}">
+                                <h:outputText rendered="#{item.idArticulo.esPromocion}" style="color: #000066;font-weight: bold;text-align: right" value="#{item.idArticulo.porcentajeDescuento}% OFF "/>
+                            </p:panel>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Cantidad"/>
+                            </f:facet>
+                            <p:spinner min="1" max="10" value="#{item.cantidad}">
+                                <p:ajax update="#{sistema.form_update},@form" />
+                            </p:spinner>
+                        </p:column>
+                        <p:column style="text-align: right">
+                            <f:facet name="header">
+                                <h:outputText value="Importe"/>
+                            </f:facet>
+                            <h:outputText style="color: green !important" styleClass="texto-no-tachado" value="#{CarritoFE.calcularPrecioFinal(item.idArticulo)}">
+                                <f:convertNumber currencySymbol="USD " type="currency"/>
+                            </h:outputText><br/>
+                        </p:column>
+                        <p:columnGroup type="footer">
+                            <p:row>
+                                <p:column style="text-align: right" colspan="3">
+                                    <f:facet name="footer">
+                                        <h:outputText styleClass="itemResaltado1" value="Total (impuestos incluidos): "/>
+                                    </f:facet>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="footer">
+                                        <h:outputText id="totalCarrito" styleClass="itemResaltado1" value="#{CarritoFE.calcularTotal()}">
+                                            <f:convertNumber currencySymbol="USD " type="currency"/>
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+                            </p:row>
+                        </p:columnGroup>
+                    </p:dataTable>
+                </p:tab>
+                <p:tab id="entrega" title="Entrega">
+                    <p:messages id="msgEntrega"/>
+                    <p:panel header="Estás registrado en nuestra tienda?">
+
+                    </p:panel>
+                    <p:panel header="Eres nuevo cliente?">
+
+                    </p:panel>
+                    <p:panel header="Datos de Envío">
+
+                    </p:panel>
+                    <p:panel>
+                        <h:outputText value="Acepta la política de Privacidad de Datos?"/>
+                        <p:selectBooleanCheckbox value="#{CarritoFE.aceptaPolitica}"/>
+                    </p:panel>
+                </p:tab>
+                <p:tab id="pago" title="Pago">
+                </p:tab>
+            </p:wizard>
+            <p:commandButton ajax="false" type="button" icon="ui-icon-circle-arrow-w" value="Atrás" onclick="PF('carritoWizard').back();"/>
+            <p:commandButton ajax="false" type="button" icon="ui-icon-circle-arrow-e" value="Siguiente" onclick="PF('carritoWizard').next();"/>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

@@ -23,19 +23,23 @@ public class ClickCounter implements Serializable {
      * Creates a new instance of ClickCounter
      */
     public ClickCounter() {
+        System.out.println("Click constructor: " + count);
+        
     }
 
     public int getCount() {
+        System.out.println("getCount: " + count);
         return count;
     }
 
     public void setCount(int count) {
+        System.out.println("setCount: " + count);
         this.count = count;
     }
 
     public void increment() {
         count++;
-        System.out.println("Contador de click: " + count);
+//        System.out.println("Increment: " + count);
 //        EventBus eventBus = EventBusFactory.getDefault().eventBus();
 //        eventBus.publish("/counter", String.valueOf(count));
     }

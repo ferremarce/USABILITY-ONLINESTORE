@@ -37,7 +37,7 @@ public class OrdenCarrito implements Serializable {
     @Column(name = "ID_ORDEN_CARRITO")
     private Integer idOrdenCarrito;
     @Column(name = "CANTIDAD")
-    private BigInteger cantidad;
+    private Integer cantidad;
     @Size(max = 255)
     @Column(name = "COMENTARIO")
     private String comentario;
@@ -63,11 +63,11 @@ public class OrdenCarrito implements Serializable {
         this.idOrdenCarrito = idOrdenCarrito;
     }
 
-    public BigInteger getCantidad() {
+    public Integer getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(BigInteger cantidad) {
+    public void setCantidad(Integer cantidad) {
         this.cantidad = cantidad;
     }
 

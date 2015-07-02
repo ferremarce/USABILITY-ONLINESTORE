@@ -119,8 +119,9 @@ public class ArticuloFE implements Serializable {
     //********************************************
     /**
      * Listar
+     * @return 
      */
-    public void doListar() {
+    public String doListar() {
         if (this.criterioBusqueda.length() > 0) {
             this.listaArticulo = articuloDAO.findAllbyCriterio(criterioBusqueda);
         } else {
@@ -131,6 +132,7 @@ public class ArticuloFE implements Serializable {
         } else {
             JSFutil.addSuccessMessage("Sin registros");
         }
+        return "/frontend/index2?faces-redirect=true";
     }
 
     public String doListarCategoriaForm() {

@@ -10,7 +10,7 @@
     <ui:define name="content">
         <h1 class="ui-state-default ui-corner-all"><h:outputText value="Listar Usuarios"/></h1>
         <h:form id="mainForm">
-            <p:growl life="3000" globalOnly="true" id="messages"/>
+            <p:growl life="5000" globalOnly="true" id="messages"/>
             <p:panel>
                 <p:commandButton value="#{bundle.NuevoBoton}" ajax="false" action="#{UsuarioController.doCrearForm()}" icon="ui-icon-document"/>
             </p:panel>

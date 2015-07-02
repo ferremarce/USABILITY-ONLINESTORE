@@ -11,7 +11,7 @@
         <h1 class="ui-state-default ui-corner-all"><h:outputText value="Artículos en Tienda"/></h1>
         <h:form>
             <p:ajax global="false" event="click" listener="#{ClickCounter.increment()}"/>
-            <p:growl life="3000" globalOnly="true" id="messages"/>
+            <p:growl life="5000" globalOnly="true" id="messages"/>
             <p:panel>
                 <p:commandButton value="#{bundle.NuevoBoton}" ajax="false" action="#{ArticuloController.doCrearForm()}" icon="ui-icon-document"/>
                 <ui:include src="/ajax.xhtml"/>

@@ -18,6 +18,11 @@
     height: 40px;
     font-size: 18px;
 }
+.ui-spinner-input{
+    height: 50px !important;
+    font-size: 20px !important;
+    width: 90%;
+}
 .top{
     vertical-align: top !important;
 }

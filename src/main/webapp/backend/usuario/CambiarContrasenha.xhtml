@@ -9,7 +9,7 @@
     <ui:define name="content">
         <h1 class="ui-state-default ui-corner-all"><h:outputText value="Cambiar Contraseña"/></h1>
         <h:form id="formMain">
-            <p:growl life="3000" globalOnly="true" id="messages"/> 
+            <p:growl life="5000" globalOnly="true" id="messages"/> 
             <h:panelGrid>
                 <h:outputText value="#{LoginManager.usuarioLogeado.apellidos}, #{LoginManager.usuarioLogeado.nombres} [#{LoginManager.usuarioLogeado.idRol}]"/> 
                 <h:outputText style="font-size: 14px;color: red" value="Combine LETRAS y NUMEROS para obtener una buena seguridad. Por ejemplo: amartinez5631, 5631martinez, etc"/>

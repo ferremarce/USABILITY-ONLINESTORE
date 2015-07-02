@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package quickstore.login;
+package quickstore.sesion;
 
 import java.io.Serializable;
 import java.util.TimeZone;
@@ -36,6 +36,7 @@ public class LoginManager implements Serializable {
     private Integer intento = 1;
     private Boolean adminCollapse = Boolean.FALSE;
     private Boolean clientCollapse = Boolean.FALSE;
+    private Integer cantidadClick;
 
     /**
      * Creates a new instance of LoginManager
@@ -49,6 +50,14 @@ public class LoginManager implements Serializable {
 
     public void setIntento(Integer intento) {
         this.intento = intento;
+    }
+
+    public Integer getCantidadClick() {
+        return cantidadClick;
+    }
+
+    public void setCantidadClick(Integer cantidadClick) {
+        this.cantidadClick = cantidadClick;
     }
 
     /**
@@ -243,6 +252,10 @@ public class LoginManager implements Serializable {
             }
 
         }
+    }
+
+    public void incrementar() {
+        this.cantidadClick++;
     }
 
     @PostConstruct
