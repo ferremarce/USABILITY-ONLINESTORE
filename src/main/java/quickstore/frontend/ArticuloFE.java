@@ -22,8 +22,10 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import quickstore.ejb.entity.Articulo;
 import quickstore.ejb.entity.ArticuloAdjunto;
+import quickstore.ejb.entity.SubTipo;
 import quickstore.ejb.facade.ArticuloAdjuntoDAO;
 import quickstore.ejb.facade.ArticuloDAO;
+import quickstore.ejb.facade.SubTipoDAO;
 import quickstore.util.JSFutil;
 
 /**
@@ -44,6 +46,8 @@ public class ArticuloFE implements Serializable {
     private ArticuloDAO articuloDAO;
     @Inject
     private ArticuloAdjuntoDAO articuloAdjuntoDAO;
+    @Inject
+    private SubTipoDAO subTipoDAO;
     private Articulo articulo;
     private List<Articulo> listaArticulo;
     private List<Articulo> listaArticuloFiltrado;
@@ -51,6 +55,7 @@ public class ArticuloFE implements Serializable {
     private String criterioBusqueda;
     @Inject
     private ClickCounter clickCounter;
+    private SubTipo categoriaSeleccionada;
 
     /**
      * Creates a new instance of ArticuloController
@@ -110,8 +115,12 @@ public class ArticuloFE implements Serializable {
         this.clickCounter = clickCounter;
     }
 
-    public void init() {
-        this.listaArticulo = articuloDAO.findAll();
+    public SubTipo getCategoriaSeleccionada() {
+        return categoriaSeleccionada;
+    }
+
+    public void setCategoriaSeleccionada(SubTipo categoriaSeleccionada) {
+        this.categoriaSeleccionada = categoriaSeleccionada;
     }
 
     //********************************************
@@ -119,7 +128,8 @@ public class ArticuloFE implements Serializable {
     //********************************************
     /**
      * Listar
-     * @return 
+     *
+     * @return
      */
     public String doListar() {
         if (this.criterioBusqueda.length() > 0) {
@@ -139,12 +149,15 @@ public class ArticuloFE implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
         String idCategoria = context.getExternalContext().getRequestParameterMap().get("idCategoria");
         this.listaArticulo = articuloDAO.findAllbyCategoria(Integer.parseInt(idCategoria));
+        this.categoriaSeleccionada = subTipoDAO.find(Integer.parseInt(idCategoria));
         if (this.listaArticulo.size() > 0) {
+
             JSFutil.addSuccessMessage(this.listaArticulo.size() + " registro/s recuperado/s");
         } else {
+
             JSFutil.addSuccessMessage("Sin registros");
         }
-        return "/frontend/index2";
+        return "/frontend/articulo/ListarArticuloCategoria";
     }
 
     public String doVerDetalleArticulo(Articulo u) {
@@ -156,7 +169,6 @@ public class ArticuloFE implements Serializable {
     //********************************************
 // METODOS DEL LISTENER
 //********************************************
-    
     /**
      * Render de la imagen desde el DAO
      *
@@ -198,5 +210,10 @@ public class ArticuloFE implements Serializable {
             String noContent = "<html><h1>Sin adjunto...</></html>";
             return new DefaultStreamedContent(new ByteArrayInputStream(noContent.getBytes()), "text/html", "No existe Archivo");
         }
+    }
+
+    @PostConstruct
+    public void init() {
+        this.listaArticulo = articuloDAO.findAll();
     }
 }

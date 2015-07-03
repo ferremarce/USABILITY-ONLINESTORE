@@ -28,9 +28,9 @@
                         <p:panel header="Mi carrito">
                             <p:commandLink ajax="false" action="#{CarritoFE.doProcesarCarritoFrom()}">
                                 <h:panelGrid columns="3">
-                                    <p:graphicImage rendered="#{CarritoFE.listaOrdenCarrito.size()==0}" value="/icono/cart.png"/>
-                                    <p:graphicImage width="32" height="32" rendered="#{CarritoFE.listaOrdenCarrito.size()>0}" value="/icono/cart.gif"/>
-                                    <h:outputText styleClass="texto-promocion" id="listaArticuloCarrito" value="#{CarritoFE.listaOrdenCarrito.size()}"/>
+                                    <p:graphicImage width="50" height="50" rendered="#{CarritoFE.listaOrdenCarrito.size()==0}" value="/icono/cart2.gif"/>
+                                    <h:outputText styleClass="texto-carrito" id="listaArticuloCarrito" value="#{CarritoFE.listaOrdenCarrito.size()}"/>
+                                    <p:graphicImage width="50" height="50" rendered="#{CarritoFE.listaOrdenCarrito.size()>0}" value="/icono/cart.gif"/>                                   
                                 </h:panelGrid>
                             </p:commandLink>
                         </p:panel>
@@ -58,26 +58,49 @@
                     <ui:insert name="top">
                         <h:form>
                             <p:panel styleClass="header-background">
-                                <p:link  outcome="/frontend/index2">
-                                    <p:graphicImage value="/img/logo-admin.png"/>
-                                </p:link>
-
+                                <h:panelGrid columns="3">
+                                    <p:link  outcome="/frontend/index2">
+                                        <p:graphicImage value="/img/logo-admin.png"/>
+                                    </p:link>
+                                    <h:panelGrid style="position: relative; left: 20px" columns="6">
+                                        <p:graphicImage value="/icono/store.png"/>
+                                        <h:outputText value="Ayuda"/>
+                                        <p:graphicImage value="/icono/help.png"/>
+                                        <h:outputText value="Nuestras tiendas"/>
+                                        <p:graphicImage value="/icono/call-center.png"/>
+                                        <h:outputText value="Atención al Cliente"/>
+                                    </h:panelGrid>
+                                </h:panelGrid>
                                 <p:toolbar>
-                                    <f:facet name="left">
-                                        <h:outputText rendered="#{LoginManager.usuarioLogeado!=null}" value="#{LoginManager.usuarioLogeado.nombres} #{LoginManager.usuarioLogeado.apellidos} [#{LoginManager.usuarioLogeado.idRol}]"/>
-                                        <span class="ui-separator">
-                                            <span class="ui-icon ui-icon-grip-dotted-vertical" />
-                                        </span>
-                                        <p:commandButton rendered="#{LoginManager.usuarioLogeado!=null}" ajax="false" value="#{bundle.CambiarContrasenhaBoton}" action="#{LoginManager.doCambiarContrasenhaForm()}" icon="ui-icon-locked" />
-                                        <p:commandButton rendered="#{LoginManager.usuarioLogeado!=null}" ajax="false" value="#{bundle.SalirBoton}" action="#{LoginManager.doLogout()}" icon="ui-icon-circle-triangle-w" />
+                                    <f:facet name="right">
+                                        <p:commandButton id="cmdUsuarioLogeado" title="Opciones del Cliente" type="button" icon="ui-icon-carat-1-s" rendered="#{LoginManager.usuarioLogeado!=null}" value="#{LoginManager.usuarioLogeado.nombres} #{LoginManager.usuarioLogeado.apellidos} [#{LoginManager.usuarioLogeado.idRol}]"/>
+                                        <p:overlayPanel for="cmdUsuarioLogeado" showEffect="fade" hideEffect="fade">
+                                            <h:panelGrid>
+                                                <p:commandLink rendered="#{LoginManager.usuarioLogeado!=null}" ajax="false" value="#{bundle.CambiarContrasenhaBoton}" action="#{LoginManager.doCambiarContrasenhaForm()}"/>
+                                                <p:commandLink rendered="#{LoginManager.usuarioLogeado!=null}" ajax="false" value="#{bundle.SalirBoton}" action="#{LoginManager.doLogout()}"/>
+                                            </h:panelGrid>
+                                        </p:overlayPanel>
                                     </f:facet>
                                 </p:toolbar>
                             </p:panel>
-                            <h:panelGrid columns="2">
-                                <p:inputText value="#{ArticuloFE.criterioBusqueda}"/>
-                                <p:commandButton id="cmdBuscarArticulo" value="#{bundle.BuscarBoton}" ajax="true" action="#{ArticuloFE.doListar()}" icon="ui-icon-document"/>
-                            </h:panelGrid>
-                            <p:defaultCommand target="cmdBuscarArticulo" />
+                        </h:form>
+                        <h:form>
+                            <p:toolbar>
+                                <f:facet name="left">
+                                    <h:panelGrid columns="2">
+                                        <p:inputText size="50" id="txtCriterioBusqueda" value="#{ArticuloFE.criterioBusqueda}" rendered="true" requiredMessage="#{bundle.Requerido}"/>
+                                        <p:commandButton id="cmdBuscarArticulo" value="#{bundle.BuscarBoton}" ajax="true" action="#{ArticuloFE.doListar()}" icon="ui-icon-document"/>
+                                        <p:watermark for="txtCriterioBusqueda" value="Escriba algun dato para buscar..."/>
+                                        <p:defaultCommand target="cmdBuscarArticulo" />
+                                    </h:panelGrid>
+                                </f:facet>
+                                <f:facet name="right">
+                                    <h:panelGrid columns="2">
+                                        <p:graphicImage value="/icono/wish-list.png"/>
+                                        <h:outputText value="Lista de deseos"/>
+                                    </h:panelGrid>
+                                </f:facet>
+                            </p:toolbar>
                         </h:form>
                     </ui:insert>
                     <ui:insert name="content">

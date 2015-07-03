@@ -9,7 +9,7 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="content">
-        <h1 class="ui-state-default ui-corner-all"><h:outputText value="Catálogo de Artículos"/></h1>
+        <h1 class="ui-state-default ui-corner-all"><h:outputText value="Catálogo de Artículos / #{ArticuloFE.categoriaSeleccionada}"/></h1>
         <h:form>
             <p:ajax global="false" event="click" update="#{sistema.form_update}," listener="#{ClickCounter.increment()}"/>
             <ui:include src="/ajax.xhtml"/>

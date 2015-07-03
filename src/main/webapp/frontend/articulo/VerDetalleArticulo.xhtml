@@ -8,7 +8,7 @@
                 xmlns:p="http://primefaces.org/ui">
 
     <ui:define name="content">
-        <h1 class="ui-state-default ui-corner-all"><h:outputText value="Artículo"/></h1>
+        <h1 class="ui-state-default ui-corner-all"><h:outputText style="color: #000066;" value="#{ArticuloFE.articulo.nombreArticulo}"/></h1>
         <h:form>
             <p:growl life="5000" globalOnly="true" id="messages"/>
             <p:ajax global="false" event="click" update="#{sistema.form_update}," listener="#{ClickCounter.increment()}"/>
@@ -19,12 +19,21 @@
             </p:panel>
             <h:panelGrid columnClasses="top" columns="2">
                 <h:panelGrid>
-                    <h:outputText styleClass="titulo1" value="#{ArticuloFE.articulo.nombreArticulo}" title="Nombre Artículo"/>
                     <h:outputText styleClass="titulo2" value="#{ArticuloFE.articulo.idCategoria}" title="Categoría"/>
                     <p:separator/>
                     <h:outputLabel styleClass="titulo3" value="Información detallada"/>
                     <p:separator/>
                     <h:outputText escape="false" value="#{ArticuloFE.articulo.descripcionArticulo}" title="Descripción"/>
+                    <hr/>
+                    <h:outputText styleClass="#{ArticuloFE.articulo.esPromocion?'texto-tachado':'texto-no-tachado'}" value="#{ArticuloFE.articulo.precio}">
+                        <f:convertNumber currencySymbol="USD " type="currency"/>
+                    </h:outputText>
+                    <p:panel rendered="#{ArticuloFE.articulo.esPromocion}">
+                        <h:outputText styleClass="texto-promocion" value="#{CarritoFE.calcularPrecioFinal(ArticuloFE.articulo)}">
+                            <f:convertNumber currencySymbol="USD " type="currency"/>
+                        </h:outputText><br/>
+                        <h:outputText rendered="#{ArticuloFE.articulo.esPromocion}" style="color: #000066;font-weight: bold;text-align: right" value="#{ArticuloFE.articulo.porcentajeDescuento}% OFF "/>
+                    </p:panel>
                 </h:panelGrid>
                 <h:panelGrid>
                     <p:galleria value="#{ArticuloFE.listaAdjuntoArticulo}"  var="adjunto" frameHeight="70" showCaption="true" >
