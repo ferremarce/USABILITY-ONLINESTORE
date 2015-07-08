@@ -78,6 +78,9 @@
                     </p:row>
                 </p:columnGroup>
             </p:dataTable>
+            <p:panel>
+                <p:commandButton disabled="#{CarritoFE.listaOrdenCarrito.size()==0}" ajax="false" iconPos="right" icon="ui-icon-circle-arrow-e" value="#{bundle.SiguienteBoton}" action="#{ClienteController.doProcesarDatosEntrega()}"/>
+            </p:panel>
         </h:form>
     </ui:define>
 

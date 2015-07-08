@@ -10,6 +10,7 @@
             <f:facet name="first">
                 <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
                 <h:outputStylesheet name="./css/default.css"/>
+                        <link rel="icon" type="image/x-icon" href="#{request.contextPath}/img/favicon.ico"/>
                 <title>QUICKSTORE</title>
             </f:facet>
         </h:head>
@@ -23,7 +24,7 @@
                         <p:menu style="width: 90%" model="#{MenuController.model}"/>
                     </h:form>
                 </p:layoutUnit>
-                <p:layoutUnit id="client"  rendered="#{LoginManager.usuarioLogeado!=null}" position="east" size="250" header="Opciones" collapsed="#{LoginManager.clientCollapse}" collapsible="true" >
+                <p:layoutUnit id="client"  position="east" size="250" header="Opciones" collapsed="#{LoginManager.clientCollapse}" collapsible="true" >
                     <h:form id="formCarrito">
                         <p:panel header="Mi carrito">
                             <p:commandLink ajax="false" action="#{CarritoFE.doProcesarCarritoFrom()}">
@@ -73,11 +74,12 @@
                                 </h:panelGrid>
                                 <p:toolbar>
                                     <f:facet name="right">
-                                        <p:commandButton id="cmdUsuarioLogeado" title="Opciones del Cliente" type="button" icon="ui-icon-carat-1-s" rendered="#{LoginManager.usuarioLogeado!=null}" value="#{LoginManager.usuarioLogeado.nombres} #{LoginManager.usuarioLogeado.apellidos} [#{LoginManager.usuarioLogeado.idRol}]"/>
+                                        <p:commandButton id="cmdUsuarioLogeado" title="Opciones del Cliente" type="button" icon="ui-icon-carat-1-s" rendered="#{ClienteLoginManager.clienteLogeado!=null}" value="#{ClienteLoginManager.clienteLogeado.nombre} #{ClienteLoginManager.clienteLogeado.apellido}"/>
                                         <p:overlayPanel for="cmdUsuarioLogeado" showEffect="fade" hideEffect="fade">
                                             <h:panelGrid>
-                                                <p:commandLink rendered="#{LoginManager.usuarioLogeado!=null}" ajax="false" value="#{bundle.CambiarContrasenhaBoton}" action="#{LoginManager.doCambiarContrasenhaForm()}"/>
-                                                <p:commandLink rendered="#{LoginManager.usuarioLogeado!=null}" ajax="false" value="#{bundle.SalirBoton}" action="#{LoginManager.doLogout()}"/>
+                                                <p:commandLink ajax="false" value="#{bundle.CambiarContrasenhaBoton}" action="#{ClienteLoginManager.doCambiarContrasenhaForm()}"/>
+                                                <p:commandLink ajax="false" value="#{bundle.SalirBoton}" action="#{ClienteLoginManager.doLogoutTienda()}"/>
+                                                <p:commandLink ajax="false" value="#{bundle.PreferenciaBoton}" action="#{ClienteLoginManager.doLogoutTienda()}"/>
                                             </h:panelGrid>
                                         </p:overlayPanel>
                                     </f:facet>
@@ -85,6 +87,7 @@
                             </p:panel>
                         </h:form>
                         <h:form>
+                             <p:ajax global="false" event="click" update="#{sistema.form_update}," listener="#{ClickCounter.increment()}"/>
                             <p:toolbar>
                                 <f:facet name="left">
                                     <h:panelGrid columns="2">

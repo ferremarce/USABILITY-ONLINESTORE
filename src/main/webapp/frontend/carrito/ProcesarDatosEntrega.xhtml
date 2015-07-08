@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <h1 class="ui-state-default ui-corner-all">
+            <h:outputText value="Datos de la Entrega"/>
+        </h1>
+        <h:form>
+            <p:ajax global="false" event="click" update="#{sistema.form_update}," listener="#{ClickCounter.increment()}"/>
+            <ui:include src="/ajax.xhtml"/>
+            <p:growl globalOnly="true" id="messages"/>
+            <h:outputText rendered="#{ClienteClienteLoginManager.clienteLogeado!=null}" value="#{ClienteLoginManager.clienteLogeado.nombre} #{ClienteLoginManager.clienteLogeado.apellido}"/>
+            <p:panel rendered="#{ClienteLoginManager.clienteLogeado==null}" style="width: 50%" header="Estás registrado en nuestra tienda?">
+                <p:panelGrid columns="3">
+                    <p:outputLabel for="cuenta" value="Cuenta"/>
+                    <p:inputText size="50" id="cuenta" value="#{ClienteLoginManager.cuenta}" required="true" requiredMessage="#{bundle.Requerido}"/>
+                    <p:message for="cuenta"/>
+                    <p:outputLabel for="passwd" value="Clave"/>
+                    <p:password size="50" id="passwd" value="#{ClienteLoginManager.contrasenha}" required="true" requiredMessage="#{bundle.Requerido}"/>
+                    <p:message for="passwd"/>
+                    <p:outputLabel rendered="#{ClienteLoginManager.intento>3}" for="captcha" value="Validar"/>
+                    <p:captcha rendered="#{ClienteLoginManager.intento>3}" id="captcha" label="captcha" language="es" validatorMessage="No coincide el código de validación"/>
+                    <p:message rendered="#{ClienteLoginManager.intento>3}" for="captcha"/>
+                </p:panelGrid>
+                <p:separator/>
+                <p:commandButton ajax="false" value="#{bundle.EnviarBoton}" action="#{ClienteLoginManager.doLoginTienda()}" icon="ui-icon-disk"/>
+                <h:commandLink value="#{bundle.RecuperarContrasenhaBoton}"/>
+            </p:panel>
+            <p:panel rendered="#{ClienteLoginManager.clienteLogeado!=null}" header="Has ingresado al Sistema...">
+                <h:outputText style="font-size: 25px !important; font-weight: bold"  value="#{ClienteLoginManager.clienteLogeado.nombre} #{ClienteLoginManager.clienteLogeado.apellido}" title="Cliente"/>
+                <p:dataTable value="#{ClienteController.doListaDireccionCliente()}" var="direccion" selectionMode="single" selection="#{CarritoFE.direccionSeleccionada}" rowKey="#{direccion.idDireccionCliente}">                       
+                    <f:facet name="header">
+                        <h:outputText value="Direcciones del cliente"/>
+                    </f:facet>
+                    <p:ajax event="rowSelect" listener="#{CarritoFE.onRowSelect}"/>
+                    <p:column headerText="Calle">
+                        <h:outputText value="#{direccion.idDireccion.calle}"/>
+                    </p:column>
+                    <p:column headerText="Localidad">
+                        <h:outputText value="#{direccion.idDireccion.localidad}"/>
+                    </p:column>
+                    <p:column headerText="Edificio">
+                        <h:outputText value="#{direccion.idDireccion.edificio}"/>
+                    </p:column>
+                    <p:column headerText="Casilla Correo">
+                        <h:outputText value="#{direccion.idDireccion.casillaCorreo}"/>
+                    </p:column>
+                    <p:column headerText="Ciudad">
+                        <h:outputText value="#{direccion.idDireccion.ciudad}"/>
+                    </p:column>
+                </p:dataTable>
+                <p:commandButton value="#{bundle.AgregarBoton}" type="button" onclick="PF('dlgDireccion').show();" />
+            </p:panel>
+            <p:dialog rendered="#{ClienteLoginManager.clienteLogeado!=null}" header="Agregar Dirección" widgetVar="dlgDireccion" >
+                <p:panelGrid columns="3">
+                    <p:outputLabel value="Calle:" for="calle" />
+                    <p:inputText size="80" id="calle" value="#{ClienteController.direccion.calle}" title="Calle" required="true" requiredMessage="#{bundle.Requerido}"/>
+                    <p:message for="calle"/>
+                    <p:outputLabel value="Localidad:" for="localidad" />
+                    <p:inputText size="80" id="localidad" value="#{ClienteController.direccion.localidad}" title="Localidad" required="true" requiredMessage="#{bundle.Requerido}"/>
+                    <p:message for="localidad"/>
+                    <p:outputLabel value="Edificio:" for="edificio" />
+                    <p:inputText size="50" id="edificio" value="#{ClienteController.direccion.edificio}" title="Edificio" required="true" requiredMessage="#{bundle.Requerido}"/>
+                    <p:message for="edificio"/>
+                    <p:outputLabel value="Casilla Correo:" for="casillaCorreo" />
+                    <p:inputText size="50" id="casillaCorreo" value="#{ClienteController.direccion.casillaCorreo}" title="CasillaCorreo" required="true" requiredMessage="#{bundle.Requerido}"/>
+                    <p:message for="casillaCorreo"/>
+                    <p:outputLabel value="Ciudad:" for="ciudad" />
+                    <p:inputText size="50" id="ciudad" value="#{ClienteController.direccion.ciudad}" title="Ciudad" required="true" requiredMessage="#{bundle.Requerido}"/>
+                    <p:message for="ciudad"/>
+                    <p:outputLabel value="Observaciones:" for="observacion" />
+                    <p:inputTextarea cols="50" id="observacion" value="#{ClienteController.direccion.observacion}" title="Observacion" />
+                </p:panelGrid>
+                <p:commandButton value="#{bundle.GuardarBoton}" update="@form" action="#{ClienteController.doGuardarDireccion()}"/>
+            </p:dialog>
+        </h:form>
+        <hr/>
+        <h:form rendered="#{ClienteLoginManager.clienteLogeado==null}" id="formRegistro">
+            <p:panel header="Registrarse">
+                <h:outputText value="Es necesario registrarse para comprar en nuestra TIenda, rellena el formulario de datos y continua con tu compra."/>
+                <p:panelGrid style="width: 100%" columns="3">
+                    <p:outputLabel  value="Email:" for="email" />
+                    <p:panelGrid styleClass="panelNoBorder">
+                        <p:inputText size="50" id="email" value="#{ClienteController.cliente.email}" title="Email" required="true" requiredMessage="#{bundle.Requerido}">
+                            <f:validator validatorId="EmailValidator" />
+                            <p:ajax event="change" update="mailDisponible"/>
+                        </p:inputText>
+                        <h:outputText rendered="#{ClienteController.cliente.email.length()>0}" id="mailDisponible" style="color: red" value="#{ClienteController.verificarCorreoExistente()}"/>
+                    </p:panelGrid>
+                    <p:message for="email"/>
+                    <p:outputLabel value="Contraseña:" for="contrasenha" />
+                    <p:password id="contrasenha" value="#{ClienteController.cliente.contrasenha}" title="Contrasenha" required="true" requiredMessage="#{bundle.Requerido}"/>
+                    <p:message for="contrasenha"/>
+                    <p:separator/>
+                    <p:separator/>
+                    <p:separator/>
+
+                    <p:outputLabel value="Nombres:" for="nombres" />
+                    <p:inputText size="50" id="nombres" value="#{ClienteController.cliente.nombre}" title="Nombres" required="true" requiredMessage="#{bundle.Requerido}"/>
+                    <p:message for="nombres"/>
+                    <p:outputLabel value="Apellidos:" for="apellidos" />
+                    <p:inputText size="50" id="apellidos" value="#{ClienteController.cliente.apellido}" title="Apellidos" required="true" requiredMessage="#{bundle.Requerido}"/>
+                    <p:message for="apellidos"/>
+                    <p:outputLabel value="T. Móvil:" for="telefonoMovil" />
+                    <p:inputText id="telefonoMovil" value="#{ClienteController.cliente.telefonoMovil}" title="Telefono Movil" required="true" requiredMessage="#{bundle.Requerido}" />
+                    <p:message for="telefonoMovil"/>
+                    <p:outputLabel value="T. Fijo:" for="telefonoFijo" />
+                    <p:inputText id="telefonoFijo" value="#{ClienteController.cliente.telefonoFijo}" title="Telefono Fijo" />
+                    <p:message for="telefonoFijo"/>
+                </p:panelGrid>
+            </p:panel>
+            <p:panel header="Datos de Envío y Facturación">
+                <p:panelGrid columns="3">
+                    <p:outputLabel value="Calle:" for="calle" />
+                    <p:inputText size="80" id="calle" value="#{ClienteController.direccion.calle}" title="Calle" required="true" requiredMessage="#{bundle.Requerido}"/>
+                    <p:message for="calle"/>
+                    <p:outputLabel value="Localidad:" for="localidad" />
+                    <p:inputText size="80" id="localidad" value="#{ClienteController.direccion.localidad}" title="Localidad" required="true" requiredMessage="#{bundle.Requerido}"/>
+                    <p:message for="localidad"/>
+                    <p:outputLabel value="Edificio:" for="edificio" />
+                    <p:inputText size="50" id="edificio" value="#{ClienteController.direccion.edificio}" title="Edificio" required="true" requiredMessage="#{bundle.Requerido}"/>
+                    <p:message for="edificio"/>
+                    <p:outputLabel value="Casilla Correo:" for="casillaCorreo" />
+                    <p:inputText size="50" id="casillaCorreo" value="#{ClienteController.direccion.casillaCorreo}" title="CasillaCorreo" required="true" requiredMessage="#{bundle.Requerido}"/>
+                    <p:message for="casillaCorreo"/>
+                    <p:outputLabel value="Ciudad:" for="ciudad" />
+                    <p:inputText size="50" id="ciudad" value="#{ClienteController.direccion.ciudad}" title="Ciudad" required="true" requiredMessage="#{bundle.Requerido}"/>
+                    <p:message for="ciudad"/>
+                    <p:outputLabel value="Observaciones:" for="observacion" />
+                    <p:inputTextarea cols="50" id="observacion" value="#{ClienteController.direccion.observacion}" title="Observacion" />
+                </p:panelGrid>
+                <p:panel>
+                    <p:outputLabel for="estoyDeAcuerdo" value="Estoy de acuerdo"/>
+                    <p:selectBooleanButton id="estoyDeAcuerdo" offLabel="NO" onLabel="SI" onIcon="ui-icon-check" offIcon="ui-icon-close" value="#{ClienteController.estoyDeAcuerdo}">
+                        <p:ajax event="change" update=":formAccionEntrega, cmdGuardar"/>
+                    </p:selectBooleanButton>
+                </p:panel>
+            </p:panel>
+            <p:panel>
+                <p:commandButton ajax="false" id="cmdGuardar" disabled="#{!ClienteController.estoyDeAcuerdo}" icon="ui-icon-disk" value="#{bundle.GuardarBoton}" action="#{ClienteController.doGuardar()}"/>
+            </p:panel> 
+        </h:form>
+        <h:form id="formAccionEntrega">
+            <p:panel id="panelAccion">
+                <p:commandButton immediate="true" ajax="false" iconPos="left" icon="ui-icon-circle-arrow-w" value="#{bundle.AtrasBoton}" action="#{CarritoFE.doProcesarCarritoFrom()}"/>
+                <p:commandButton disabled="#{ClienteLoginManager.clienteLogeado==null}" ajax="false" iconPos="right" icon="ui-icon-circle-arrow-e" value="#{bundle.SiguienteBoton}" action="#{CarritoFE.doProcesarDatosPago()}"/>
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>
+

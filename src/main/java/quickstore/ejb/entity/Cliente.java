@@ -10,6 +10,9 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -30,10 +33,11 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Cliente.findAll", query = "SELECT c FROM Cliente c")})
 public class Cliente implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "ID_CLIENTE")
     private Integer idCliente;
     @Size(max = 255)
@@ -45,9 +49,22 @@ public class Cliente implements Serializable {
     @Size(max = 255)
     @Column(name = "NOMBRE")
     private String nombre;
+    @Size(max = 255)
+    @Column(name = "TELEFONO_MOVIL")
+    private String telefonoMovil;
+    @Size(max = 255)
+    @Column(name = "TELEFONO_FIJO")
+    private String telefonoFijo;
+    @Size(max = 255)
+    @Column(name = "CONTRASENHA")
+    private String contrasenha;
+    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
+    @Size(max = 255)
+    @Column(name = "EMAIL")
+    private String email;
     @OneToMany(mappedBy = "idCliente")
     private List<MetodoPagoCliente> metodoPagoClienteList;
-    @OneToMany(mappedBy = "idCliente")
+    @OneToMany(mappedBy = "idCliente", fetch = FetchType.EAGER)
     private List<DireccionCliente> direccionClienteList;
     @OneToMany(mappedBy = "idCliente")
     private List<ListaDeseo> listaDeseoList;
@@ -153,5 +170,37 @@ public class Cliente implements Serializable {
     public String toString() {
         return "quickstore.ejb.entity.Cliente[ idCliente=" + idCliente + " ]";
     }
-    
+
+    public String getTelefonoMovil() {
+        return telefonoMovil;
+    }
+
+    public void setTelefonoMovil(String telefonoMovil) {
+        this.telefonoMovil = telefonoMovil;
+    }
+
+    public String getTelefonoFijo() {
+        return telefonoFijo;
+    }
+
+    public void setTelefonoFijo(String telefonoFijo) {
+        this.telefonoFijo = telefonoFijo;
+    }
+
+    public String getContrasenha() {
+        return contrasenha;
+    }
+
+    public void setContrasenha(String contrasenha) {
+        this.contrasenha = contrasenha;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
 }

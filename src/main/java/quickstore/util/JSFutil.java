@@ -27,6 +27,7 @@ import javax.faces.model.SelectItem;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.mindrot.jbcrypt.BCrypt;
+import quickstore.ejb.entity.Cliente;
 import quickstore.ejb.entity.Usuario;
 
 /**
@@ -253,6 +254,11 @@ public class JSFutil implements Serializable {
         context.getExternalContext().getSessionMap().put(variable, valor);
     }
 
+    public static void removeSessionVariable(String variable) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.getExternalContext().getSessionMap().remove(variable);
+    }
+
     /**
      * getter una variable en la sesión del usuario
      *
@@ -357,6 +363,12 @@ public class JSFutil implements Serializable {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         Usuario user = (Usuario) session.getAttribute("user");
         return user;
+    }
+
+    public static Cliente getClienteConectado() {
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        Cliente c = (Cliente) session.getAttribute("cliente");
+        return c;
     }
 
     public static String getClientIpAddr(HttpServletRequest request) {

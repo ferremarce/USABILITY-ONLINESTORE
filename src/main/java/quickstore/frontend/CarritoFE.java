@@ -9,15 +9,18 @@ import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import org.primefaces.event.FlowEvent;
+import org.primefaces.event.SelectEvent;
 import quickstore.ejb.entity.Articulo;
 import quickstore.ejb.entity.Carrito;
+import quickstore.ejb.entity.DireccionCliente;
 import quickstore.ejb.entity.OrdenCarrito;
 import quickstore.ejb.facade.CarritoDAO;
 import quickstore.util.JSFutil;
@@ -41,6 +44,7 @@ public class CarritoFE implements Serializable {
     private Carrito carrito;
     private List<OrdenCarrito> listaOrdenCarrito;
     private Boolean aceptaPolitica;
+    private DireccionCliente direccionSeleccionada;
 
     /**
      * Creates a new instance of CarritoController
@@ -67,6 +71,14 @@ public class CarritoFE implements Serializable {
         this.aceptaPolitica = aceptaPolitica;
     }
 
+    public DireccionCliente getDireccionSeleccionada() {
+        return direccionSeleccionada;
+    }
+
+    public void setDireccionSeleccionada(DireccionCliente direccionSeleccionada) {
+        this.direccionSeleccionada = direccionSeleccionada;
+    }
+
     //********************************************
     // METODOS DE ACCIÓN
     //********************************************
@@ -91,6 +103,15 @@ public class CarritoFE implements Serializable {
     public String doProcesarCarritoFrom() {
         this.aceptaPolitica = null;
         return "/frontend/carrito/ProcesarCarrito";
+    }
+
+    public String doProcesarDatosPago() {
+        if (this.direccionSeleccionada == null) {
+            JSFutil.addErrorMessage("Debe seleccionar una dirección para el proceso de envío");
+            return "";
+        }
+
+        return "/frontend/carrito/ProcesarDatosPago";
     }
 
     @PostConstruct
@@ -138,17 +159,22 @@ public class CarritoFE implements Serializable {
                     return "carrito";
                 }
             case "entrega":
-                if (this.aceptaPolitica.compareTo(Boolean.FALSE)==0 && event.getNewStep().toLowerCase().compareTo("pago")==0){
+                if (this.aceptaPolitica.compareTo(Boolean.FALSE) == 0 && event.getNewStep().toLowerCase().compareTo("pago") == 0) {
                     JSFutil.addErrorMessage("Debe aceptar las políticas de privacidad");
                     return "entrega";
-                }else{
+                } else {
                     return event.getNewStep();
                 }
             case "pago":
-                    return event.getNewStep();
+                return event.getNewStep();
             default:
                 JSFutil.addErrorMessage("El Asistente no se ha inicializado correctamente");
                 return "";
         }
+    }
+
+    public void onRowSelect(SelectEvent event) {      
+        this.direccionSeleccionada = (DireccionCliente) event.getObject();
+        System.out.println("Seleccionado: "+this.direccionSeleccionada.getIdDireccion().getCalle());
     }
 }

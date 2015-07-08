@@ -29,6 +29,7 @@ public class LoginManager implements Serializable {
 
     @Inject
     UsuarioDAO usuarioDAO;
+
     private final String USER_SESSION_KEY = "user";
     private String cuenta;
     private String contrasenha;
@@ -159,6 +160,30 @@ public class LoginManager implements Serializable {
         }
     }
 
+    public String doLoginTienda() {
+        try {
+            Usuario usuario = usuarioDAO.getUsuario(cuenta);
+            if (usuario != null && usuario.getEsActivo() && this.puedeLogearse(usuario)) {
+                if (JSFutil.checkSecurePassword(this.contrasenha, usuario.getContrasenha())) {
+                    JSFutil.addSuccessMessage("Acceso concedido");
+                    JSFutil.putSessionVariable(USER_SESSION_KEY, usuario);
+                    return "";
+                } else {
+                    this.intento++;
+                    JSFutil.addErrorMessage("Acceso incorrecto!... credenciales no válidas.");
+                    return "";
+                }
+            } else {
+                this.intento++;
+                JSFutil.addErrorMessage("Acceso incorrecto!... Usuario '" + cuenta + "' no existe o se encuentra deshabilitado.");
+                return "";
+            }
+        } catch (Exception e) {
+            this.intento++;
+            return "";
+        }
+    }
+
     private Boolean puedeLogearse(Usuario u) {
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         String ip = JSFutil.getClientIpAddr(request);
@@ -183,7 +208,13 @@ public class LoginManager implements Serializable {
         if (session != null) {
             session.invalidate();
         }
-        return "/frontend/index";
+        return "/frontend/index2";
+    }
+
+    public String doLogoutTienda() {
+        JSFutil.removeSessionVariable(this.USER_SESSION_KEY);
+        JSFutil.addSuccessMessage("Ha cerrado exitosamente la sesión");
+        return "/frontend/index2";
     }
 
     /**
@@ -262,6 +293,6 @@ public class LoginManager implements Serializable {
     public void init() {
         this.cuenta = "jm";
         this.contrasenha = "123456789";
-        this.doLogin();
+        //this.doLogin();
     }
 }
