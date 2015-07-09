@@ -10,6 +10,8 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -31,10 +33,11 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "MetodoPagoCliente.findAll", query = "SELECT m FROM MetodoPagoCliente m")})
 public class MetodoPagoCliente implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "ID_METODO_PAGO_CLIENTE")
     private Integer idMetodoPagoCliente;
     @JoinColumn(name = "ID_METODO_PAGO", referencedColumnName = "ID_SUB_TIPO")
@@ -45,6 +48,9 @@ public class MetodoPagoCliente implements Serializable {
     private Cliente idCliente;
     @OneToMany(mappedBy = "idMetodoPagoCliente")
     private List<Pago> pagoList;
+    @JoinColumn(name = "ID_TARJETA_CREDITO", referencedColumnName = "ID_TARJETA_CREDITO")
+    @ManyToOne
+    private TarjetaCredito idTarjetaCredito;
 
     public MetodoPagoCliente() {
     }
@@ -110,5 +116,13 @@ public class MetodoPagoCliente implements Serializable {
     public String toString() {
         return "quickstore.ejb.entity.MetodoPagoCliente[ idMetodoPagoCliente=" + idMetodoPagoCliente + " ]";
     }
-    
+
+    public TarjetaCredito getIdTarjetaCredito() {
+        return idTarjetaCredito;
+    }
+
+    public void setIdTarjetaCredito(TarjetaCredito idTarjetaCredito) {
+        this.idTarjetaCredito = idTarjetaCredito;
+    }
+
 }

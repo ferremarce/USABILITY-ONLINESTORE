@@ -162,7 +162,7 @@ public class ArticuloFE implements Serializable {
 
     public String doVerDetalleArticulo(Articulo u) {
         this.articulo = u;
-        this.listaAdjuntoArticulo = u.getArticuloAdjuntoList();
+        this.listaAdjuntoArticulo = articuloAdjuntoDAO.findAllbyArticulo(u.getIdArticulo());
         return "/frontend/articulo/VerDetalleArticulo";
     }
 
@@ -175,6 +175,30 @@ public class ArticuloFE implements Serializable {
      * @return
      */
     public StreamedContent imagenToDisplayFromId() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        String id = context.getExternalContext().getRequestParameterMap().get("id");
+        if (context.getCurrentPhaseId() == PhaseId.RENDER_RESPONSE) {
+            // So, we're rendering the HTML. Return a stub StreamedContent so that it will generate right URL.
+            return new DefaultStreamedContent();
+        } else {
+            Articulo a = articuloDAO.find(Integer.parseInt(id));
+            List<ArticuloAdjunto> listaAdj = articuloAdjuntoDAO.findAllbyArticulo(a.getIdArticulo());
+            ArticuloAdjunto adj=null;
+            if (!listaAdj.isEmpty()){
+                adj=listaAdj.get(0);
+            }
+            StreamedContent file;
+            if (adj != null) {
+                InputStream stream = new ByteArrayInputStream(adj.getArchivo());
+                file = new DefaultStreamedContent(stream, adj.getTipoArchivo(), adj.getNombreArchivo());
+            } else {
+                file = new DefaultStreamedContent();
+            }
+            return file;
+        }
+    }
+
+    public StreamedContent imagenToDisplayIdAdjunto() {
         FacesContext context = FacesContext.getCurrentInstance();
         String id = context.getExternalContext().getRequestParameterMap().get("id");
         if (context.getCurrentPhaseId() == PhaseId.RENDER_RESPONSE) {

@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <h1 class="ui-state-default ui-corner-all">
+            <h:outputText value="Datos de Pago"/>
+        </h1>
+        <h:form id="formPago">
+            <p:ajax global="false" event="click" update="#{sistema.form_update}," listener="#{ClickCounter.increment()}"/>
+            <ui:include src="/ajax.xhtml"/>
+            <p:panel rendered="#{ClienteLoginManager.clienteLogeado!=null}" header="Datos de Pago">
+                <h:outputText style="font-size: 25px !important; font-weight: bold"  value="#{ClienteLoginManager.clienteLogeado.nombre} #{ClienteLoginManager.clienteLogeado.apellido}" title="Cliente"/>
+                <p:dataTable id="dataTableDireccionCliente" value="#{ClienteController.doListaTarjetaCliente()}" var="metodo" selectionMode="single" selection="#{CarritoFE.metodoPagoClienteSeleccionado}" rowKey="#{metodo.idMetodoPagoCliente}">                       
+                    <f:facet name="header">
+                        <h:outputText value="Seleccione una de las Tarjetas para el Pago"/>
+                    </f:facet>
+                    <p:ajax event="rowSelect" listener="#{CarritoFE.onRowSelectTarjeta}"/>
+                    <p:column headerText="Número">
+                        <h:outputText value="#{metodo.idTarjetaCredito.numeroTarjeta}"/>
+                    </p:column>
+                    <p:column headerText="Caducidad">
+                        <h:outputText value="#{metodo.idTarjetaCredito.mesCaducidad}/#{metodo.idTarjetaCredito.anhoCaducidad}"/>
+                    </p:column>
+                    <p:column headerText="Titular">
+                        <h:outputText value="#{metodo.idTarjetaCredito.titular}"/>
+                    </p:column>
+                </p:dataTable>
+                <p:commandButton value="#{bundle.AgregarBoton}" update=":formMetodoPago:panelMetodoPago" oncomplete="PF('dlgMetodoPago').show();" action="#{CarritoFE.doCrearMetodoPagoForm()}" />
+            </p:panel>
+        </h:form>
+        <p:dialog header="Agregar tarjeta" widgetVar="dlgMetodoPago"  >
+            <h:form id="formMetodoPago">
+                <p:panelGrid id="panelMetodoPago" columns="3">
+                    <p:outputLabel value="Número Tarjeta:" for="numeroTarjeta" />
+                    <p:inputText id="numeroTarjeta" value="#{CarritoFE.tarjetaCredito.numeroTarjeta}" title="NumeroTarjeta" />
+                    <p:message for="numeroTarjeta"/>
+                    <p:outputLabel value="Titular:" for="titular" />
+                    <p:inputText id="titular" value="#{CarritoFE.tarjetaCredito.titular}" title="Titular" />
+                    <p:message for="titular"/>
+                    <p:outputLabel value="Mes:" for="mesCaducidad" />
+                    <p:inputText id="mesCaducidad" value="#{CarritoFE.tarjetaCredito.mesCaducidad}" title="MesCaducidad" />
+                    <p:message for="mesCaducidad"/>
+                    <p:outputLabel value="Año:" for="anhoCaducidad" />
+                    <p:inputText id="anhoCaducidad" value="#{CarritoFE.tarjetaCredito.anhoCaducidad}" title="AnhoCaducidad" />
+                    <p:message for="anhoCaducidad"/>
+                    <p:outputLabel value="Código CVV:" for="codigoCvv" />
+                    <p:inputText id="codigoCvv" value="#{CarritoFE.tarjetaCredito.codigoCvv}" title="CodigoCvv" />
+                    <p:message for="codigoCvv"/>
+                </p:panelGrid>
+                <p:commandButton value="#{bundle.GuardarBoton}" update=":formPago" action="#{CarritoFE.doGuardarMetodoPago()}"/>
+                <p:commandButton value="#{bundle.CancelarBoton}" type="button" onclick="PF('dlgMetodoPago').hide();" />
+            </h:form>
+        </p:dialog>
+
+        <h:form id="formAccionEntrega">
+            <p:panel id="panelAccion">
+                <p:commandButton immediate="true" ajax="false" iconPos="left" icon="ui-icon-circle-arrow-w" value="#{bundle.AtrasBoton}" action="#{ClienteController.doProcesarDatosEntrega()}"/>
+                <p:commandButton disabled="#{ClienteLoginManager.clienteLogeado==null}" ajax="false" iconPos="right" icon="ui-icon-circle-arrow-e" value="#{bundle.SiguienteBoton}" action="#{CarritoFE.doProcesarResumenForm()}"/>
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>

@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import javax.inject.Inject;
 import quickstore.ejb.entity.Cliente;
 import quickstore.ejb.facade.ClienteDAO;
+import quickstore.frontend.CarritoFE;
 import quickstore.util.JSFutil;
 
 /**
@@ -33,6 +34,8 @@ public class ClienteLoginManager implements Serializable {
 
     @Inject
     private ClienteDAO clienteDAO;
+    @Inject
+    private CarritoFE carritoFE;
     private String cuenta;
     private String contrasenha;
     private String contrasenha2;
@@ -84,6 +87,7 @@ public class ClienteLoginManager implements Serializable {
     //********************************************
     public String doLoginTienda() {
         try {
+            this.carritoFE.setDireccionSeleccionada(null);
             Cliente c = clienteDAO.getCliente(this.cuenta);
             if (c != null) {
                 if (JSFutil.checkSecurePassword(this.contrasenha, c.getContrasenha())) {
@@ -116,8 +120,8 @@ public class ClienteLoginManager implements Serializable {
     public Cliente getClienteLogeado() {
         return JSFutil.getClienteConectado();
     }
-    
-     public String doCambiarContrasenhaForm() {
+
+    public String doCambiarContrasenhaForm() {
         this.contrasenha = "";
         this.contrasenha2 = "";
         return "/frontend/registro/CambiarContrasenha";
@@ -143,9 +147,8 @@ public class ClienteLoginManager implements Serializable {
         }
         return "";
     }
-    
+
 //********************************************
 // METODOS DEL LISTENER
 //********************************************
-
 }

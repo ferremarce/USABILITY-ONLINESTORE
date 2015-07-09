@@ -23,8 +23,8 @@
                         <h:outputText value="Artículo"/>
                     </f:facet>
                     <h:panelGrid rendered="#{item.idArticulo!=null}" styleClass="panelNoBorder" columns="3">                                        
-                        <p:graphicImage styleClass="texto-centrado" rendered="#{item.idArticulo.articuloAdjuntoList.size()>0}" width="150" height="150" value="#{ArticuloFE.imagenToDisplayFromId()}" cache="false" >
-                            <f:param name="id" value="#{item.idArticulo.articuloAdjuntoList.get(0).idArchivoAdjunto}" />
+                        <p:graphicImage styleClass="texto-centrado" width="150" height="150" value="#{ArticuloFE.imagenToDisplayFromId()}" cache="false" >
+                            <f:param name="id" value="#{item.idArticulo.idArticulo}" />
                         </p:graphicImage>
                         <h:panelGrid>
                             <h:outputText value="#{item.idArticulo.nombreArticulo}"/>
@@ -79,7 +79,7 @@
                 </p:columnGroup>
             </p:dataTable>
             <p:panel>
-                <p:commandButton disabled="#{CarritoFE.listaOrdenCarrito.size()==0}" ajax="false" iconPos="right" icon="ui-icon-circle-arrow-e" value="#{bundle.SiguienteBoton}" action="#{ClienteController.doProcesarDatosEntrega()}"/>
+                <p:commandButton disabled="#{CarritoFE.listaOrdenCarrito.size()==0}" ajax="false" iconPos="right" icon="ui-icon-circle-arrow-e" value="#{bundle.SiguienteBoton}" action="#{CarritoFE.doProcesarDatosEntrega()}"/>
             </p:panel>
         </h:form>
     </ui:define>

@@ -17,9 +17,11 @@ import javax.inject.Inject;
 import quickstore.ejb.entity.Cliente;
 import quickstore.ejb.entity.Direccion;
 import quickstore.ejb.entity.DireccionCliente;
+import quickstore.ejb.entity.MetodoPagoCliente;
 import quickstore.ejb.facade.ClienteDAO;
 import quickstore.ejb.facade.DireccionClienteDAO;
 import quickstore.ejb.facade.DireccionDAO;
+import quickstore.ejb.facade.MetodoPagoClienteDAO;
 import quickstore.util.JSFutil;
 import quickstore.util.JSFutil.PersistAction;
 
@@ -36,7 +38,6 @@ public class ClienteController implements Serializable {
      */
     private static final Logger LOG = Logger.getLogger(ClienteLoginManager.class.getName());
     ResourceBundle bundle = ResourceBundle.getBundle("quickstore.properties.bundle", JSFutil.getmyLocale());
-    private final String USER_SESSION_KEY = "cliente";
 
     @Inject
     private ClienteDAO clienteDAO;
@@ -46,9 +47,11 @@ public class ClienteController implements Serializable {
     private DireccionClienteDAO direccionClienteDAO;
     @Inject
     private ClienteLoginManager clienteLoginManager;
+    @Inject
+    private MetodoPagoClienteDAO metodoPagoClienteDAO;
+    
     private Cliente cliente;
     private List<Cliente> listaCliente;
-    private Boolean estoyDeAcuerdo;
     private Direccion direccion;
     private List<DireccionCliente> listaDireccionCliente;
 
@@ -69,14 +72,6 @@ public class ClienteController implements Serializable {
         this.cliente = cliente;
     }
 
-    public Boolean getEstoyDeAcuerdo() {
-        return estoyDeAcuerdo;
-    }
-
-    public void setEstoyDeAcuerdo(Boolean estoyDeAcuerdo) {
-        this.estoyDeAcuerdo = estoyDeAcuerdo;
-    }
-
     public Direccion getDireccion() {
         return direccion;
     }
@@ -88,25 +83,10 @@ public class ClienteController implements Serializable {
     //********************************************
     // METODOS DE ACCIÓN
     //********************************************
-    public String verificarCorreoExistente() {
-        if (clienteDAO.getCliente(this.cliente.getEmail()) != null) {
-            String msg = " El mail ya ha sido registrado";
-            return msg;
-        } else {
-            return "";
-        }
-    }
+    
+    
 
-    public String doProcesarDatosEntrega() {
-        if (JSFutil.getClienteConectado() == null) {
-            this.cliente = new Cliente();
-            this.direccion = new Direccion();
-        } else {
-            this.cliente = JSFutil.getClienteConectado();
-        }
-        return "/frontend/carrito/ProcesarDatosEntrega";
-    }
-
+    
     /**
      * Guardar un registro
      *
@@ -121,27 +101,7 @@ public class ClienteController implements Serializable {
         return "";
     }
 
-    public void doGuardarDireccion() {
-        try {
-            direccionDAO.create(direccion);
-            DireccionCliente dc = new DireccionCliente();
-            dc.setIdCliente(JSFutil.getClienteConectado());
-            dc.setIdDireccion(direccion);
-            direccionClienteDAO.create(dc);
-            JSFutil.addSuccessMessage(this.bundle.getString("UpdateSuccess"));
-        } catch (EJBException ex) {
-            String msg = "";
-            Throwable cause = ex.getCause();
-            if (cause != null) {
-                msg = cause.getLocalizedMessage();
-            }
-            if (msg.length() > 0) {
-                JSFutil.addErrorMessage(msg);
-            } else {
-                JSFutil.addErrorMessage(ex, this.bundle.getString("UpdateError"));
-            }
-        }
-    }
+    
 
     private void persist(PersistAction persistAction) {
         try {
@@ -184,9 +144,10 @@ public class ClienteController implements Serializable {
 // METODOS DEL LISTENER
 //********************************************
 
-    public List<DireccionCliente> doListaDireccionCliente() {
+    
+    public List<MetodoPagoCliente> doListaTarjetaCliente() {
         if (JSFutil.getClienteConectado() != null) {
-            return direccionClienteDAO.getAllDireccionCliente(JSFutil.getClienteConectado().getIdCliente());
+            return metodoPagoClienteDAO.findAll();
         } else {
             return new ArrayList<>();
         }

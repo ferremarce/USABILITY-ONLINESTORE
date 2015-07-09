@@ -35,6 +35,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Articulo.findAll", query = "SELECT a FROM Articulo a")})
 public class Articulo implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,6 +51,9 @@ public class Articulo implements Serializable {
     @Size(max = 255)
     @Column(name = "NOMBRE_ARTICULO")
     private String nombreArticulo;
+    @Size(max = 255)
+    @Column(name = "BREVE_DESCRIPCION")
+    private String breveDescripcion;
     @Column(name = "PORCENTAJE_DESCUENTO")
     private Integer porcentajeDescuento;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -58,7 +62,7 @@ public class Articulo implements Serializable {
     @JoinColumn(name = "ID_CATEGORIA", referencedColumnName = "ID_SUB_TIPO")
     @ManyToOne
     private SubTipo idCategoria;
-    @OneToMany(mappedBy = "idArticulo", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idArticulo")
     private List<ArticuloAdjunto> articuloAdjuntoList;
     @OneToMany(mappedBy = "idArticulo")
     private List<OrdenCarrito> ordenCarritoList;
@@ -128,6 +132,14 @@ public class Articulo implements Serializable {
         this.idCategoria = idCategoria;
     }
 
+    public String getBreveDescripcion() {
+        return breveDescripcion;
+    }
+
+    public void setBreveDescripcion(String breveDescripcion) {
+        this.breveDescripcion = breveDescripcion;
+    }
+
     @XmlTransient
     public List<ArticuloAdjunto> getArticuloAdjuntoList() {
         return articuloAdjuntoList;
@@ -179,5 +191,5 @@ public class Articulo implements Serializable {
     public String toString() {
         return "quickstore.ejb.entity.Articulo_1[ idArticulo=" + idArticulo + " ]";
     }
-    
+
 }

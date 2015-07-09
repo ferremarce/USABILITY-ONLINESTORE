@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <h1 class="ui-state-default ui-corner-all">
+            <p:graphicImage width="50" height="50" rendered="#{CarritoFE.listaOrdenCarrito.size()>0}" value="/icono/cart.gif"/>                                   
+            <h:outputText value="Resumen de Compra"/>
+        </h1>
+        <h:form>
+            <p:ajax global="false" event="click" update="#{sistema.form_update}," listener="#{ClickCounter.increment()}"/>
+            <ui:include src="/ajax.xhtml"/>
+            <p:panel header="Artículos en Carrito">
+                <p:dataList value="#{CarritoFE.listaOrdenCarrito}" var="item" emptyMessage="#{bundle.SinRegistrosMensaje}" >
+                    <h:outputText value="#{item.idArticulo.nombreArticulo}"/>
+                    <h:outputText value="Cantidad: #{item.cantidad} x "/>
+                    <h:outputText style="color: green !important" value="#{CarritoFE.calcularPrecioFinal(item.idArticulo)}">
+                        <f:convertNumber currencySymbol="USD " type="currency"/>
+                    </h:outputText>
+                </p:dataList>
+                <f:facet name="footer">
+                    <h:outputText style="font-size: 1.3em !important" value="Total (impuestos incluídos): "/>
+                    <h:outputText id="totalCarrito" style="font-size: 1.8em !important" value="#{CarritoFE.calcularTotal()}">
+                        <f:convertNumber currencySymbol="USD " type="currency"/>
+                    </h:outputText>
+                </f:facet>
+            </p:panel>
+            <h:panelGrid width="100%" rowClasses="top" columns="2">
+                <p:panel header="Datos de Entrega">
+                    <p:panelGrid columns="2">
+                        <h:outputText value="Calle:"/>
+                        <h:outputText value="#{CarritoFE.direccionSeleccionada.idDireccion.calle}" title="Calle"/>
+                        <h:outputText value="CasillaCorreo:"/>
+                        <h:outputText value="#{CarritoFE.direccionSeleccionada.idDireccion.casillaCorreo}" title="CasillaCorreo"/>
+                        <h:outputText value="Ciudad:"/>
+                        <h:outputText value="#{CarritoFE.direccionSeleccionada.idDireccion.ciudad}" title="Ciudad"/>
+                        <h:outputText value="Edificio:"/>
+                        <h:outputText value="#{CarritoFE.direccionSeleccionada.idDireccion.edificio}" title="Edificio"/>
+                        <h:outputText value="Localidad:"/>
+                        <h:outputText value="#{CarritoFE.direccionSeleccionada.idDireccion.localidad}" title="Localidad"/>
+                        <h:outputText value="Observacion:"/>
+                        <h:outputText value="#{CarritoFE.direccionSeleccionada.idDireccion.observacion}" title="Observacion"/>
+                    </p:panelGrid>
+                </p:panel>
+                <p:panel header="Datos de Pago">
+                    <p:panelGrid columns="2">
+                        <h:outputText value="NumeroTarjeta:"/>
+                        <h:outputText value="#{CarritoFE.metodoPagoClienteSeleccionado.idTarjetaCredito.numeroTarjeta}" title="NumeroTarjeta"/>
+                        <h:outputText value="Titular:"/>
+                        <h:outputText value="#{CarritoFE.metodoPagoClienteSeleccionado.idTarjetaCredito.titular}" title="Titular"/>
+                        <h:outputText value="MesCaducidad:"/>
+                        <h:outputText value="#{CarritoFE.metodoPagoClienteSeleccionado.idTarjetaCredito.mesCaducidad}" title="MesCaducidad"/>
+                        <h:outputText value="AnhoCaducidad:"/>
+                        <h:outputText value="#{CarritoFE.metodoPagoClienteSeleccionado.idTarjetaCredito.anhoCaducidad}" title="AnhoCaducidad"/>
+                    </p:panelGrid>
+                </p:panel>
+            </h:panelGrid>
+            <p:panel id="panelAccion">
+                <p:commandButton immediate="true" ajax="false"  icon="ui-icon-closethick" value="#{bundle.CancelarBoton}" action="#{CarritoFE.doCancelarCarrito()}"/>
+                <p:commandButton disabled="#{ClienteLoginManager.clienteLogeado==null}" ajax="false" icon="ui-icon-circle-triangle-s" value="#{bundle.FinalizarBoton}" action="#{CarritoFE.doProcesarResumenForm()}"/>
+            </p:panel>
+
+        </h:form>
+    </ui:define>
+</ui:composition>

@@ -32,23 +32,24 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "ArticuloAdjunto.findAll", query = "SELECT a FROM ArticuloAdjunto a")})
 public class ArticuloAdjunto implements Serializable {
+
+    @Lob
+    @Column(name = "ARCHIVO")
+    private byte[] archivo;
+    @Column(name = "TAMANHO_ARCHIVO")
+    private long tamanhoArchivo;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID_ARCHIVO_ADJUNTO")
     private Integer idArchivoAdjunto;
-    @Lob
-    @Column(name = "ARCHIVO")
-    private byte[] archivo;
     @Size(max = 255)
     @Column(name = "DESCRIPCION")
     private String descripcion;
     @Size(max = 255)
     @Column(name = "NOMBRE_ARCHIVO")
     private String nombreArchivo;
-    @Column(name = "TAMANHO_ARCHIVO")
-    private long tamanhoArchivo;
     @Size(max = 255)
     @Column(name = "TIPO_ARCHIVO")
     private String tipoArchivo;
@@ -72,14 +73,6 @@ public class ArticuloAdjunto implements Serializable {
 
     public void setIdArchivoAdjunto(Integer idArchivoAdjunto) {
         this.idArchivoAdjunto = idArchivoAdjunto;
-    }
-
-    public byte[] getArchivo() {
-        return archivo;
-    }
-
-    public void setArchivo(byte[] archivo) {
-        this.archivo = archivo;
     }
 
     public String getDescripcion() {
@@ -154,5 +147,14 @@ public class ArticuloAdjunto implements Serializable {
     public String toString() {
         return "quickstore.ejb.entity.ArticuloAdjunto_1[ idArchivoAdjunto=" + idArchivoAdjunto + " ]";
     }
-    
+
+    public byte[] getArchivo() {
+        return archivo;
+    }
+
+    public void setArchivo(byte[] archivo) {
+        this.archivo = archivo;
+    }
+
+
 }

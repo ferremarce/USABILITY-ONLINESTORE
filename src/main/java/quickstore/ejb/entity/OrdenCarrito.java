@@ -30,14 +30,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "OrdenCarrito.findAll", query = "SELECT o FROM OrdenCarrito o")})
 public class OrdenCarrito implements Serializable {
+    @Column(name = "CANTIDAD")
+    private Integer cantidad;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID_ORDEN_CARRITO")
     private Integer idOrdenCarrito;
-    @Column(name = "CANTIDAD")
-    private Integer cantidad;
     @Size(max = 255)
     @Column(name = "COMENTARIO")
     private String comentario;
@@ -63,13 +63,6 @@ public class OrdenCarrito implements Serializable {
         this.idOrdenCarrito = idOrdenCarrito;
     }
 
-    public Integer getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(Integer cantidad) {
-        this.cantidad = cantidad;
-    }
 
     public String getComentario() {
         return comentario;
@@ -118,6 +111,14 @@ public class OrdenCarrito implements Serializable {
     @Override
     public String toString() {
         return "quickstore.ejb.entity.OrdenCarrito[ idOrdenCarrito=" + idOrdenCarrito + " ]";
+    }
+
+    public Integer getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(Integer cantidad) {
+        this.cantidad = cantidad;
     }
     
 }

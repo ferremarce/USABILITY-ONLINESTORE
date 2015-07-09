@@ -37,7 +37,7 @@
                 </h:panelGrid>
                 <h:panelGrid>
                     <p:galleria value="#{ArticuloFE.listaAdjuntoArticulo}"  var="adjunto" frameHeight="70" showCaption="true" >
-                        <p:graphicImage width="500" height="400" value="#{ArticuloFE.imagenToDisplayFromId()}" alt="" title="" cache="false" >
+                        <p:graphicImage width="500" height="400" value="#{ArticuloFE.imagenToDisplayIdAdjunto()}" alt="" title="" cache="false" >
                             <f:param name="id" value="#{adjunto.idArchivoAdjunto}" />
                         </p:graphicImage>
                     </p:galleria>

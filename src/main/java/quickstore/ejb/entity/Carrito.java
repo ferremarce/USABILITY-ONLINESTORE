@@ -31,6 +31,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Carrito.findAll", query = "SELECT c FROM Carrito c")})
 public class Carrito implements Serializable {
+    @OneToMany(mappedBy = "idCarrito")
+    private List<Pago> pagoList;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -39,8 +41,6 @@ public class Carrito implements Serializable {
     private Integer idCarrito;
     @Column(name = "ESTADO_CARRITO")
     private Integer estadoCarrito;
-    @OneToMany(mappedBy = "idCarrito")
-    private List<Envio> envioList;
     @OneToMany(mappedBy = "idCarrito")
     private List<OrdenCarrito> ordenCarritoList;
     @JoinColumn(name = "ID_CLIENTE", referencedColumnName = "ID_CLIENTE")
@@ -68,15 +68,6 @@ public class Carrito implements Serializable {
 
     public void setEstadoCarrito(Integer estadoCarrito) {
         this.estadoCarrito = estadoCarrito;
-    }
-
-    @XmlTransient
-    public List<Envio> getEnvioList() {
-        return envioList;
-    }
-
-    public void setEnvioList(List<Envio> envioList) {
-        this.envioList = envioList;
     }
 
     @XmlTransient
@@ -120,5 +111,16 @@ public class Carrito implements Serializable {
     public String toString() {
         return "quickstore.ejb.entity.Carrito[ idCarrito=" + idCarrito + " ]";
     }
+
+    @XmlTransient
+    public List<Pago> getPagoList() {
+        return pagoList;
+    }
+
+    public void setPagoList(List<Pago> pagoList) {
+        this.pagoList = pagoList;
+    }
+
+   
     
 }

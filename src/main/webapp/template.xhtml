@@ -10,7 +10,7 @@
             <f:facet name="first">
                 <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
                 <h:outputStylesheet name="./css/default.css"/>
-                        <link rel="icon" type="image/x-icon" href="#{request.contextPath}/img/favicon.ico"/>
+                <link rel="icon" type="image/x-icon" href="#{request.contextPath}/img/favicon.ico"/>
                 <title>QUICKSTORE</title>
             </f:facet>
         </h:head>
@@ -18,7 +18,10 @@
         <h:body>
             <p:layout fullPage="true">
                 <p:ajax event="toggle" listener="#{LoginManager.doToggleHandler}"/>
-                <p:layoutUnit id="admin" rendered="false" position="west" size="250" header="Administración" collapsed="#{LoginManager.adminCollapse}" collapsible="true">
+                <p:layoutUnit id="admin" rendered="#{LoginManager.usuarioLogeado!=null}" position="west" size="250" header="Administración" collapsed="#{LoginManager.adminCollapse}" collapsible="true">
+                    <f:metadata>
+                        <f:event type="preRenderView" listener="#{MenuController.init()}"/>
+                    </f:metadata>
                     <h:form>
                         <p:ajax global="false" event="click" update=":formMetrica" listener="#{ClickCounter.increment()}"/>
                         <p:menu style="width: 90%" model="#{MenuController.model}"/>
@@ -87,7 +90,7 @@
                             </p:panel>
                         </h:form>
                         <h:form>
-                             <p:ajax global="false" event="click" update="#{sistema.form_update}," listener="#{ClickCounter.increment()}"/>
+                            <p:ajax global="false" event="click" update="#{sistema.form_update}," listener="#{ClickCounter.increment()}"/>
                             <p:toolbar>
                                 <f:facet name="left">
                                     <h:panelGrid columns="2">

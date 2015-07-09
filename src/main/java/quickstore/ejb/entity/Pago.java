@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "QS_PAGO")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Pago.findAll", query = "SELECT p FROM Pago p")})
+    @NamedQuery(name = "Pago.findAll", query = "SELECT q FROM Pago q")})
 public class Pago implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -37,9 +37,9 @@ public class Pago implements Serializable {
     @JoinColumn(name = "ID_METODO_PAGO_CLIENTE", referencedColumnName = "ID_METODO_PAGO_CLIENTE")
     @ManyToOne
     private MetodoPagoCliente idMetodoPagoCliente;
-    @JoinColumn(name = "ID_FACTURA", referencedColumnName = "ID_FACTURA")
+    @JoinColumn(name = "ID_CARRITO", referencedColumnName = "ID_CARRITO")
     @ManyToOne
-    private Factura idFactura;
+    private Carrito idCarrito;
 
     public Pago() {
     }
@@ -64,12 +64,12 @@ public class Pago implements Serializable {
         this.idMetodoPagoCliente = idMetodoPagoCliente;
     }
 
-    public Factura getIdFactura() {
-        return idFactura;
+    public Carrito getIdCarrito() {
+        return idCarrito;
     }
 
-    public void setIdFactura(Factura idFactura) {
-        this.idFactura = idFactura;
+    public void setIdCarrito(Carrito idCarrito) {
+        this.idCarrito = idCarrito;
     }
 
     @Override

@@ -16,6 +16,9 @@
                 <p:outputLabel value="Nombre:" for="nombreArticulo" />
                 <p:inputText size="50" id="nombreArticulo" value="#{ArticuloController.articulo.nombreArticulo}" title="Nombre Artículo" />
                 <p:separator/>
+                <p:outputLabel value="Información:" for="informacion" />
+                <p:inputTextarea cols="50" maxlength="255" id="informacion" value="#{ArticuloController.articulo.breveDescripcion}" title="Breve Descripción" />
+                <p:separator/>
                 <p:outputLabel value="Categoría:" for="idCategoria" />
                 <p:selectOneMenu id="idCategoria" converter="SubTipoConverter" value="#{ArticuloController.articulo.idCategoria}" >
                     <!-- TODO: update below reference to list of available items-->

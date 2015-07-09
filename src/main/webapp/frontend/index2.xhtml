@@ -25,8 +25,8 @@
                                         <f:facet name="header">
                                             <h:outputText styleClass="titulo2" value="#{articulo.nombreArticulo}"/>
                                         </f:facet>
-                                        <p:graphicImage styleClass="texto-centrado" rendered="#{articulo.articuloAdjuntoList.size()>0}" width="150" height="150" value="#{ArticuloFE.imagenToDisplayFromId()}" cache="false" >
-                                            <f:param name="id" value="#{articulo.articuloAdjuntoList.get(0).idArchivoAdjunto}" />
+                                        <p:graphicImage styleClass="texto-centrado" width="150" height="150" value="#{ArticuloFE.imagenToDisplayFromId()}" cache="false" >
+                                            <f:param name="id" value="#{articulo.idArticulo}" />
                                         </p:graphicImage>
                                         <br/>
                                         <h:outputText styleClass="#{articulo.esPromocion?'texto-tachado':'texto-no-tachado'}" value="#{articulo.precio}">
@@ -38,6 +38,8 @@
                                             </h:outputText><br/>
                                             <h:outputText rendered="#{articulo.esPromocion}" style="color: #000066;font-weight: bold;text-align: right" value="#{articulo.porcentajeDescuento}% OFF "/>
                                         </p:panel>
+                                        <br/>
+                                        <h:outputText value="#{articulo.breveDescripcion}"/>
                                         <f:facet name="footer">
                                             <p:commandButton ajax="false"  icon="ui-icon-zoomin" value="#{bundle.ComprarBoton}" action="#{ArticuloFE.doVerDetalleArticulo(articulo)}"/>
                                         </f:facet>
