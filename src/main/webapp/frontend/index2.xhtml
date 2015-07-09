@@ -15,41 +15,35 @@
             <ui:include src="/ajax.xhtml"/>
             <p:growl life="5000" globalOnly="true" id="messages"/>
             <p:messages/>
-            <h:panelGrid id="panelTableArticulo">
-                <div class="ui-grid ui-grid-responsive">
-                    <div class="ui-grid-row">
-                        <ui:repeat id="dataTableArticulo" value="#{ArticuloFE.listaArticulo}" var="articulo"> 
-                            <div class="ui-grid-col-4">
-                                <h:panelGrid styleClass="texto-centrado">
-                                    <p:panel>
-                                        <f:facet name="header">
-                                            <h:outputText styleClass="titulo2" value="#{articulo.nombreArticulo}"/>
-                                        </f:facet>
-                                        <p:graphicImage styleClass="texto-centrado" width="150" height="150" value="#{ArticuloFE.imagenToDisplayFromId()}" cache="false" >
-                                            <f:param name="id" value="#{articulo.idArticulo}" />
-                                        </p:graphicImage>
-                                        <br/>
-                                        <h:outputText styleClass="#{articulo.esPromocion?'texto-tachado':'texto-no-tachado'}" value="#{articulo.precio}">
-                                            <f:convertNumber currencySymbol="USD " type="currency"/>
-                                        </h:outputText>
-                                        <p:panel rendered="#{articulo.esPromocion}">
-                                            <h:outputText styleClass="texto-promocion" value="#{CarritoFE.calcularPrecioFinal(articulo)}">
-                                                <f:convertNumber currencySymbol="USD " type="currency"/>
-                                            </h:outputText><br/>
-                                            <h:outputText rendered="#{articulo.esPromocion}" style="color: #000066;font-weight: bold;text-align: right" value="#{articulo.porcentajeDescuento}% OFF "/>
-                                        </p:panel>
-                                        <br/>
-                                        <h:outputText value="#{articulo.breveDescripcion}"/>
-                                        <f:facet name="footer">
-                                            <p:commandButton ajax="false"  icon="ui-icon-zoomin" value="#{bundle.ComprarBoton}" action="#{ArticuloFE.doVerDetalleArticulo(articulo)}"/>
-                                        </f:facet>
-                                    </p:panel>
-                                </h:panelGrid>
-                            </div>
-                        </ui:repeat>
-                    </div>
-                </div>
-            </h:panelGrid>
+            <p:dataGrid var="articulo" value="#{ArticuloFE.listaArticulo}" columns="3" layout="grid">
+                <h:panelGrid  styleClass="texto-centrado">
+                    <p:panel style="#{ArticuloFE.listaArticulo.size()>1?'':'width: 300px'}">
+                        <f:facet name="header">
+                            <h:outputText styleClass="titulo2" value="#{articulo.nombreArticulo}"/>
+                        </f:facet>
+                        <p:graphicImage styleClass="texto-centrado" width="150" height="150" value="#{ArticuloFE.imagenToDisplayFromId()}" cache="false" >
+                            <f:param name="id" value="#{articulo.idArticulo}" />
+                        </p:graphicImage>
+                        <br/>
+                        <h:outputText styleClass="#{articulo.esPromocion?'texto-tachado':'texto-no-tachado'}" value="#{articulo.precio}">
+                            <f:convertNumber currencySymbol="USD " type="currency"/>
+                        </h:outputText>
+                        <p:panel rendered="#{articulo.esPromocion}">
+                            <h:outputText styleClass="texto-promocion" value="#{CarritoFE.calcularPrecioFinal(articulo)}">
+                                <f:convertNumber currencySymbol="USD " type="currency"/>
+                            </h:outputText><br/>
+                            <h:outputText rendered="#{articulo.esPromocion}" style="color: #000066;font-weight: bold;text-align: right" value="#{articulo.porcentajeDescuento}% OFF "/>
+                        </p:panel>
+                        <br/>
+                        <h:outputText value="#{articulo.breveDescripcion}"/>
+
+                        <f:facet name="footer">
+                            <p:commandButton ajax="false"  icon="ui-icon-zoomin" value="#{bundle.ComprarBoton}" action="#{ArticuloFE.doVerDetalleArticulo(articulo)}"/>
+                        </f:facet>
+                    </p:panel>
+                </h:panelGrid>
+            </p:dataGrid>
+
         </h:form>
     </ui:define>
 

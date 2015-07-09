@@ -17,9 +17,10 @@
                 <p:commandButton immediate="true" ajax="false" value="#{bundle.VolverBoton}" action="/frontend/index2" icon="ui-icon-arrowreturnthick-1-w"/>
                 <p:commandButton icon="shoppingcart" value="#{bundle.AgregarBoton}" update="#{sistema.form_update}," actionListener="#{CarritoFE.doAgregarCarrito(ArticuloFE.articulo)}"/>
             </p:panel>
-            <h:panelGrid columnClasses="top" columns="2">
+            <h:panelGrid width="100%" rowClasses="top" columns="2">
                 <h:panelGrid>
                     <h:outputText styleClass="titulo2" value="#{ArticuloFE.articulo.idCategoria}" title="Categoría"/>
+                    <h:outputText value="#{ArticuloFE.articulo.breveDescripcion}"/>
                     <p:separator/>
                     <h:outputLabel styleClass="titulo3" value="Información detallada"/>
                     <p:separator/>
@@ -35,20 +36,16 @@
                         <h:outputText rendered="#{ArticuloFE.articulo.esPromocion}" style="color: #000066;font-weight: bold;text-align: right" value="#{ArticuloFE.articulo.porcentajeDescuento}% OFF "/>
                     </p:panel>
                 </h:panelGrid>
-                <h:panelGrid>
-                    <p:galleria value="#{ArticuloFE.listaAdjuntoArticulo}"  var="adjunto" frameHeight="70" showCaption="true" >
-                        <p:graphicImage width="500" height="400" value="#{ArticuloFE.imagenToDisplayIdAdjunto()}" alt="" title="" cache="false" >
-                            <f:param name="id" value="#{adjunto.idArchivoAdjunto}" />
-                        </p:graphicImage>
-                    </p:galleria>
-                </h:panelGrid>
+                <p:galleria value="#{ArticuloFE.listaAdjuntoArticulo}"  var="adjunto" frameHeight="70" showCaption="true" >
+                    <p:graphicImage width="500" height="400" value="#{ArticuloFE.imagenToDisplayIdAdjunto()}" alt="" title="" cache="false" >
+                        <f:param name="id" value="#{adjunto.idArchivoAdjunto}" />
+                    </p:graphicImage>
+                </p:galleria>
             </h:panelGrid>
             <p:panel>
                 <p:commandButton immediate="true" ajax="false" value="#{bundle.VolverBoton}" action="/frontend/index2" icon="ui-icon-arrowreturnthick-1-w"/>
                 <p:commandButton icon="shoppingcart" value="#{bundle.AgregarBoton}" update="#{sistema.form_update},messages" actionListener="#{CarritoFE.doAgregarCarrito(ArticuloFE.articulo)}"/>
             </p:panel>
         </h:form>
-
     </ui:define>
-
 </ui:composition>

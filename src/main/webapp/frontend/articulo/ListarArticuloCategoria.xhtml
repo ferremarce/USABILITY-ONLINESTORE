@@ -21,7 +21,7 @@
                         <ui:repeat id="dataTableArticulo" value="#{ArticuloFE.listaArticulo}" var="articulo"> 
                             <div class="ui-grid-col-4">
                                 <h:panelGrid styleClass="texto-centrado">
-                                    <p:panel>
+                                    <p:panel style="#{ArticuloFE.listaArticulo.size()>1?'':'width: 300px'}">
                                         <f:facet name="header">
                                             <h:outputText styleClass="titulo2" value="#{articulo.nombreArticulo}"/>
                                         </f:facet>
