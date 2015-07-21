@@ -143,6 +143,7 @@ public class LoginManager implements Serializable {
                 if (JSFutil.checkSecurePassword(this.contrasenha, usuario.getContrasenha())) {
                     JSFutil.addSuccessMessage("Acceso concedido");
                     JSFutil.putSessionVariable(USER_SESSION_KEY, usuario);
+                    this.clientCollapse=Boolean.TRUE;
                     return "/backend/index";
                 } else {
                     this.intento++;
@@ -208,7 +209,7 @@ public class LoginManager implements Serializable {
         if (session != null) {
             session.invalidate();
         }
-        return "/frontend/index2";
+        return "/login";
     }
 
     public String doLogoutTienda() {

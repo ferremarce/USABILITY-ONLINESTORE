@@ -15,8 +15,8 @@
                     <h:outputText value="#{sistema.nombreInvestigacion}"/>
                 </f:facet>
                 <h:panelGrid style="width: 70%" columns="2">
-                    <p:commandButton style="width: 250px; height: 100px; font-size: xx-large !important" title="#{bundle.AccederBoton}" rendered="#{LoginManager.usuarioLogeado==null}" ajax="false" value="#{bundle.AccederBoton}" action="#{LoginManager.doLoginFrom()}" icon="login" />
-                    <p:commandButton style="width: 250px; height: 100px; font-size: xx-large !important" title="#{bundle.RegistrarBoton}" rendered="#{LoginManager.usuarioLogeado==null}" ajax="false" value="#{bundle.RegistrarBoton}" action="#{DatosUsuarioController.doRegistrarForm()}" icon="sign-in" />
+                    <p:commandButton style="width: 300px; height: 100px; font-size: xx-large !important" title="#{bundle.AccederBoton}" rendered="#{LoginManager.usuarioLogeado==null}" ajax="false" value="#{bundle.AccederBoton}" action="#{LoginManager.doLoginFrom()}" icon="login" />
+                    <p:commandButton style="width: 300px; height: 100px; font-size: xx-large !important" title="#{bundle.RegistrarBoton}" rendered="#{LoginManager.usuarioLogeado==null}" ajax="false" value="#{bundle.RegistrarBoton}" action="#{DatosUsuarioController.doRegistrarForm()}" icon="sign-in" />
                 </h:panelGrid>
             </b:panel>
         </h:form>

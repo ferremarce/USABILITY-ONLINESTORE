@@ -6,39 +6,43 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:pe="http://primefaces.org/ui/extensions"
                 xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:b="http://bootsfaces.net/ui"
                 xmlns:p="http://primefaces.org/ui">
 
     <ui:define name="content">
-        <h1 class="ui-state-default ui-corner-all"><h:outputText value="Crear/Editar Artículo"/></h1>
+        <h1 class="ui-state-default ui-corner-all"><h:outputText value="#{bundle.lblCrearEditar} #{bundle.lblArticulo}"/></h1>
         <h:form>
             <p:growl life="5000" globalOnly="true" id="messages"/>
             <p:panelGrid columns="3">
-                <p:outputLabel value="Nombre:" for="nombreArticulo" />
-                <p:inputText size="50" id="nombreArticulo" value="#{ArticuloController.articulo.nombreArticulo}" title="Nombre Artículo" />
-                <p:separator/>
-                <p:outputLabel value="Información:" for="informacion" />
+                <p:outputLabel value="#{bundle.lblTitulo}" for="nombreArticulo" />
+                <p:inputText size="50" id="nombreArticulo" value="#{ArticuloController.articulo.nombreArticulo}" title="Nombre Artículo" required="true" requiredMessage="#{bundle.Requerido}" />
+                <p:message for="nombreArticulo"/>
+                <p:outputLabel value="#{bundle.lblAlias}" for="aliasArticulo" />
+                <p:inputText size="50" id="aliasArticulo" value="#{ArticuloController.articulo.aliasArticulo}" title="Alias Artículo" required="true" requiredMessage="#{bundle.Requerido}"/>
+                <p:message for="aliasArticulo"/>
+                <p:outputLabel value="#{bundle.lblBreveDescripcion}" for="informacion" />
                 <p:inputTextarea cols="50" maxlength="255" id="informacion" value="#{ArticuloController.articulo.breveDescripcion}" title="Breve Descripción" />
                 <p:separator/>
-                <p:outputLabel value="Categoría:" for="idCategoria" />
-                <p:selectOneMenu id="idCategoria" converter="SubTipoConverter" value="#{ArticuloController.articulo.idCategoria}" >
+                <p:outputLabel value="#{bundle.lblCategoria}" for="idCategoria" />
+                <p:selectOneMenu id="idCategoria" converter="SubTipoConverter" value="#{ArticuloController.articulo.idCategoria}" required="true" requiredMessage="#{bundle.Requerido}">
                     <!-- TODO: update below reference to list of available items-->
                     <f:selectItems value="#{SubTipoController.idCategoriaArticuloSet}"/>
                 </p:selectOneMenu>
-                <p:separator/>
-                <p:outputLabel value="Descripción:" for="descripcionArticulo" />
+                <p:message for="idCategoria"/>
+                <p:outputLabel value="#{bundle.lblDescripcion}" for="descripcionArticulo" />
                 <p:editor height="200" id="descripcionArticulo" value="#{ArticuloController.articulo.descripcionArticulo}" />
                 <p:separator/>
-                <p:outputLabel value="Precio:" for="precio" />
-                <pe:inputNumber id="precio" symbol="USD " value="#{ArticuloController.articulo.precio}" title="Precio"/>
-                <p:separator/>
-                <p:outputLabel value="Está en promoción?:" for="esPromocion" />
+                <p:outputLabel value="#{bundle.lblPrecio}" for="precio" />
+                <pe:inputNumber id="precio" symbol="USD " value="#{ArticuloController.articulo.precio}" title="Precio" required="true" requiredMessage="#{bundle.Requerido}"/>
+                <p:message for="precio"/>
+                <p:outputLabel value="#{bundle.lblEstaEnPromocion}" for="esPromocion" />
                 <p:selectBooleanCheckbox id="esPromocion" value="#{ArticuloController.articulo.esPromocion}" />
                 <p:separator/>
-                <p:outputLabel value="Descuento:" for="descuento" />
+                <p:outputLabel value="#{bundle.lblDescuento}" for="descuento" />
                 <pe:inputNumber maxValue="99" decimalPlaces="0" id="descuento" symbol="% " value="#{ArticuloController.articulo.porcentajeDescuento}" title="Precio"/>
 
             </p:panelGrid>
-            <p:panel header="Imágenes">
+            <p:panel header="#{bundle.lblImagenes}">
                 <p:fileUpload id="archivo" label="#{bundle.SeleccionarBoton}" cancelLabel="#{bundle.EliminarBoton}" uploadLabel="#{bundle.AgregarBoton}" 
                               fileUploadListener="#{ArticuloController.handleFileUploadArticulo}"
                               mode="advanced"
@@ -60,6 +64,9 @@
             <p:panel>
                 <p:commandButton ajax="false" value="#{bundle.GuardarBoton}" action="#{ArticuloController.doGuardar()}" icon="ui-icon-disk"/>
                 <p:commandButton immediate="true" ajax="false" value="#{bundle.CancelarBoton}" action="#{ArticuloController.doListarForm()}" icon="ui-icon-close"/>
+                <p:commandButton immediate="true" ajax="false" value="#{bundle.LimpiarBoton}" icon="escoba">
+                    <p:confirm header="Confirmación" message="Hay cambios pendientes por guardar. Desea guardarlo antes de proceder?" icon="ui-icon-alert" />
+                </p:commandButton>
             </p:panel>  
         </h:form>
     </ui:define>

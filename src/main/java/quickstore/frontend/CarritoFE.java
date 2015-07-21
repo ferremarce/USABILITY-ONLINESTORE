@@ -245,13 +245,7 @@ public class CarritoFE implements Serializable {
         return "/frontend/index2";
     }
 
-    public List<DireccionCliente> doListaDireccionCliente() {
-        if (JSFutil.getClienteConectado() != null) {
-            return direccionClienteDAO.getAllDireccionCliente(JSFutil.getClienteConectado().getIdCliente());
-        } else {
-            return new ArrayList<>();
-        }
-    }
+    
 
     public void doGuardarDireccion() {
         try {

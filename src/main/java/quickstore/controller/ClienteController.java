@@ -49,7 +49,7 @@ public class ClienteController implements Serializable {
     private ClienteLoginManager clienteLoginManager;
     @Inject
     private MetodoPagoClienteDAO metodoPagoClienteDAO;
-    
+
     private Cliente cliente;
     private List<Cliente> listaCliente;
     private Direccion direccion;
@@ -83,10 +83,6 @@ public class ClienteController implements Serializable {
     //********************************************
     // METODOS DE ACCIÓN
     //********************************************
-    
-    
-
-    
     /**
      * Guardar un registro
      *
@@ -100,8 +96,6 @@ public class ClienteController implements Serializable {
         }
         return "";
     }
-
-    
 
     private void persist(PersistAction persistAction) {
         try {
@@ -140,11 +134,18 @@ public class ClienteController implements Serializable {
             }
         }
     }
+
+    public List<DireccionCliente> doListaDireccionCliente() {
+        if (JSFutil.getClienteConectado() != null) {
+            return direccionClienteDAO.getAllDireccionCliente(JSFutil.getClienteConectado().getIdCliente());
+        } else {
+            return new ArrayList<>();
+        }
+    }
 //********************************************
 // METODOS DEL LISTENER
 //********************************************
 
-    
     public List<MetodoPagoCliente> doListaTarjetaCliente() {
         if (JSFutil.getClienteConectado() != null) {
             return metodoPagoClienteDAO.findAll();

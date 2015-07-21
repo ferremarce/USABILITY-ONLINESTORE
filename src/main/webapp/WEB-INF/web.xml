@@ -35,7 +35,7 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>frontend/index2.pmf</welcome-file>
+        <welcome-file>frontend/index.pmf</welcome-file>
     </welcome-file-list>
     <!-- WEB FONTS-->
     <mime-mapping>

@@ -47,4 +47,11 @@ public class ArticuloDAO extends AbstractFacade<Articulo> {
         return tr;
     }
 
+    public List<Articulo> findTopVendidos(Integer top) {
+        Query q = em.createQuery("SELECT a FROM Articulo a ORDER BY a.nombreArticulo ");
+        q.setMaxResults(top);
+        //LOG.log(Level.INFO, "findAllbyTipo: {0}", sql);
+        List<Articulo> tr = q.getResultList();
+        return tr;
+    }
 }

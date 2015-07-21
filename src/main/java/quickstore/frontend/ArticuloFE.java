@@ -13,6 +13,7 @@ import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
@@ -132,6 +133,11 @@ public class ArticuloFE implements Serializable {
      * @return
      */
     public String doListar() {
+//        try { 
+//            Thread.sleep(5000);
+//        } catch (InterruptedException ex) {
+//            Logger.getLogger(ArticuloController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
         if (this.criterioBusqueda.length() > 0) {
             this.listaArticulo = articuloDAO.findAllbyCriterio(criterioBusqueda);
         } else {
@@ -166,9 +172,14 @@ public class ArticuloFE implements Serializable {
         return "/frontend/articulo/VerDetalleArticulo";
     }
 
+    public List<Articulo> doGetMasVendidos() {
+        return articuloDAO.findTopVendidos(5);
+    }
+
     //********************************************
 // METODOS DEL LISTENER
 //********************************************
+
     /**
      * Render de la imagen desde el DAO
      *
@@ -183,9 +194,9 @@ public class ArticuloFE implements Serializable {
         } else {
             Articulo a = articuloDAO.find(Integer.parseInt(id));
             List<ArticuloAdjunto> listaAdj = articuloAdjuntoDAO.findAllbyArticulo(a.getIdArticulo());
-            ArticuloAdjunto adj=null;
-            if (!listaAdj.isEmpty()){
-                adj=listaAdj.get(0);
+            ArticuloAdjunto adj = null;
+            if (!listaAdj.isEmpty()) {
+                adj = listaAdj.get(0);
             }
             StreamedContent file;
             if (adj != null) {

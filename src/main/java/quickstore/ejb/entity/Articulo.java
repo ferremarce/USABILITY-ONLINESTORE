@@ -52,6 +52,9 @@ public class Articulo implements Serializable {
     @Column(name = "NOMBRE_ARTICULO")
     private String nombreArticulo;
     @Size(max = 255)
+    @Column(name = "ALIAS_ARTICULO",unique = true)
+    private String aliasArticulo;
+    @Size(max = 255)
     @Column(name = "BREVE_DESCRIPCION")
     private String breveDescripcion;
     @Column(name = "PORCENTAJE_DESCUENTO")
@@ -90,6 +93,14 @@ public class Articulo implements Serializable {
 
     public void setDescripcionArticulo(String descripcionArticulo) {
         this.descripcionArticulo = descripcionArticulo;
+    }
+
+    public String getAliasArticulo() {
+        return aliasArticulo;
+    }
+
+    public void setAliasArticulo(String aliasArticulo) {
+        this.aliasArticulo = aliasArticulo;
     }
 
     public Boolean getEsPromocion() {

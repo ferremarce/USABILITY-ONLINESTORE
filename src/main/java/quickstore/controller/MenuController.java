@@ -6,6 +6,8 @@ package quickstore.controller;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.ResourceBundle;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -28,6 +30,11 @@ import quickstore.util.JSFutil;
 @Named("MenuController")
 public class MenuController implements Serializable {
 
+    /**
+     * Configuraciones varias para Log y Bundle*
+     */
+    private static final Logger LOG = Logger.getLogger(MenuController.class.getName());
+    ResourceBundle bundle = ResourceBundle.getBundle("quickstore.properties.bundle", JSFutil.getmyLocale());
     @Inject
     UsuarioDAO usuarioDAO;
     private MenuModel model;
@@ -75,7 +82,11 @@ public class MenuController implements Serializable {
                 } else {
                     /*Agregar un item*/
                     item = new DefaultMenuItem();
-                    item.setValue(x.getNivel() + " " + x.getDescripcionPermiso());
+                    try {
+                        item.setValue(x.getNivel() + " " + this.bundle.getString(x.getDescripcionPermiso()));
+                    } catch (Exception e) {
+                        item.setValue(x.getNivel() + " " + x.getDescripcionPermiso());
+                    }
                     item.setIcon(x.getUrlImagen());
                     item.setAjax(false);
                     item.setCommand(x.getTagMenu());

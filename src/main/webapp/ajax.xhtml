@@ -8,8 +8,9 @@
     <ui:fragment>
         <p:ajaxStatus onstart="PF('statusDialog').show()" onerror="PF('statusDialog').hide();PF('errorStatusDialog').show();" onsuccess="PF('statusDialog').hide()" />
         <p:dialog widgetVar="statusDialog" draggable="false" closable="true" resizable="false" showHeader="false">
-            <h:panelGrid columns="2">
+            <h:panelGrid >
                 <p:graphicImage height="100" width="100" value="/img/ai.gif" />
+                <!--p:progressBar value="50" labelTemplate="{value}%" displayOnly="true"/-->
                 <h:outputText value="Procesando..."/>
             </h:panelGrid>
         </p:dialog>

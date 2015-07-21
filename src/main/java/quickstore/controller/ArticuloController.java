@@ -54,6 +54,7 @@ public class ArticuloController implements Serializable {
     private List<Articulo> listaArticuloFiltrado;
     private List<ArticuloAdjunto> listaAdjuntoArticulo;
     private String criterioBusqueda;
+    private Boolean changed;
     @Inject
     private ClickCounter clickCounter;
 
@@ -168,6 +169,11 @@ public class ArticuloController implements Serializable {
      * Listar
      */
     public void doListar() {
+//        try { 
+//            Thread.sleep(5000);
+//        } catch (InterruptedException ex) {
+//            Logger.getLogger(ArticuloController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
         if (this.criterioBusqueda.length() > 0) {
             this.listaArticulo = articuloDAO.findAllbyCriterio(criterioBusqueda);
         } else {

@@ -36,11 +36,11 @@
             </p:panel>
             <p:panel rendered="#{ClienteLoginManager.clienteLogeado!=null}" header="Has ingresado al Sistema...">
                 <h:outputText style="font-size: 25px !important; font-weight: bold"  value="#{ClienteLoginManager.clienteLogeado.nombre} #{ClienteLoginManager.clienteLogeado.apellido}" title="Cliente"/>
-                <p:dataTable id="dataTableDireccionCliente" value="#{CarritoFE.doListaDireccionCliente()}" var="direccion" selectionMode="single" selection="#{CarritoFE.direccionSeleccionada}" rowKey="#{direccion.idDireccionCliente}">                       
+                <p:dataTable id="dataTableDireccionCliente" value="#{ClienteController.doListaDireccionCliente()}" var="direccion" selectionMode="single" selection="#{ClienteController.direccionSeleccionada}" rowKey="#{direccion.idDireccionCliente}">                       
                     <f:facet name="header">
                         <h:outputText value="Seleccione una de las direcciones para la Entrega"/>
                     </f:facet>
-                    <p:ajax event="rowSelect" listener="#{CarritoFE.onRowSelect}"/>
+                    <p:ajax event="rowSelect" listener="#{ClienteController.onRowSelect}"/>
                     <p:column headerText="Calle">
                         <h:outputText value="#{direccion.idDireccion.calle}"/>
                     </p:column>
@@ -57,31 +57,31 @@
                         <h:outputText value="#{direccion.idDireccion.ciudad}"/>
                     </p:column>
                 </p:dataTable>
-                <p:commandButton value="#{bundle.AgregarBoton}" update=":formDireccion:panelDireccion" oncomplete="PF('dlgDireccion').show();" action="#{CarritoFE.doCrearDireccionForm()}" />
+                <p:commandButton value="#{bundle.AgregarBoton}" update=":formDireccion:panelDireccion" oncomplete="PF('dlgDireccion').show();" action="#{ClienteController.doCrearDireccionForm()}" />
             </p:panel>
         </h:form>
         <p:dialog header="Agregar Dirección" widgetVar="dlgDireccion"  >
             <h:form id="formDireccion">
                 <p:panelGrid id="panelDireccion" columns="3">
                     <p:outputLabel value="Calle:" for="calle" />
-                    <p:inputText size="80" id="calle" value="#{CarritoFE.direccion.calle}" title="Calle" required="true" requiredMessage="#{bundle.Requerido}"/>
+                    <p:inputText size="80" id="calle" value="#{ClienteController.direccion.calle}" title="Calle" required="true" requiredMessage="#{bundle.Requerido}"/>
                     <p:message for="calle"/>
                     <p:outputLabel value="Localidad:" for="localidad" />
-                    <p:inputText size="80" id="localidad" value="#{CarritoFE.direccion.localidad}" title="Localidad" required="true" requiredMessage="#{bundle.Requerido}"/>
+                    <p:inputText size="80" id="localidad" value="#{ClienteController.direccion.localidad}" title="Localidad" required="true" requiredMessage="#{bundle.Requerido}"/>
                     <p:message for="localidad"/>
                     <p:outputLabel value="Edificio:" for="edificio" />
-                    <p:inputText size="50" id="edificio" value="#{CarritoFE.direccion.edificio}" title="Edificio" required="true" requiredMessage="#{bundle.Requerido}"/>
+                    <p:inputText size="50" id="edificio" value="#{ClienteController.direccion.edificio}" title="Edificio" required="true" requiredMessage="#{bundle.Requerido}"/>
                     <p:message for="edificio"/>
                     <p:outputLabel value="Casilla Correo:" for="casillaCorreo" />
-                    <p:inputText size="50" id="casillaCorreo" value="#{CarritoFE.direccion.casillaCorreo}" title="CasillaCorreo" required="true" requiredMessage="#{bundle.Requerido}"/>
+                    <p:inputText size="50" id="casillaCorreo" value="#{ClienteController.direccion.casillaCorreo}" title="CasillaCorreo" required="true" requiredMessage="#{bundle.Requerido}"/>
                     <p:message for="casillaCorreo"/>
                     <p:outputLabel value="Ciudad:" for="ciudad" />
-                    <p:inputText size="50" id="ciudad" value="#{CarritoFE.direccion.ciudad}" title="Ciudad" required="true" requiredMessage="#{bundle.Requerido}"/>
+                    <p:inputText size="50" id="ciudad" value="#{ClienteController.direccion.ciudad}" title="Ciudad" required="true" requiredMessage="#{bundle.Requerido}"/>
                     <p:message for="ciudad"/>
                     <p:outputLabel value="Observaciones:" for="observacion" />
-                    <p:inputTextarea cols="50" id="observacion" value="#{CarritoFE.direccion.observacion}" title="Observacion" />
+                    <p:inputTextarea cols="50" id="observacion" value="#{ClienteController.direccion.observacion}" title="Observacion" />
                 </p:panelGrid>
-                <p:commandButton value="#{bundle.GuardarBoton}" update=":formAcceso" action="#{CarritoFE.doGuardarDireccion()}"/>
+                <p:commandButton value="#{bundle.GuardarBoton}" update=":formAcceso" action="#{ClienteController.doGuardarDireccion()}"/>
                 <p:commandButton value="#{bundle.CancelarBoton}" type="button" onclick="PF('dlgDireccion').hide();" />
             </h:form>
         </p:dialog>
@@ -92,69 +92,69 @@
                 <p:panelGrid style="width: 100%" columns="3">
                     <p:outputLabel  value="Email:" for="email" />
                     <p:panelGrid styleClass="panelNoBorder">
-                        <p:inputText size="50" id="email" value="#{CarritoFE.cliente.email}" title="Email" required="true" requiredMessage="#{bundle.Requerido}">
+                        <p:inputText size="50" id="email" value="#{ClienteController.cliente.email}" title="Email" required="true" requiredMessage="#{bundle.Requerido}">
                             <f:validator validatorId="EmailValidator" />
                             <p:ajax event="change" update="mailDisponible"/>
                         </p:inputText>
-                        <h:outputText rendered="#{CarritoFE.cliente.email.length()>0}" id="mailDisponible" style="color: red" value="#{CarritoFE.verificarCorreoExistente()}"/>
+                        <h:outputText rendered="#{ClienteController.cliente.email.length()>0}" id="mailDisponible" style="color: red" value="#{ClienteController.verificarCorreoExistente()}"/>
                     </p:panelGrid>
                     <p:message for="email"/>
                     <p:outputLabel value="Contraseña:" for="contrasenha" />
-                    <p:password id="contrasenha" value="#{CarritoFE.cliente.contrasenha}" title="Contrasenha" required="true" requiredMessage="#{bundle.Requerido}"/>
+                    <p:password id="contrasenha" value="#{ClienteController.cliente.contrasenha}" title="Contrasenha" required="true" requiredMessage="#{bundle.Requerido}"/>
                     <p:message for="contrasenha"/>
                     <p:separator/>
                     <p:separator/>
                     <p:separator/>
 
                     <p:outputLabel value="Nombres:" for="nombres" />
-                    <p:inputText size="50" id="nombres" value="#{CarritoFE.cliente.nombre}" title="Nombres" required="true" requiredMessage="#{bundle.Requerido}"/>
+                    <p:inputText size="50" id="nombres" value="#{ClienteController.cliente.nombre}" title="Nombres" required="true" requiredMessage="#{bundle.Requerido}"/>
                     <p:message for="nombres"/>
                     <p:outputLabel value="Apellidos:" for="apellidos" />
-                    <p:inputText size="50" id="apellidos" value="#{CarritoFE.cliente.apellido}" title="Apellidos" required="true" requiredMessage="#{bundle.Requerido}"/>
+                    <p:inputText size="50" id="apellidos" value="#{ClienteController.cliente.apellido}" title="Apellidos" required="true" requiredMessage="#{bundle.Requerido}"/>
                     <p:message for="apellidos"/>
                     <p:outputLabel value="T. Móvil:" for="telefonoMovil" />
-                    <p:inputText id="telefonoMovil" value="#{CarritoFE.cliente.telefonoMovil}" title="Telefono Movil" required="true" requiredMessage="#{bundle.Requerido}" />
+                    <p:inputText id="telefonoMovil" value="#{ClienteController.cliente.telefonoMovil}" title="Telefono Movil" required="true" requiredMessage="#{bundle.Requerido}" />
                     <p:message for="telefonoMovil"/>
                     <p:outputLabel value="T. Fijo:" for="telefonoFijo" />
-                    <p:inputText id="telefonoFijo" value="#{CarritoFE.cliente.telefonoFijo}" title="Telefono Fijo" />
+                    <p:inputText id="telefonoFijo" value="#{ClienteController.cliente.telefonoFijo}" title="Telefono Fijo" />
                     <p:message for="telefonoFijo"/>
                 </p:panelGrid>
             </p:panel>
             <p:panel header="Datos de Envío y Facturación">
                 <p:panelGrid columns="3">
                     <p:outputLabel value="Calle:" for="calle" />
-                    <p:inputText size="80" id="calle" value="#{CarritoFE.direccion.calle}" title="Calle" required="true" requiredMessage="#{bundle.Requerido}"/>
+                    <p:inputText size="80" id="calle" value="#{ClienteController.direccion.calle}" title="Calle" required="true" requiredMessage="#{bundle.Requerido}"/>
                     <p:message for="calle"/>
                     <p:outputLabel value="Localidad:" for="localidad" />
-                    <p:inputText size="80" id="localidad" value="#{CarritoFE.direccion.localidad}" title="Localidad" required="true" requiredMessage="#{bundle.Requerido}"/>
+                    <p:inputText size="80" id="localidad" value="#{ClienteController.direccion.localidad}" title="Localidad" required="true" requiredMessage="#{bundle.Requerido}"/>
                     <p:message for="localidad"/>
                     <p:outputLabel value="Edificio:" for="edificio" />
-                    <p:inputText size="50" id="edificio" value="#{CarritoFE.direccion.edificio}" title="Edificio" required="true" requiredMessage="#{bundle.Requerido}"/>
+                    <p:inputText size="50" id="edificio" value="#{ClienteController.direccion.edificio}" title="Edificio" required="true" requiredMessage="#{bundle.Requerido}"/>
                     <p:message for="edificio"/>
                     <p:outputLabel value="Casilla Correo:" for="casillaCorreo" />
-                    <p:inputText size="50" id="casillaCorreo" value="#{CarritoFE.direccion.casillaCorreo}" title="CasillaCorreo" required="true" requiredMessage="#{bundle.Requerido}"/>
+                    <p:inputText size="50" id="casillaCorreo" value="#{ClienteController.direccion.casillaCorreo}" title="CasillaCorreo" required="true" requiredMessage="#{bundle.Requerido}"/>
                     <p:message for="casillaCorreo"/>
                     <p:outputLabel value="Ciudad:" for="ciudad" />
-                    <p:inputText size="50" id="ciudad" value="#{CarritoFE.direccion.ciudad}" title="Ciudad" required="true" requiredMessage="#{bundle.Requerido}"/>
+                    <p:inputText size="50" id="ciudad" value="#{ClienteController.direccion.ciudad}" title="Ciudad" required="true" requiredMessage="#{bundle.Requerido}"/>
                     <p:message for="ciudad"/>
                     <p:outputLabel value="Observaciones:" for="observacion" />
-                    <p:inputTextarea cols="50" id="observacion" value="#{CarritoFE.direccion.observacion}" title="Observacion" />
+                    <p:inputTextarea cols="50" id="observacion" value="#{ClienteController.direccion.observacion}" title="Observacion" />
                 </p:panelGrid>
                 <p:panel>
                     <p:outputLabel for="estoyDeAcuerdo" value="Estoy de acuerdo"/>
-                    <p:selectBooleanButton id="estoyDeAcuerdo" offLabel="NO" onLabel="SI" onIcon="ui-icon-check" offIcon="ui-icon-close" value="#{CarritoFE.estoyDeAcuerdo}">
+                    <p:selectBooleanButton id="estoyDeAcuerdo" offLabel="NO" onLabel="SI" onIcon="ui-icon-check" offIcon="ui-icon-close" value="#{ClienteController.estoyDeAcuerdo}">
                         <p:ajax event="change" update=":formAccionEntrega, cmdGuardar"/>
                     </p:selectBooleanButton>
                 </p:panel>
             </p:panel>
             <p:panel>
-                <p:commandButton ajax="false" id="cmdGuardar" disabled="#{!CarritoFE.estoyDeAcuerdo}" icon="ui-icon-disk" value="#{bundle.GuardarBoton}" action="#{CarritoFE.doGuardarCliente()}"/>
+                <p:commandButton ajax="false" id="cmdGuardar" disabled="#{!ClienteController.estoyDeAcuerdo}" icon="ui-icon-disk" value="#{bundle.GuardarBoton}" action="#{ClienteController.doGuardarCliente()}"/>
             </p:panel> 
         </h:form>
         <h:form id="formAccionEntrega">
             <p:panel id="panelAccion">
-                <p:commandButton immediate="true" ajax="false" iconPos="left" icon="ui-icon-circle-arrow-w" value="#{bundle.AtrasBoton}" action="#{CarritoFE.doProcesarCarritoFrom()}"/>
-                <p:commandButton disabled="#{ClienteLoginManager.clienteLogeado==null}" ajax="false" iconPos="right" icon="ui-icon-circle-arrow-e" value="#{bundle.SiguienteBoton}" action="#{CarritoFE.doProcesarDatosPago()}"/>
+                <p:commandButton immediate="true" ajax="false" iconPos="left" icon="ui-icon-circle-arrow-w" value="#{bundle.AtrasBoton}" action="#{ClienteController.doProcesarCarritoFrom()}"/>
+                <p:commandButton disabled="#{ClienteLoginManager.clienteLogeado==null}" ajax="false" iconPos="right" icon="ui-icon-circle-arrow-e" value="#{bundle.SiguienteBoton}" action="#{ClienteController.doProcesarDatosPago()}"/>
             </p:panel>
         </h:form>
     </ui:define>
