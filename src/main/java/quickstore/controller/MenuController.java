@@ -12,6 +12,8 @@ import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
+import org.primefaces.model.DefaultTreeNode;
+import org.primefaces.model.TreeNode;
 import org.primefaces.model.menu.DefaultMenuItem;
 import org.primefaces.model.menu.DefaultMenuModel;
 import org.primefaces.model.menu.DefaultSubMenu;
@@ -27,14 +29,14 @@ import quickstore.util.JSFutil;
  * @author jmferreira
  */
 @SessionScoped
-@Named("MenuController")
+@Named(value = "MenuController")
 public class MenuController implements Serializable {
 
     /**
      * Configuraciones varias para Log y Bundle*
      */
     private static final Logger LOG = Logger.getLogger(MenuController.class.getName());
-    ResourceBundle bundle = ResourceBundle.getBundle("quickstore.properties.bundle", JSFutil.getmyLocale());
+
     @Inject
     UsuarioDAO usuarioDAO;
     private MenuModel model;
@@ -48,6 +50,7 @@ public class MenuController implements Serializable {
     @PostConstruct
     public void init() {
         this.montarMenu();
+
     }
 
     /**
@@ -63,9 +66,9 @@ public class MenuController implements Serializable {
      * Montar el menu desde la base de datos
      */
     public void montarMenu() {
-
-        Usuario user = JSFutil.getUsuarioConectado();
         try {
+            Usuario user = JSFutil.getUsuarioConectado();
+
             String nivel;
             model = new DefaultMenuModel();
             DefaultSubMenu submenu = new DefaultSubMenu();
@@ -76,14 +79,19 @@ public class MenuController implements Serializable {
                 nivel = x.getNivel();
                 if (nivel.replaceAll("[^.]", "").length() == 0) { //cantidad de puntos que tiene la cadena
                     submenu = new DefaultSubMenu();
-                    submenu.setLabel(x.getNivel() + ". " + x.getDescripcionPermiso());
+                    try {
+                        submenu.setLabel(x.getNivel() + " " + JSFutil.getMyBundle().getString(x.getDescripcionPermiso()));
+                        //System.out.println(JSFutil.getmyLocale()+" - "+this.bundle.getLocale()+" - "+this.bundle.getString(x.getDescripcionPermiso()));
+                    } catch (Exception e) {
+                        submenu.setLabel(x.getNivel() + " " + x.getDescripcionPermiso());
+                    }
                     submenu.setIcon(x.getUrlImagen());
                     model.addElement(submenu);
                 } else {
                     /*Agregar un item*/
                     item = new DefaultMenuItem();
                     try {
-                        item.setValue(x.getNivel() + " " + this.bundle.getString(x.getDescripcionPermiso()));
+                        item.setValue(x.getNivel() + " " + JSFutil.getMyBundle().getString(x.getDescripcionPermiso()));
                     } catch (Exception e) {
                         item.setValue(x.getNivel() + " " + x.getDescripcionPermiso());
                     }

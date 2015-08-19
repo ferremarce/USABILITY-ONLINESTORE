@@ -197,7 +197,7 @@ public class ArticuloController implements Serializable {
         } else {
             persist(PersistAction.CREATE);
         }
-        return doListarForm();
+        return "";
     }
 
     private void persist(PersistAction persistAction) {

@@ -18,6 +18,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.ResourceBundle;
 import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -59,7 +60,7 @@ public class JSFutil implements Serializable {
         SelectItem[] items = new SelectItem[size];
         int i = 0;
         if (selectOne) {
-            items[0] = new SelectItem(null, "------ Opciones ------");
+            items[0] = new SelectItem(null, JSFutil.getMyBundle().getString("lblOpciones"));
             i++;
         }
         for (Object x : entities) {
@@ -519,5 +520,10 @@ public class JSFutil implements Serializable {
 
             return os.toByteArray();
         }
+    }
+
+    public static ResourceBundle getMyBundle() {
+        ResourceBundle bundle = ResourceBundle.getBundle("quickstore.properties.bundle", getmyLocale());
+        return bundle;
     }
 }

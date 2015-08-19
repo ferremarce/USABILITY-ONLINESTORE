@@ -19,16 +19,16 @@
         <h:body>
             <p:layout fullPage="true">
                 <p:ajax event="toggle" listener="#{LoginManager.doToggleHandler}"/>
-                <p:layoutUnit id="admin" rendered="#{LoginManager.usuarioLogeado!=null}" position="west" size="250" header="Administración" collapsed="#{LoginManager.adminCollapse}" collapsible="true">
+                <p:layoutUnit id="admin" rendered="#{LoginManager.usuarioLogeado!=null}" position="west" size="250" header="#{bundle.lblAdministracion}" collapsed="#{LoginManager.adminCollapse}" collapsible="true">
                     <f:metadata>
                         <f:event type="preRenderView" listener="#{MenuController.init()}"/>
                     </f:metadata>
-                    <h:form>
+                    <h:form >
                         <p:ajax global="false" event="click" update=":formMetrica" listener="#{ClickCounter.increment()}"/>
                         <p:menu style="width: 90%" model="#{MenuController.model}"/>
                     </h:form>
                 </p:layoutUnit>
-                <p:layoutUnit id="client"  position="east" size="250" header="Opciones" collapsed="#{LoginManager.clientCollapse}" collapsible="true" >
+                <p:layoutUnit rendered="false" id="client"  position="east" size="250" header="#{bundle.lblOpciones}" collapsed="#{LoginManager.clientCollapse}" collapsible="true" >
                     <h:form id="formCarrito">
                         <p:panel header="Mi carrito">
                             <p:commandLink ajax="false" action="#{CarritoFE.doProcesarCarritoFrom()}">
@@ -77,7 +77,7 @@
                         <h:form>
                             <p:panel styleClass="header-background">
                                 <h:panelGrid columns="3">
-                                    <p:link  outcome="/frontend/index2">
+                                    <p:link  outcome="/backend/index">
                                         <p:graphicImage value="/img/logo-admin.png"/>
                                     </p:link>
                                     <h:panelGrid width="100%">
@@ -90,11 +90,11 @@
                                             <h:outputText value="#{bundle.lblNuestrasTiendas}"/>
                                         </h:panelGrid>
                                         <p:outputPanel style="position: absolute; right: 10px" >
-                                            <p:commandLink value="Español" ajax="false" action="#{LanguageSwitcher.changeLanguage('es')}"/>
-                                            <p:graphicImage value="/icono/flag_spain.png"/>
+                                            <p:commandLink style="vertical-align: central" value="Español" ajax="false" action="#{LanguageSwitcher.changeLanguage('es')}"/>
+                                            <p:graphicImage width="30" height="30" value="/icono/flag_spain.png"/>
                                             <p:spacer width="10"/>
                                             <p:commandLink value="English" ajax="false" action="#{LanguageSwitcher.changeLanguage('en')}"/>
-                                            <p:graphicImage value="/icono/flag_usa.png"/>
+                                            <p:graphicImage  width="30" height="30" value="/icono/flag_usa.png"/>
                                         </p:outputPanel>
                                     </h:panelGrid>
                                 </h:panelGrid>
@@ -111,7 +111,7 @@
                                     </f:facet>
                                     <f:facet name="left">
                                         <p:commandButton id="cmdUsuarioLogeado" title="Opciones del Usuario" type="button" icon="ui-icon-carat-1-s" rendered="#{LoginManager.usuarioLogeado!=null}" value="#{LoginManager.usuarioLogeado.nombres} #{LoginManager.usuarioLogeado.apellidos}"/>
-                                        <p:commandButton title="Salir" icon="ui-icon-arrowreturnthick-1-w" rendered="#{LoginManager.usuarioLogeado!=null}" value="#{bundle.SalirBoton}" action="#{LoginManager.doLogout()}" />
+                                        <p:commandButton ajax="false" title="Salir" icon="ui-icon-arrowreturnthick-1-w" rendered="#{LoginManager.usuarioLogeado!=null}" value="#{bundle.SalirBoton}" action="#{LoginManager.doLogout()}" />
                                         <p:menu overlay="true" trigger="cmdUsuarioLogeado" my="left top" at="left bottom">
                                             <p:submenu label="Preferencias">
                                                 <p:menuitem ajax="false"  value="#{bundle.PreferenciaBoton}" action="#{ClienteLoginManager.doLogoutTienda()}" icon="ui-icon-close"/>
@@ -125,7 +125,7 @@
                                 </p:toolbar>
                             </p:panel>
                         </h:form>
-                        <h:form>
+                        <h:form rendered="false">
                             <p:ajax global="false" event="click" update="#{sistema.form_update}," listener="#{ClickCounter.increment()}"/>
                             <p:toolbar>
                                 <f:facet name="left">

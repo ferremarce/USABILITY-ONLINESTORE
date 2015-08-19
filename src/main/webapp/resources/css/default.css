@@ -128,3 +128,11 @@
     background-image: url("../../img/backg1.jpg") !important;
     background-repeat: repeat;
 }
+
+.ui-layout-west {
+    z-index:20 !important;
+    overflow:visible !important;
+}
+.ui-layout-west .ui-layout-unit-content {
+    overflow:visible !important;
+}

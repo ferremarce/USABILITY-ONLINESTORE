@@ -8,7 +8,7 @@
                 xmlns:p="http://primefaces.org/ui">
 
     <ui:define name="content">
-        <h1 class="ui-state-default ui-corner-all"><h:outputText value="Artículos en Tienda"/></h1>
+        <h1 class="ui-state-default ui-corner-all"><h:outputText value="#{bundle.lblArticulo} #{bundle.lblEnTienda}"/></h1>
         <h:form>
             <p:ajax global="false" event="click" listener="#{ClickCounter.increment()}"/>
             <p:growl life="5000" globalOnly="true" id="messages"/>
@@ -38,11 +38,9 @@
                             </h:outputText>
                         </p:panel>
                     </p:column>
-                    <p:column style="width: 150px" headerText="Categoría" filterBy="#{item.idCategoria}" filterMatchMode="exact">
-                        <f:facet name="filter">
-                            <p:selectOneMenu style="width: 150px" onchange="PF('wDataTableArticulo').filter()" >
-                                <f:selectItems value="#{SubTipoController.idCategoriaArticuloSet}" />
-                            </p:selectOneMenu>
+                    <p:column style="width: 150px" >
+                        <f:facet name="header">
+                            <h:outputText value="Categoría"/>
                         </f:facet>
                         <h:outputText value="#{item.idCategoria}" />
                     </p:column>

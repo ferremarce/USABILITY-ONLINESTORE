@@ -19,7 +19,7 @@ import javax.servlet.http.HttpSession;
  */
 public class AuthorizationListener implements PhaseListener {
 
-    private static final String USER_LOGIN_OUTCOME = "/frontend/index.xhtml";
+    private static final String USER_LOGIN_OUTCOME = "/backend/index.xhtml";
     public static final String USER_SESSION_KEY = "user";
 
     @Override

@@ -209,7 +209,7 @@ public class LoginManager implements Serializable {
         if (session != null) {
             session.invalidate();
         }
-        return "/login";
+        return "/backend/index";
     }
 
     public String doLogoutTienda() {
