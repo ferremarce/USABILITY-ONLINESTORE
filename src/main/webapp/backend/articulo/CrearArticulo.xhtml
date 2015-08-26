@@ -12,7 +12,7 @@
     <ui:define name="content">
         <h1 class="ui-state-default ui-corner-all"><h:outputText value="#{bundle.lblCrearEditar} #{bundle.lblArticulo}"/></h1>
         <h:form>
-            <p:growl life="5000" globalOnly="true" id="messages"/>
+            <p:growl sticky="true" globalOnly="true" id="messages"/>
             <p:panelGrid columns="3">
                 <p:outputLabel value="#{bundle.lblTitulo}" for="nombreArticulo" />
                 <p:inputText size="100" id="nombreArticulo" value="#{ArticuloController.articulo.nombreArticulo}" title="Nombre Artículo" required="true" requiredMessage="#{bundle.Requerido}">

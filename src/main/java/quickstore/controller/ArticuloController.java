@@ -210,11 +210,13 @@ public class ArticuloController implements Serializable {
     public String doGuardar() {
         if (this.articulo.getIdArticulo() != null) {
             persist(PersistAction.UPDATE);
+            this.doListar();
+            return "/backend/articulo/ListarArticulo";
         } else {
             persist(PersistAction.CREATE);
+            this.doCrearForm();
+            return "";
         }
-        this.doListar();
-        return "/backend/index";
     }
 
     public String doAbortOperation() {

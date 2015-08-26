@@ -11,7 +11,7 @@
         <h1 class="ui-state-default ui-corner-all"><h:outputText value="#{bundle.lblArticulo} #{bundle.lblEnTienda}"/></h1>
         <h:form>
             <p:ajax global="false" event="click" listener="#{ClickCounter.increment()}"/>
-            <p:growl life="5000" globalOnly="true" id="messages"/>
+            <p:growl sticky="true" globalOnly="true" id="messages"/>
             <p:panel>
                 <ui:include src="/ajax.xhtml"/>
             </p:panel>
