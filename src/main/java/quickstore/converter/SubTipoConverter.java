@@ -11,6 +11,7 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import quickstore.controller.SubTipoController;
 import quickstore.ejb.entity.SubTipo;
+import quickstore.util.JSFutil;
 
 /**
  * Converter del SubTipoController
@@ -29,7 +30,7 @@ public class SubTipoConverter implements Converter {
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
         //Debe comparar con ---opciones--- que se carga en el ListItem de JSFutil
-        if (value == null || value.length() == 0 || value.compareTo("------ Opciones ------") == 0) {
+        if (value == null || value.length() == 0 || value.compareTo(JSFutil.getMyBundle().getString("lblOpciones")) == 0) {
             return null;
         }
         SubTipoController controller = (SubTipoController) facesContext.getApplication().getELResolver().

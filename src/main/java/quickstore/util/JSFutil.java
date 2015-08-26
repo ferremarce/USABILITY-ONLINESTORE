@@ -526,4 +526,30 @@ public class JSFutil implements Serializable {
         ResourceBundle bundle = ResourceBundle.getBundle("quickstore.properties.bundle", getmyLocale());
         return bundle;
     }
+
+    public static String getFriendlyURI(String s) {
+        StringBuilder o = new StringBuilder();
+        for (char ch : s.toCharArray()) {
+            if (isUnsafe(ch)) {
+                o.append("-");
+                //o.append('%');
+                //o.append(toHex(ch / 16));
+                //o.append(toHex(ch % 16));
+            } else {
+                o.append(ch);
+            }
+        }
+        return o.toString().toLowerCase();
+    }
+
+    private static char toHex(int ch) {
+        return (char) (ch < 10 ? '0' + ch : 'A' + ch - 10);
+    }
+
+    private static boolean isUnsafe(char ch) {
+        if (ch > 128 || ch < 0) {
+            return true;
+        }
+        return " %$&+,/:;=?@<>#%".indexOf(ch) >= 0;
+    }
 }

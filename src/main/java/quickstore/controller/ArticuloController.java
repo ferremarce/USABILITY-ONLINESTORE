@@ -6,6 +6,9 @@
 package quickstore.controller;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.inject.Named;
@@ -20,6 +23,8 @@ import javax.ejb.EJBException;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseId;
 import javax.inject.Inject;
+import javax.servlet.ServletContext;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -54,7 +59,7 @@ public class ArticuloController implements Serializable {
     private List<Articulo> listaArticuloFiltrado;
     private List<ArticuloAdjunto> listaAdjuntoArticulo;
     private String criterioBusqueda;
-    private Boolean changed;
+    private Boolean hayCambios;
     @Inject
     private ClickCounter clickCounter;
 
@@ -116,6 +121,14 @@ public class ArticuloController implements Serializable {
         this.clickCounter = clickCounter;
     }
 
+    public Boolean getHayCambios() {
+        return hayCambios;
+    }
+
+    public void setHayCambios(Boolean hayCambios) {
+        this.hayCambios = hayCambios;
+    }
+
     //********************************************
     // METODOS DE ACCIÓN
     //********************************************
@@ -125,6 +138,7 @@ public class ArticuloController implements Serializable {
      * @return
      */
     public String doCrearForm() {
+        this.hayCambios = false;
         this.listaAdjuntoArticulo = new ArrayList<>();
         this.articulo = new Articulo();
         return "/backend/articulo/CrearArticulo";
@@ -137,6 +151,7 @@ public class ArticuloController implements Serializable {
      */
     public String doListarForm() {
         this.clickCounter.setCount(0);
+        this.criterioBusqueda = "";
         this.doListar();
         return "/backend/articulo/ListarArticulo";
     }
@@ -160,6 +175,7 @@ public class ArticuloController implements Serializable {
      * @return
      */
     public String doEditarForm(Articulo u) {
+        this.hayCambios = false;
         this.listaAdjuntoArticulo = this.articuloAdjuntoDAO.findAllbyArticulo(u.getIdArticulo());
         this.articulo = u;
         return "/backend/articulo/CrearArticulo";
@@ -177,7 +193,7 @@ public class ArticuloController implements Serializable {
         if (this.criterioBusqueda.length() > 0) {
             this.listaArticulo = articuloDAO.findAllbyCriterio(criterioBusqueda);
         } else {
-            this.listaArticulo = articuloDAO.findAll();
+            this.listaArticulo = articuloDAO.findAllSorted("nombreArticulo", "ASC");
         }
         if (this.listaArticulo.size() > 0) {
             JSFutil.addSuccessMessage(this.listaArticulo.size() + " registro/s recuperado/s");
@@ -197,7 +213,19 @@ public class ArticuloController implements Serializable {
         } else {
             persist(PersistAction.CREATE);
         }
-        return "";
+        this.doListar();
+        return "/backend/index";
+    }
+
+    public String doAbortOperation() {
+        if (this.hayCambios) {
+            RequestContext context = RequestContext.getCurrentInstance();
+            context.execute("PF('confirmacionAbort').show();");
+            return "";
+        } else {
+            return this.doListarForm();
+        }
+
     }
 
     private void persist(PersistAction persistAction) {
@@ -333,6 +361,43 @@ public class ArticuloController implements Serializable {
             JSFutil.addErrorMessage("No dispone de adjuntos para visualizar...");
             String noContent = "<html><h1>Sin adjunto...</></html>";
             return new DefaultStreamedContent(new ByteArrayInputStream(noContent.getBytes()), "text/html", "No existe Archivo");
+        }
+    }
+
+    public void generateAlias() {
+        if (this.articulo.getAliasArticulo() == null) {
+            this.articulo.setAliasArticulo(JSFutil.getFriendlyURI(this.articulo.getNombreArticulo()));
+        }
+    }
+
+    public void siHayCambios() {
+        this.hayCambios = true;
+    }
+
+    public StreamedContent imagenToDisplayFromId() throws FileNotFoundException {
+        FacesContext context = FacesContext.getCurrentInstance();
+        String id = context.getExternalContext().getRequestParameterMap().get("id");
+        if (context.getCurrentPhaseId() == PhaseId.RENDER_RESPONSE) {
+            // So, we're rendering the HTML. Return a stub StreamedContent so that it will generate right URL.
+            return new DefaultStreamedContent();
+        } else {
+            Articulo a = articuloDAO.find(Integer.parseInt(id));
+            List<ArticuloAdjunto> listaAdj = articuloAdjuntoDAO.findAllbyArticulo(a.getIdArticulo());
+            ArticuloAdjunto adj = null;
+            if (!listaAdj.isEmpty()) {
+                adj = listaAdj.get(0);
+            }
+            StreamedContent file;
+            if (adj != null) {
+                InputStream stream = new ByteArrayInputStream(adj.getArchivo());
+                file = new DefaultStreamedContent(stream, adj.getTipoArchivo(), adj.getNombreArchivo());
+            } else {
+                ServletContext servletContext = (ServletContext) context.getExternalContext().getContext();
+                String pathToWeb = servletContext.getRealPath(File.separator);
+                File f = new File(pathToWeb + "img/noimage.png");
+                file = new DefaultStreamedContent(new FileInputStream(f));
+            }
+            return file;
         }
     }
 }

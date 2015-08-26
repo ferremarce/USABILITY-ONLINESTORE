@@ -15,18 +15,26 @@
             <p:growl life="5000" globalOnly="true" id="messages"/>
             <p:panelGrid columns="3">
                 <p:outputLabel value="#{bundle.lblTitulo}" for="nombreArticulo" />
-                <p:inputText size="50" id="nombreArticulo" value="#{ArticuloController.articulo.nombreArticulo}" title="Nombre Artículo" required="true" requiredMessage="#{bundle.Requerido}" />
+                <p:inputText size="100" id="nombreArticulo" value="#{ArticuloController.articulo.nombreArticulo}" title="Nombre Artículo" required="true" requiredMessage="#{bundle.Requerido}">
+                    <p:ajax global="no" listener="#{ArticuloController.generateAlias()}" update="aliasArticulo"/>
+                    <p:ajax global="no" listener="#{ArticuloController.siHayCambios()}"/>
+                </p:inputText>
                 <p:message for="nombreArticulo"/>
                 <p:outputLabel value="#{bundle.lblAlias}" for="aliasArticulo" />
-                <p:inputText size="50" id="aliasArticulo" value="#{ArticuloController.articulo.aliasArticulo}" title="Alias Artículo" required="true" requiredMessage="#{bundle.Requerido}"/>
+                <p:inputText disabled="#{ArticuloController.articulo.idArticulo==null}" size="50" id="aliasArticulo" value="#{ArticuloController.articulo.aliasArticulo}" title="Alias Artículo" required="true" requiredMessage="#{bundle.Requerido}">
+                    <p:ajax global="no" listener="#{ArticuloController.siHayCambios()}" update="panelAccion"/>
+                </p:inputText>
                 <p:message for="aliasArticulo"/>
                 <p:outputLabel value="#{bundle.lblBreveDescripcion}" for="informacion" />
-                <p:inputTextarea cols="50" maxlength="255" id="informacion" value="#{ArticuloController.articulo.breveDescripcion}" title="Breve Descripción" />
+                <p:inputTextarea cols="50" maxlength="255" id="informacion" value="#{ArticuloController.articulo.breveDescripcion}" title="Breve Descripción">
+                    <p:ajax global="no" listener="#{ArticuloController.siHayCambios()}" update="panelAccion"/>
+                </p:inputTextarea>
                 <p:separator/>
                 <p:outputLabel value="#{bundle.lblCategoria}" for="idCategoria" />
                 <p:selectOneMenu id="idCategoria" converter="SubTipoConverter" value="#{ArticuloController.articulo.idCategoria}" required="true" requiredMessage="#{bundle.Requerido}">
                     <!-- TODO: update below reference to list of available items-->
                     <f:selectItems value="#{SubTipoController.idCategoriaArticuloSet}"/>
+                    <p:ajax global="no" listener="#{ArticuloController.siHayCambios()}" update="panelAccion"/>
                 </p:selectOneMenu>
                 <p:message for="idCategoria"/>
                 <p:outputLabel value="#{bundle.lblDescripcion}" for="descripcionArticulo" />
@@ -45,7 +53,7 @@
             <p:panel header="#{bundle.lblImagenes}">
                 <p:fileUpload id="archivo" label="#{bundle.SeleccionarBoton}" cancelLabel="#{bundle.EliminarBoton}" uploadLabel="#{bundle.AgregarBoton}" 
                               fileUploadListener="#{ArticuloController.handleFileUploadArticulo}"
-                              mode="advanced"
+                              mode="advanced" auto="true"
                               multiple="true"
                               sizeLimit="#{sistema.tamanho_upload}"
                               allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
@@ -61,13 +69,21 @@
                     </p:panel>
                 </p:dataGrid>
             </p:panel>
-            <p:panel>
-                <p:commandButton ajax="false" value="#{bundle.GuardarBoton}" action="#{ArticuloController.doGuardar()}" icon="ui-icon-disk"/>
-                <p:commandButton immediate="true" ajax="false" value="#{bundle.CancelarBoton}" action="#{ArticuloController.doListarForm()}" icon="ui-icon-close"/>
-                <p:commandButton immediate="true" ajax="false" value="#{bundle.LimpiarBoton}" icon="escoba">
-                    <p:confirm header="Confirmación" message="Hay cambios pendientes por guardar. Desea guardarlo antes de proceder?" icon="ui-icon-alert" />
-                </p:commandButton>
-            </p:panel>  
+            <p:outputPanel id="panelAccion">
+                <p:panel>
+                    <p:commandButton ajax="false" value="#{bundle.GuardarBoton}" action="#{ArticuloController.doGuardar()}" icon="ui-icon-disk"/>
+                    <p:commandButton immediate="true" value="#{bundle.CancelarBoton}" action="#{ArticuloController.doAbortOperation()}" icon="ui-icon-close"/>
+                </p:panel>  
+            </p:outputPanel>
+            <p:dialog header="Cambios pendientes..." closeOnEscape="true" widgetVar="confirmacionAbort" >
+                <p:panel>
+                    <h:outputText value="#{bundle.ConfirmacionAbort}"/>
+                    <f:facet name="footer">
+                        <p:commandButton ajax="false" value="SI" action="#{ArticuloController.doGuardar()}"  icon="ui-icon-check" />
+                        <p:commandButton ajax="false" immediate="true" value="NO" action="#{ArticuloController.doListarForm()}"  icon="ui-icon-close" />
+                    </f:facet>
+                </p:panel>
+            </p:dialog>
         </h:form>
     </ui:define>
 </ui:composition>

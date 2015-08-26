@@ -12,6 +12,7 @@
         <p:messages id="messages" />
         <h1 class="ui-state-default ui-corner-all"><h:outputText value="#{bundle.lblBienvenido}"/></h1>
         <h:form>
+            <p:growl life="5000" globalOnly="true" id="messages"/>
             <p/>
             <b:panel look="primary" title="#{bundle.lblBienvenido}...">
                 <f:facet name="footer">

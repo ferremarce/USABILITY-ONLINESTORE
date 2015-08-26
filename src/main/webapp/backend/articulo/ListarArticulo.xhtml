@@ -13,16 +13,21 @@
             <p:ajax global="false" event="click" listener="#{ClickCounter.increment()}"/>
             <p:growl life="5000" globalOnly="true" id="messages"/>
             <p:panel>
-                <p:commandButton value="#{bundle.NuevoBoton}" ajax="false" action="#{ArticuloController.doCrearForm()}" icon="ui-icon-document"/>
                 <ui:include src="/ajax.xhtml"/>
             </p:panel>
             <p:panel>
-                <h:panelGrid columns="2">
-                    <p:inputText size="50" value="#{ArticuloController.criterioBusqueda}"/>
-                    <p:commandButton id="cmdBuscar" value="#{bundle.BuscarBoton}" ajax="true" update="dataTableArticulo" action="#{ArticuloController.doListar()}" icon="ui-icon-document"/>
+                <h:panelGrid columns="3">
+                    <p:inputText id="criterioBusqueda" size="50" value="#{ArticuloController.criterioBusqueda}" />
+                    <p:message for="criterioBusqueda"/>
+                    <p:commandButton id="cmdBuscar" value="#{bundle.BuscarBoton}" ajax="true" update="@form" action="#{ArticuloController.doListar()}" icon="ui-icon-document"/>
                     <p:defaultCommand target="cmdBuscar"/>
                 </h:panelGrid>
                 <p:dataTable id="dataTableArticulo" widgetVar="wDataTableArticulo" rowIndexVar="index" value="#{ArticuloController.listaArticulo}" filteredValue="#{ArticuloController.listaArticuloFiltrado}" var="item" emptyMessage="#{bundle.SinRegistrosMensaje}">
+                    <p:column style="width: 100px">
+                        <p:graphicImage styleClass="texto-centrado" width="100" height="100" value="#{ArticuloController.imagenToDisplayFromId()}" cache="false" >
+                            <f:param name="id" value="#{item.idArticulo}" />
+                        </p:graphicImage>
+                    </p:column>
                     <p:column>
                         <f:facet name="header">
                             <h:outputText value="Artículo"/>
