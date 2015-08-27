@@ -54,8 +54,9 @@ public class Usuario implements Serializable {
     @JoinColumn(name = "ID_ROL", referencedColumnName = "ID_ROL")
     @ManyToOne
     private Rol idRol;
-    @Column(name = "id_set_preferences")
-    private Integer idSetPreferences;
+    @JoinColumn(name = "ID_PREFERENCE", referencedColumnName = "ID_PREFERENCE")
+    @ManyToOne
+    private Preference idPreference;
     @JoinColumn(name = "ID_SUB_ROL", referencedColumnName = "ID_SUB_TIPO")
     @ManyToOne
     private SubTipo idSubRol;
@@ -128,12 +129,12 @@ public class Usuario implements Serializable {
         this.idRol = idRol;
     }
 
-    public Integer getIdSetPreferences() {
-        return idSetPreferences;
+    public Preference getIdPreference() {
+        return idPreference;
     }
 
-    public void setIdSetPreferences(Integer idSetPreferences) {
-        this.idSetPreferences = idSetPreferences;
+    public void setIdPreference(Preference idPreference) {
+        this.idPreference = idPreference;
     }
 
     public SubTipo getIdSubRol() {

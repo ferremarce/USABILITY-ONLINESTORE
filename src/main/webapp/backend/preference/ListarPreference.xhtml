@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <h1 class="ui-state-default ui-corner-all"><h:outputText value="Listar Preferencias Predeterminadas"/></h1>
+        <h:form>
+            <p:growl sticky="true" globalOnly="true" id="messages"/>
+            <p:panel>
+                <p:commandButton ajax="false" value="#{bundle.NuevoBoton}" action="#{PreferenceController.doCrearForm()}" icon="ui-icon-newwin"/>
+                <ui:include src="/ajax.xhtml"/>
+            </p:panel>
+            <p:dataTable value="#{PreferenceController.listaPreference}" var="item">
+                <p:column style="width: 300px">
+                    <f:facet name="header">
+                        <h:outputText value="Nombre"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombrePreferencia}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Fuente"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fuente}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Tamaño"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tamanho}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Idioma"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idioma}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Tema"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tema}"/>
+                </p:column>
+                <p:column>
+                    <p:menuButton value="Acción"> 
+                        <p:menuitem>
+                            <p:commandLink styleClass="ui-menuitem-link" ajax="false"  action="#{PreferenceController.doEditarForm(item)}">
+                                <h:outputText styleClass="ui-menuitem-icon ui-icon ui-icon-pencil" />
+                                <h:outputText styleClass="ui-menuitem-text" value="#{bundle.EditarBoton}" />
+                            </p:commandLink>
+                        </p:menuitem>
+                        <p:menuitem>
+                            <p:commandLink styleClass="ui-menuitem-link" ajax="false" action="#{PreferenceController.doBorrar(item)}" >
+                                <h:outputText styleClass="ui-menuitem-icon ui-icon ui-icon-close" />
+                                <h:outputText styleClass="ui-menuitem-text" value="#{bundle.EliminarBoton}" />
+                                <p:confirm header="Confirmación" message="#{bundle.ConfirmacionMensaje}" icon="ui-icon-alert" />
+                            </p:commandLink>
+                        </p:menuitem>
+                    </p:menuButton>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>

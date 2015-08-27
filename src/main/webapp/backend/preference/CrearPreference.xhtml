@@ -10,35 +10,37 @@
     <ui:define name="content">
         <h1 class="ui-state-default ui-corner-all"><h:outputText value="Editar Mis Preferencias Predeterminadas"/></h1>
         <h:form>
-            <p:panelGrid columns="2">
+            <p:panelGrid columns="3">
                 <p:outputLabel value="Nombre:" for="nombrePreferencia" />
-                <p:inputText  size="50" id="nombrePreferencia" value="#{PreferenceController.preference.nombrePreferencia}" title="NombrePreferencia" />
+                <p:inputText size="50" id="nombrePreferencia" value="#{PreferenceController.preference.nombrePreferencia}" title="NombrePreferencia" required="true" requiredMessage="#{bundle.Requerido}"/>
+                <p:message for="nombrePreferencia"/>
                 <p:outputLabel value="Familia de Fuente:" for="fuente" />
-                <p:selectOneMenu id="fuente" value="#{PreferenceController.preference.fuente}"  >
+                <p:selectOneMenu id="fuente" value="#{PreferenceController.preference.fuente}" required="true" requiredMessage="#{bundle.Requerido}" >
                     <f:selectItem itemLabel="Droid-Sans" itemValue="droid-sans" />
                     <f:selectItem itemLabel="Exo" itemValue="exo" />
                     <f:selectItem itemLabel="Time New Romans" itemValue="time" />
                 </p:selectOneMenu>
+                <p:message for="fuente"/>
                 <p:outputLabel value="Tamaño Fuente:" for="tamanho" />
-                <p:selectOneMenu id="tamanho" value="#{PreferenceController.preference.tamanho}" >
-                    <f:selectItem itemLabel="10px" itemValue="10" />
-                    <f:selectItem itemLabel="12px" itemValue="12" />
-                    <f:selectItem itemLabel="14px" itemValue="14" />
+                <p:selectOneMenu id="tamanho" value="#{PreferenceController.preference.tamanho}" required="true" requiredMessage="#{bundle.Requerido}">
+                    <f:selectItems value="#{PreferenceController.sizes}"/>
                 </p:selectOneMenu>
+                <p:message for="tamanho"/>
                 <p:outputLabel value="Idioma:" for="idioma" />
-                <p:selectOneMenu id="idioma" value="#{PreferenceController.preference.idioma}" >
+                <p:selectOneMenu id="idioma" value="#{PreferenceController.preference.idioma}" required="true" requiredMessage="#{bundle.Requerido}" >
                     <f:selectItem itemLabel="Español" itemValue="es" />
                     <f:selectItem itemLabel="English" itemValue="en" />
                 </p:selectOneMenu>
+                <p:message for="idioma"/>
                 <p:outputLabel value="Tema:" for="tema" />
-                <p:selectOneMenu id="tema" value="#{PreferenceController.preference.tema}" >
-                    <f:selectItem itemLabel="Aristo" itemValue="aristo" />
-                    <f:selectItem itemLabel="Afterdark" itemValue="afterdark" />
+                <p:selectOneMenu id="tema" value="#{PreferenceController.preference.tema}" required="true" requiredMessage="#{bundle.Requerido}" >
+                    <f:selectItems value="#{PreferenceController.themes}" />
                 </p:selectOneMenu>
+                <p:message for="tema"/>
             </p:panelGrid>
             <p:panel>
-                <p:commandButton ajax="false" value="#{bundle.GuardarBoton}" action="#{RolController.doGuardar()}" icon="ui-icon-disk"/>
-                <p:commandButton immediate="true" ajax="false" value="#{bundle.CancelarBoton}" action="#{RolController.doListarForm()}" icon="ui-icon-close"/>
+                <p:commandButton ajax="false" value="#{bundle.GuardarBoton}" action="#{PreferenceController.doGuardar()}" icon="ui-icon-disk"/>
+                <p:commandButton immediate="true" ajax="false" value="#{bundle.CancelarBoton}" action="#{PreferenceController.doListarForm()}" icon="ui-icon-close"/>
             </p:panel>
         </h:form>
     </ui:define>

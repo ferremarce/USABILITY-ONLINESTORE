@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.primefaces.event.ToggleEvent;
 import quickstore.ejb.entity.Usuario;
+import quickstore.ejb.facade.PreferenceDAO;
 import quickstore.ejb.facade.UsuarioDAO;
 import quickstore.util.JSFutil;
 

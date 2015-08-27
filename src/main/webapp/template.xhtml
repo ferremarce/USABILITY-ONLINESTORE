@@ -15,8 +15,10 @@
                 <title>QUICKSTORE</title>
             </f:facet>
         </h:head>
-
         <h:body>
+            <p:outputPanel rendered="true">
+                <link type="text/css" rel="stylesheet" href="#{request.contextPath}/PreferenceCSS?object=#{LoginManager.usuarioLogeado.idUsuario}" />
+            </p:outputPanel>
             <p:layout fullPage="true">
                 <p:ajax event="toggle" listener="#{LoginManager.doToggleHandler}"/>
                 <p:layoutUnit id="admin" rendered="#{LoginManager.usuarioLogeado!=null}" position="west" size="250" header="#{bundle.lblAdministracion}" collapsed="#{LoginManager.adminCollapse}" collapsible="true">
@@ -114,7 +116,7 @@
                                         <p:commandButton ajax="false" title="Salir" icon="ui-icon-arrowreturnthick-1-w" rendered="#{LoginManager.usuarioLogeado!=null}" value="#{bundle.SalirBoton}" action="#{LoginManager.doLogout()}" />
                                         <p:menu overlay="true" trigger="cmdUsuarioLogeado" my="left top" at="left bottom">
                                             <p:submenu label="Preferencias">
-                                                <p:menuitem ajax="false"  value="#{bundle.PreferenciaBoton}" action="#{ClienteLoginManager.doLogoutTienda()}" icon="ui-icon-close"/>
+                                                <p:menuitem ajax="false"  value="#{bundle.PreferenciaBoton}" action="#{PreferenceController.doEditarForm(LoginManager.usuarioLogeado.idPreference)}" icon="ui-icon-close"/>
                                             </p:submenu>
                                             <p:submenu label="Acceso">
                                                 <p:menuitem ajax="false" value="#{bundle.CambiarContrasenhaBoton}" action="#{LoginManager.doCambiarContrasenhaForm()}" icon="ui-icon-disk"/>
