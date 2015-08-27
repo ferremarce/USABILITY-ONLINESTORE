@@ -16,15 +16,15 @@
                 <p:message for="nombrePreferencia"/>
                 <p:outputLabel value="Familia de Fuente:" for="fuente" />
                 <p:selectOneMenu id="fuente" value="#{PreferenceController.preference.fuente}" required="true" requiredMessage="#{bundle.Requerido}" >
-                    <f:selectItem itemLabel="Droid-Sans" itemValue="droid-sans" />
-                    <f:selectItem itemLabel="Exo" itemValue="exo" />
-                    <f:selectItem itemLabel="Time New Romans" itemValue="time" />
+                    <f:selectItems  value="#{PreferenceController.doGetFonts()}"/>
                 </p:selectOneMenu>
                 <p:message for="fuente"/>
                 <p:outputLabel value="Tamaño Fuente:" for="tamanho" />
-                <p:selectOneMenu id="tamanho" value="#{PreferenceController.preference.tamanho}" required="true" requiredMessage="#{bundle.Requerido}">
-                    <f:selectItems value="#{PreferenceController.sizes}"/>
-                </p:selectOneMenu>
+                <h:panelGrid columns="1" style="margin-bottom: 10px">
+                    <h:outputText id="tamanho" value="#{PreferenceController.sizeFont}%" />
+                    <h:inputHidden id="txt2" value="#{PreferenceController.sizeFont}" />
+                    <p:slider for="txt2" display="tamanho" maxValue="120" style="width: 500px" minValue="80" displayTemplate="Ajustar al {value}%" />
+                </h:panelGrid>
                 <p:message for="tamanho"/>
                 <p:outputLabel value="Idioma:" for="idioma" />
                 <p:selectOneMenu id="idioma" value="#{PreferenceController.preference.idioma}" required="true" requiredMessage="#{bundle.Requerido}" >
@@ -34,9 +34,19 @@
                 <p:message for="idioma"/>
                 <p:outputLabel value="Tema:" for="tema" />
                 <p:selectOneMenu id="tema" value="#{PreferenceController.preference.tema}" required="true" requiredMessage="#{bundle.Requerido}" >
-                    <f:selectItems value="#{PreferenceController.themes}" />
+                    <f:selectItems value="#{PreferenceController.doGetThemes()}" />
                 </p:selectOneMenu>
                 <p:message for="tema"/>
+                <!--p:themeSwitcher value="#{PreferenceController.preference.tema}" id="advanced" style="width:165px" effect="fade" var="t">
+                    <f:selectItems value="#{PreferenceController.doGetThemes()}" />
+                    <p:column>
+                        <h:outputText styleClass="ui-theme ui-theme-" style="display-block" />
+                    </p:column>
+
+                    <p:column>
+
+                    </p:column>
+                </p:themeSwitcher-->
             </p:panelGrid>
             <p:panel>
                 <p:commandButton ajax="false" value="#{bundle.GuardarBoton}" action="#{PreferenceController.doGuardar()}" icon="ui-icon-disk"/>

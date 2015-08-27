@@ -42,16 +42,32 @@ public class PreferenceCSS extends HttpServlet {
         String cadena;
         try {
             Preference p = preferenceDAO.find(Integer.parseInt(parametro));
-
-            cadena = ".ui-widget,\n"
+            String size = p.getTamanho() + "%";
+            String family = "'" + p.getFuente() + "'";
+            cadena = "h1, h2, h3, span {"
+                    + "    font-family: " + family + " !important; \n"
+                    + "}"
+                    + "td {"
+                    + "    font-size: " + size + " !important;\n"
+                    + "    font-family: " + family + " !important; \n"
+                    + "}"
+                    + ".ui-widget,\n"
                     + ".ui-widget-header,\n"
                     + ".ui-widget-content,\n"
                     + ".ui-datatable ui-widget,\n"
                     + ".ui-datatable-data ui-widget-content,\n"
                     + ".ui-column-title,\n"
-                    + ".ui-toolbar\n"
+                    + ".ui-toolbar,\n"
+                    + ".ui-menuitem,\n"
+                    + ".ui-menuitem-text,\n"
+                    + ".ui-menu-list,\n"
+                    + ".ui-c,\n"
+                    + ".ui-button-text,\n"
+                    + ".ui-selectonemenu-label,\n"
+                    + ".ui-selectonemenu-item\n"
                     + "{\n"
-                    + "    font-size: " + p.getTamanho() + " !important;\n"
+                    + "    font-size: " + size + " !important;\n"
+                    + "    font-family: " + family + " !important; \n"
                     + "}";
             out.println(cadena);
         } catch (Exception ex) {
@@ -63,7 +79,7 @@ public class PreferenceCSS extends HttpServlet {
                     + ".ui-column-title,\n"
                     + ".ui-toolbar\n"
                     + "{\n"
-                    + "    font-size: 12px !important;\n"
+                    + "    font-size: 1em !important;\n"
                     + "}";
             out.println(cadena);
         }

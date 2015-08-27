@@ -10,3 +10,9 @@
     font-weight: 400;
     src: local('Exo Regular'), local('Exo-Regular'), url('Exo.woff') format('woff');
 }
+@font-face {
+    font-family: 'Megrim';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Megrim'), local('Megrim'), url('Megrim.woff') format('woff');
+}
