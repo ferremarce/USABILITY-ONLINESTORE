@@ -361,9 +361,30 @@ public class JSFutil implements Serializable {
     }
 
     public static Usuario getUsuarioConectado() {
-        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        Usuario user = (Usuario) session.getAttribute("user");
-        return user;
+        try {
+            HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+            Usuario user = (Usuario) session.getAttribute("user");
+            return user;
+        } catch (Exception e) {
+            return null;
+        }
+
+    }
+
+    public static String getIdiomaSesion() {
+        try {
+            HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+            String lang = (String) session.getAttribute("language");
+            if (lang != null) {
+                return lang;
+            } else {
+                //Si no existe idioma... se retorna ESPAÑOL como defecto
+                return "es";
+            }
+        } catch (Exception e) {//Cuando se destruye la sesion
+            return "e";
+        }
+
     }
 
     public static Cliente getClienteConectado() {

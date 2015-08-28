@@ -24,15 +24,15 @@
                 </h:panelGrid>
             </b:panel>
             <h:panelGrid columnClasses="top" columns="2">
-                <p:panel header="Sistema">
+                <p:panel header="#{bundle.lblSistema}">
                     Release: #{sistema.version}<p/>
-                    Fecha: #{sistema.buildDate}<p/>
-                    Versión: #{sistema.buildNumber} - Rev. #{sistema.revision}<p/>
+                    #{sistema.buildDate}<p/>
+                    #{sistema.buildNumber} - Rev. #{sistema.revision}<p/>
                 </p:panel>
-                <p:panel header="Arquitectura">
-                    Arquitectura: #{sistema.system}<p/>
-                    Java: #{sistema.java}<p/>
-                    JavaVM: #{sistema.javavm}<p/>
+                <p:panel header="#{bundle.lblArquitectura}">
+                    #{sistema.system}<p/>
+                    Java #{sistema.java}<p/>
+                    #{sistema.javavm}<p/>
                 </p:panel>
             </h:panelGrid>
         </h:form>

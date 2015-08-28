@@ -32,6 +32,7 @@ public class LoginManager implements Serializable {
     UsuarioDAO usuarioDAO;
 
     private final String USER_SESSION_KEY = "user";
+    private final String USER_SESSION_LANGUAGE = "language";
     private String cuenta;
     private String contrasenha;
     private String contrasenha2;
@@ -144,7 +145,8 @@ public class LoginManager implements Serializable {
                 if (JSFutil.checkSecurePassword(this.contrasenha, usuario.getContrasenha())) {
                     JSFutil.addSuccessMessage("Acceso concedido");
                     JSFutil.putSessionVariable(USER_SESSION_KEY, usuario);
-                    this.clientCollapse=Boolean.TRUE;
+                    JSFutil.putSessionVariable(USER_SESSION_LANGUAGE, usuario.getIdPreference().getIdioma());
+                    this.clientCollapse = Boolean.TRUE;
                     return "/backend/index";
                 } else {
                     this.intento++;
@@ -226,6 +228,18 @@ public class LoginManager implements Serializable {
      */
     public Usuario getUsuarioLogeado() {
         return JSFutil.getUsuarioConectado();
+    }
+
+    public Integer getIdPreferenciaUsuario() {
+        try {
+            if (JSFutil.getUsuarioConectado() != null) {
+                return JSFutil.getUsuarioConectado().getIdPreference().getIdPreference();
+            } else {
+                return 0;
+            }
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     public String doCambiarContrasenhaForm() {

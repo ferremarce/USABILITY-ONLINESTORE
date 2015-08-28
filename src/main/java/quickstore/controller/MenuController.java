@@ -6,14 +6,12 @@ package quickstore.controller;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJBException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
-import org.primefaces.model.DefaultTreeNode;
-import org.primefaces.model.TreeNode;
 import org.primefaces.model.menu.DefaultMenuItem;
 import org.primefaces.model.menu.DefaultMenuModel;
 import org.primefaces.model.menu.DefaultSubMenu;
@@ -39,6 +37,8 @@ public class MenuController implements Serializable {
 
     @Inject
     UsuarioDAO usuarioDAO;
+    @Inject
+    LanguageSwitcher languageSwitcher;
     private MenuModel model;
 
     /**
@@ -50,7 +50,6 @@ public class MenuController implements Serializable {
     @PostConstruct
     public void init() {
         this.montarMenu();
-
     }
 
     /**
@@ -66,14 +65,17 @@ public class MenuController implements Serializable {
      * Montar el menu desde la base de datos
      */
     public void montarMenu() {
+
+        Usuario user = JSFutil.getUsuarioConectado();
+        String nivel;
+        model = new DefaultMenuModel();
+        DefaultSubMenu submenu = new DefaultSubMenu();
+        DefaultMenuItem item;
         try {
-            Usuario user = JSFutil.getUsuarioConectado();
-
-            String nivel;
-            model = new DefaultMenuModel();
-            DefaultSubMenu submenu = new DefaultSubMenu();
-            DefaultMenuItem item;
-
+            if (user == null) {
+                this.menuEjemplo();
+                return;
+            }
             List<Permiso> tr = usuarioDAO.getPermisoUsuario(user);
             for (Permiso x : tr) {
                 nivel = x.getNivel();

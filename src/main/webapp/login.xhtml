@@ -5,17 +5,18 @@
                 template="/template.xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:b="http://bootsfaces.net/ui"
-                xmlns:p="http://primefaces.org/ui">
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="content">
         <h:form>
             <p:growl life="5000" globalOnly="true" id="messages"/>
             <p:panel style="width: 50%" header="Credenciales de Acceso">
                 <p:panelGrid columns="3">
-                    <p:outputLabel for="cuenta" value="Cuenta"/>
+                    <p:outputLabel for="cuenta" value="#{bundle.lblCuenta}"/>
                     <p:inputText id="cuenta" value="#{LoginManager.cuenta}" required="true" requiredMessage="#{bundle.Requerido}"/>
                     <p:message for="cuenta"/>
-                    <p:outputLabel for="passwd" value="Clave"/>
+                    <p:outputLabel for="passwd" value="#{bundle.lblContrasenha}"/>
                     <p:password id="passwd" value="#{LoginManager.contrasenha}" required="true" requiredMessage="#{bundle.Requerido}"/>
                     <p:message for="passwd"/>
                     <p:outputLabel rendered="#{LoginManager.intento>3}" for="captcha" value="Validar"/>

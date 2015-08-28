@@ -136,3 +136,15 @@
 .ui-layout-west .ui-layout-unit-content {
     overflow:visible !important;
 }
+
+.image { 
+   position: relative; 
+   width: 100%; /* for IE 6 */
+}
+
+.overImage { 
+   position: absolute; 
+   top: 30px; 
+   left: 350px; 
+   width: 100%; 
+}

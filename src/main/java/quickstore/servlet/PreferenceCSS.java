@@ -40,6 +40,7 @@ public class PreferenceCSS extends HttpServlet {
         PrintWriter out = response.getWriter();
         String parametro = request.getParameter("object");
         String cadena;
+        System.out.println("Preference id: "+parametro);
         try {
             Preference p = preferenceDAO.find(Integer.parseInt(parametro));
             String size = p.getTamanho() + "%";

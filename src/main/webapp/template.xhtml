@@ -16,12 +16,15 @@
             </f:facet>
         </h:head>
         <h:body>
+            <f:metadata>
+                <f:event type="preRenderView" listener="#{LanguageSwitcher.changeUserLanguage()}"/>
+            </f:metadata>
             <p:outputPanel rendered="true">
-                <link type="text/css" rel="stylesheet" href="#{request.contextPath}/PreferenceCSS?object=#{LoginManager.usuarioLogeado.idUsuario}" />
+                <link type="text/css" rel="stylesheet" href="#{request.contextPath}/PreferenceCSS?object=#{LoginManager.idPreferenciaUsuario}" />
             </p:outputPanel>
             <p:layout fullPage="true">
                 <p:ajax event="toggle" listener="#{LoginManager.doToggleHandler}"/>
-                <p:layoutUnit id="admin" rendered="#{LoginManager.usuarioLogeado!=null}" position="west" size="250" header="#{bundle.lblAdministracion}" collapsed="#{LoginManager.adminCollapse}" collapsible="true">
+                <p:layoutUnit id="admin" rendered="#{LoginManager.usuarioLogeado!=null}" position="west" minSize="100" maxSize="350" resizable="true"  header="#{bundle.lblAdministracion}" collapsed="#{LoginManager.adminCollapse}" collapsible="true">
                     <f:metadata>
                         <f:event type="preRenderView" listener="#{MenuController.init()}"/>
                     </f:metadata>
@@ -79,9 +82,14 @@
                         <h:form>
                             <p:panel styleClass="header-background">
                                 <h:panelGrid columns="3">
-                                    <p:link  outcome="/backend/index">
-                                        <p:graphicImage value="/img/logo-admin.png"/>
-                                    </p:link>
+                                    <h:panelGrid>
+                                        <div class="image">
+                                            <p:link  outcome="/backend/index">
+                                                <p:graphicImage value="/img/logo-admin.png"/>
+                                            </p:link>
+                                            <!--h2 class="overImage itemResaltado1">TU TIENDA EN LINEA</h2-->
+                                        </div>
+                                    </h:panelGrid>
                                     <h:panelGrid width="100%">
                                         <h:panelGrid style="position: relative; left: 20px" columns="6">
                                             <p:graphicImage value="/icono/store.png"/>
@@ -114,7 +122,7 @@
                                     <f:facet name="left">
                                         <p:commandButton id="cmdUsuarioLogeado" title="Opciones del Usuario" type="button" icon="ui-icon-carat-1-s" rendered="#{LoginManager.usuarioLogeado!=null}" value="#{LoginManager.usuarioLogeado.nombres} #{LoginManager.usuarioLogeado.apellidos}"/>
                                         <p:commandButton ajax="false" title="Salir" icon="ui-icon-arrowreturnthick-1-w" rendered="#{LoginManager.usuarioLogeado!=null}" value="#{bundle.SalirBoton}" action="#{LoginManager.doLogout()}" />
-                                        <p:menu overlay="true" trigger="cmdUsuarioLogeado" my="left top" at="left bottom">
+                                        <p:menu style="width: 250px" overlay="true" trigger="cmdUsuarioLogeado" my="left top" at="left bottom">
                                             <p:submenu label="Preferencias">
                                                 <p:menuitem ajax="false"  value="#{bundle.PreferenciaBoton}" action="#{PreferenceController.doEditarForm(LoginManager.usuarioLogeado.idPreference)}" icon="ui-icon-close"/>
                                             </p:submenu>

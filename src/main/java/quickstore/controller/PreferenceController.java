@@ -138,7 +138,6 @@ public class PreferenceController implements Serializable {
                 return p.getTema();
             }
         } catch (Exception ex) {
-            Logger.getLogger(PreferenceController.class.getName()).log(Level.SEVERE, null, ex);
             return "aristo";
         }
     }
