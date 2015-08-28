@@ -83,7 +83,7 @@ public class MenuController implements Serializable {
                     submenu = new DefaultSubMenu();
                     try {
                         submenu.setLabel(x.getNivel() + " " + JSFutil.getMyBundle().getString(x.getDescripcionPermiso()));
-                        //System.out.println(JSFutil.getmyLocale()+" - "+this.bundle.getLocale()+" - "+this.bundle.getString(x.getDescripcionPermiso()));
+                        //System.out.println(JSFutil.getmyLocale()+" - "+JSFutil.getMyBundle().getLocale()+" - "+JSFutil.getMyBundle().getString(x.getDescripcionPermiso()));
                     } catch (Exception e) {
                         submenu.setLabel(x.getNivel() + " " + x.getDescripcionPermiso());
                     }

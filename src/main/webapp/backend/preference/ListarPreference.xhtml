@@ -12,7 +12,6 @@
         <h:form>
             <p:growl sticky="true" globalOnly="true" id="messages"/>
             <p:panel>
-                <p:commandButton ajax="false" value="#{bundle.NuevoBoton}" action="#{PreferenceController.doCrearForm()}" icon="ui-icon-newwin"/>
                 <ui:include src="/ajax.xhtml"/>
             </p:panel>
             <p:dataTable value="#{PreferenceController.listaPreference}" var="item">
@@ -20,7 +19,7 @@
                     <f:facet name="header">
                         <h:outputText value="Nombre"/>
                     </f:facet>
-                    <h:outputText value="#{item.nombrePreferencia}"/>
+                    <h:outputText value="#{item.idPreference}. #{item.nombrePreferencia}"/>
                 </p:column>
                 <p:column>
                     <f:facet name="header">
@@ -45,6 +44,14 @@
                         <h:outputText value="Tema"/>
                     </f:facet>
                     <h:outputText value="#{item.tema}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Usuario"/>
+                    </f:facet>
+                    <p:dataList rendered="#{item.usuarioList.size()>0}" value="#{item.usuarioList}" var="usuario">
+                        #{usuario.cuenta}
+                    </p:dataList>
                 </p:column>
                 <p:column>
                     <p:menuButton value="Acción"> 

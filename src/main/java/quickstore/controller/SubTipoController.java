@@ -175,7 +175,7 @@ public class SubTipoController implements Serializable {
         try {
             this.subTipo.setIdTipo(tipo);
             subTipoDAO.update(this.subTipo);
-            JSFutil.addSuccessMessage(this.bundle.getString("UpdateSuccess"));
+            JSFutil.addSuccessMessage(JSFutil.getMyBundle().getString("UpdateSuccess"));
         } catch (EJBException ex) {
             String msg = "";
             Throwable cause = ex.getCause();
@@ -185,7 +185,7 @@ public class SubTipoController implements Serializable {
             if (msg.length() > 0) {
                 JSFutil.addErrorMessage(msg);
             } else {
-                JSFutil.addErrorMessage(ex, this.bundle.getString("UpdateError"));
+                JSFutil.addErrorMessage(ex, JSFutil.getMyBundle().getString("UpdateError"));
             }
         }
         this.subTipo = new SubTipo();
@@ -200,7 +200,7 @@ public class SubTipoController implements Serializable {
     public void onCellEdit(SubTipo st) {
         try {
             subTipoDAO.update(st);
-            JSFutil.addSuccessMessage(this.bundle.getString("UpdateSuccess"));
+            JSFutil.addSuccessMessage(JSFutil.getMyBundle().getString("UpdateSuccess"));
         } catch (EJBException ex) {
             String msg = "";
             Throwable cause = ex.getCause();
@@ -210,7 +210,7 @@ public class SubTipoController implements Serializable {
             if (msg.length() > 0) {
                 JSFutil.addErrorMessage(msg);
             } else {
-                JSFutil.addErrorMessage(ex, this.bundle.getString("UpdateError"));
+                JSFutil.addErrorMessage(ex, JSFutil.getMyBundle().getString("UpdateError"));
             }
         }
         this.doListarForm();
@@ -219,7 +219,7 @@ public class SubTipoController implements Serializable {
     public void doBorrar(Integer u) {
         try {
             subTipoDAO.remove(subTipoDAO.find(u));
-            JSFutil.addSuccessMessage(this.bundle.getString("UpdateSuccess"));
+            JSFutil.addSuccessMessage(JSFutil.getMyBundle().getString("UpdateSuccess"));
         } catch (EJBException ex) {
             String msg = "";
             Throwable cause = ex.getCause();
@@ -229,11 +229,11 @@ public class SubTipoController implements Serializable {
             if (msg.length() > 0) {
                 JSFutil.addErrorMessage(msg);
             } else {
-                JSFutil.addErrorMessage(ex, this.bundle.getString("UpdateError"));
+                JSFutil.addErrorMessage(ex, JSFutil.getMyBundle().getString("UpdateError"));
             }
         } catch (Exception ex) {
             LOG.log(Level.SEVERE, null, ex);
-            JSFutil.addErrorMessage(ex, this.bundle.getString("UpdateError"));
+            JSFutil.addErrorMessage(ex, JSFutil.getMyBundle().getString("UpdateError"));
         }
         doListarForm();
     }

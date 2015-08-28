@@ -203,7 +203,7 @@ public class CarritoFE implements Serializable {
             this.metodoPagoClienteSeleccionado.setIdCliente(JSFutil.getClienteConectado());
             this.metodoPagoClienteSeleccionado.setIdTarjetaCredito(tarjetaCredito);
             metodoPagoClienteDAO.create(metodoPagoClienteSeleccionado);
-            JSFutil.addSuccessMessage(this.bundle.getString("UpdateSuccess"));
+            JSFutil.addSuccessMessage(JSFutil.getMyBundle().getString("UpdateSuccess"));
         } catch (EJBException ex) {
             String msg = "";
             Throwable cause = ex.getCause();
@@ -213,7 +213,7 @@ public class CarritoFE implements Serializable {
             if (msg.length() > 0) {
                 JSFutil.addErrorMessage(msg);
             } else {
-                JSFutil.addErrorMessage(ex, this.bundle.getString("UpdateError"));
+                JSFutil.addErrorMessage(ex, JSFutil.getMyBundle().getString("UpdateError"));
             }
         }
     }
@@ -254,7 +254,7 @@ public class CarritoFE implements Serializable {
             dc.setIdCliente(JSFutil.getClienteConectado());
             dc.setIdDireccion(direccion);
             direccionClienteDAO.create(dc);
-            JSFutil.addSuccessMessage(this.bundle.getString("UpdateSuccess"));
+            JSFutil.addSuccessMessage(JSFutil.getMyBundle().getString("UpdateSuccess"));
         } catch (EJBException ex) {
             String msg = "";
             Throwable cause = ex.getCause();
@@ -264,7 +264,7 @@ public class CarritoFE implements Serializable {
             if (msg.length() > 0) {
                 JSFutil.addErrorMessage(msg);
             } else {
-                JSFutil.addErrorMessage(ex, this.bundle.getString("UpdateError"));
+                JSFutil.addErrorMessage(ex, JSFutil.getMyBundle().getString("UpdateError"));
             }
         }
     }
@@ -291,9 +291,9 @@ public class CarritoFE implements Serializable {
     public void doSacarArticuloOrdenCompra(OrdenCarrito orden) {
         boolean remove = this.listaOrdenCarrito.remove(orden);
         if (remove) {
-            JSFutil.addSuccessMessage(this.bundle.getString("UpdateSuccess"));
+            JSFutil.addSuccessMessage(JSFutil.getMyBundle().getString("UpdateSuccess"));
         } else {
-            JSFutil.addSuccessMessage(this.bundle.getString("UpdateError"));
+            JSFutil.addSuccessMessage(JSFutil.getMyBundle().getString("UpdateError"));
         }
     }
 

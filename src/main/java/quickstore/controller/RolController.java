@@ -189,7 +189,7 @@ public class RolController implements Serializable {
     public String doGuardar() {
         try {
             rolDAO.update(rol);
-            JSFutil.addSuccessMessage(this.bundle.getString("UpdateSuccess"));
+            JSFutil.addSuccessMessage(JSFutil.getMyBundle().getString("UpdateSuccess"));
         } catch (EJBException ex) {
             String msg = "";
             Throwable cause = ex.getCause();
@@ -199,11 +199,11 @@ public class RolController implements Serializable {
             if (msg.length() > 0) {
                 JSFutil.addErrorMessage(msg);
             } else {
-                JSFutil.addErrorMessage(ex, this.bundle.getString("UpdateError"));
+                JSFutil.addErrorMessage(ex, JSFutil.getMyBundle().getString("UpdateError"));
             }
         } catch (Exception ex) {
             LOG.log(Level.SEVERE, null, ex);
-            JSFutil.addErrorMessage(ex, this.bundle.getString("UpdateError"));
+            JSFutil.addErrorMessage(ex, JSFutil.getMyBundle().getString("UpdateError"));
         }
         return doListarForm();
         
@@ -217,7 +217,7 @@ public class RolController implements Serializable {
     public void doBorrar(Rol u) {
         try {
             rolDAO.remove(u);
-            JSFutil.addSuccessMessage(this.bundle.getString("UpdateSuccess"));
+            JSFutil.addSuccessMessage(JSFutil.getMyBundle().getString("UpdateSuccess"));
         } catch (EJBException ex) {
             String msg = "";
             Throwable cause = ex.getCause();
@@ -227,11 +227,11 @@ public class RolController implements Serializable {
             if (msg.length() > 0) {
                 JSFutil.addErrorMessage(msg);
             } else {
-                JSFutil.addErrorMessage(ex, this.bundle.getString("UpdateError"));
+                JSFutil.addErrorMessage(ex, JSFutil.getMyBundle().getString("UpdateError"));
             }
         } catch (Exception ex) {
             LOG.log(Level.SEVERE, null, ex);
-            JSFutil.addErrorMessage(ex, this.bundle.getString("UpdateError"));
+            JSFutil.addErrorMessage(ex, JSFutil.getMyBundle().getString("UpdateError"));
         }
         doListarForm();
     }
@@ -272,9 +272,9 @@ public class RolController implements Serializable {
                 pr.setIdRol(rol);
                 permisoRolDAO.create(pr);
             }
-            JSFutil.addSuccessMessage(this.bundle.getString("UpdateSuccess"));
+            JSFutil.addSuccessMessage(JSFutil.getMyBundle().getString("UpdateSuccess"));
         } catch (Exception e) {
-            JSFutil.addErrorMessage(e, this.bundle.getString("UpdateError"));
+            JSFutil.addErrorMessage(e, JSFutil.getMyBundle().getString("UpdateError"));
         }
         return "/backend/rol/ListarRol";
     }

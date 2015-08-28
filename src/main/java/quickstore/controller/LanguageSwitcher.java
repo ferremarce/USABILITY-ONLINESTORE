@@ -25,10 +25,10 @@ import quickstore.util.JSFutil;
 @Named(value = "LanguageSwitcher")
 @SessionScoped
 public class LanguageSwitcher implements Serializable {
-    
+
     private static final Logger LOG = Logger.getLogger(ArticuloController.class.getName());
     ResourceBundle bundle = ResourceBundle.getBundle("quickstore.properties.bundle", JSFutil.getmyLocale());
-    
+
     private Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
     @Inject
     PreferenceDAO preferenceDAO;
@@ -40,18 +40,20 @@ public class LanguageSwitcher implements Serializable {
      */
     public LanguageSwitcher() {
     }
-    
+
     public void changeLanguage(String language) {
         locale = new Locale(language);
         FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
         if (JSFutil.getUsuarioConectado() != null) {
             Preference p = preferenceDAO.find(JSFutil.getUsuarioConectado().getIdPreference().getIdPreference());
-            p.setIdioma(language);
-            preferenceDAO.update(p);
+            if (p.getIdioma().compareTo(language) != 0) {
+                p.setIdioma(language);
+                preferenceDAO.update(p);
+            }
         }
         JSFutil.putSessionVariable("language", language);
     }
-    
+
     public void changeUserLanguage() {
         this.changeLanguage(JSFutil.getIdiomaSesion());
         System.out.println("------ Cambiando idioma desde LanguageSwitcher...");

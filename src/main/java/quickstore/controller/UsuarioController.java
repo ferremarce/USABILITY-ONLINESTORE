@@ -10,16 +10,17 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import quickstore.ejb.entity.Preference;
 import quickstore.ejb.entity.Usuario;
+import quickstore.ejb.facade.PreferenceDAO;
 import quickstore.ejb.facade.UsuarioDAO;
 import quickstore.util.JSFutil;
-
 
 /**
  *
@@ -34,9 +35,12 @@ public class UsuarioController implements Serializable {
      */
     private static final Logger LOG = Logger.getLogger(UsuarioController.class.getName());
     ResourceBundle bundle = ResourceBundle.getBundle("quickstore.properties.bundle", JSFutil.getmyLocale());
-
-    @EJB
+    
+    @Inject
     UsuarioDAO usuarioDAO;
+    @Inject
+    PreferenceDAO preferenceDAO;
+    
     private List<Usuario> listaUsuario;
     private Usuario usuario;
     private String tmpPasswd;
@@ -154,8 +158,22 @@ public class UsuarioController implements Serializable {
             if (!this.tmpPasswd.isEmpty()) {
                 usuario.setContrasenha(JSFutil.getSecurePassword(tmpPasswd));
             }
+            if (this.usuario.getIdPreference() != null) {
+                //Recuperar la preferencia predeterminada
+                Preference p = preferenceDAO.find(0);
+                Preference newP = new Preference();
+                newP.setFuente(p.getFuente());
+                newP.setIdioma(p.getIdioma());
+                newP.setNombrePreferencia("Preferencia-" + this.usuario.getCuenta());
+                newP.setTamanho(p.getTamanho());
+                newP.setTema(p.getTema());
+                //crear la nueva preferencia
+                preferenceDAO.create(newP);
+                //Asignar la preferencia creada al usuario
+                this.usuario.setIdPreference(newP);
+            }
             usuarioDAO.update(usuario);
-            JSFutil.addSuccessMessage(this.bundle.getString("UpdateSuccess"));
+            JSFutil.addSuccessMessage(JSFutil.getMyBundle().getString("UpdateSuccess"));
         } catch (EJBException ex) {
             String msg = "";
             Throwable cause = ex.getCause();
@@ -165,14 +183,14 @@ public class UsuarioController implements Serializable {
             if (msg.length() > 0) {
                 JSFutil.addErrorMessage(msg);
             } else {
-                JSFutil.addErrorMessage(ex, this.bundle.getString("UpdateError"));
+                JSFutil.addErrorMessage(ex, JSFutil.getMyBundle().getString("UpdateError"));
             }
         } catch (Exception ex) {
             LOG.log(Level.SEVERE, null, ex);
-            JSFutil.addErrorMessage(ex, this.bundle.getString("UpdateError"));
+            JSFutil.addErrorMessage(ex, JSFutil.getMyBundle().getString("UpdateError"));
         }
         return doListarForm();
-
+        
     }
 
     /**
@@ -183,7 +201,7 @@ public class UsuarioController implements Serializable {
     public void doBorrar(Usuario u) {
         try {
             usuarioDAO.remove(u);
-            JSFutil.addSuccessMessage(this.bundle.getString("UpdateSuccess"));
+            JSFutil.addSuccessMessage(JSFutil.getMyBundle().getString("UpdateSuccess"));
         } catch (EJBException ex) {
             String msg = "";
             Throwable cause = ex.getCause();
@@ -193,18 +211,18 @@ public class UsuarioController implements Serializable {
             if (msg.length() > 0) {
                 JSFutil.addErrorMessage(msg);
             } else {
-                JSFutil.addErrorMessage(ex, this.bundle.getString("UpdateError"));
+                JSFutil.addErrorMessage(ex, JSFutil.getMyBundle().getString("UpdateError"));
             }
         } catch (Exception ex) {
             LOG.log(Level.SEVERE, null, ex);
-            JSFutil.addErrorMessage(ex, this.bundle.getString("UpdateError"));
+            JSFutil.addErrorMessage(ex, JSFutil.getMyBundle().getString("UpdateError"));
         }
         doListarForm();
-
+        
     }
-
+    
     public HttpServletRequest getRequest() {
         return (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-
+        
     }
 }

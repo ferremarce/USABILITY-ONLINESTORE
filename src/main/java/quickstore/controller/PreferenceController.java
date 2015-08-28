@@ -33,7 +33,6 @@ public class PreferenceController implements Serializable {
      * Configuraciones varias para Log y Bundle*
      */
     private static final Logger LOG = Logger.getLogger(PreferenceController.class.getName());
-    ResourceBundle bundle = ResourceBundle.getBundle("quickstore.properties.bundle", JSFutil.getmyLocale());
 
     @Inject
     private PreferenceDAO preferenceDAO;
@@ -85,6 +84,9 @@ public class PreferenceController implements Serializable {
         this.preference.setTamanho(String.valueOf(sizeFont));
         if (this.preference.getIdPreference() != null) {
             persist(PersistAction.UPDATE);
+            if (JSFutil.getUsuarioConectado().getIdPreference().getIdPreference().compareTo(this.preference.getIdPreference()) == 0) {
+                JSFutil.putSessionVariable("language", this.preference.getIdioma());
+            }
         } else {
             persist(PersistAction.CREATE);
         }
@@ -94,15 +96,13 @@ public class PreferenceController implements Serializable {
     private void persist(PersistAction persistAction) {
         try {
             if (persistAction.compareTo(PersistAction.CREATE) == 0) {
-
                 preferenceDAO.create(this.preference);
             } else if (persistAction.compareTo(PersistAction.UPDATE) == 0) {
-                Integer id = this.preference.getIdPreference();
                 preferenceDAO.update(this.preference);
             } else if (persistAction.compareTo(PersistAction.DELETE) == 0) {
                 preferenceDAO.remove(this.preference);
             }
-            JSFutil.addSuccessMessage(this.bundle.getString("UpdateSuccess"));
+            JSFutil.addSuccessMessage(JSFutil.getMyBundle().getString("UpdateSuccess"));
         } catch (EJBException ex) {
             String msg = "";
             Throwable cause = ex.getCause();
@@ -112,7 +112,7 @@ public class PreferenceController implements Serializable {
             if (msg.length() > 0) {
                 JSFutil.addErrorMessage(msg);
             } else {
-                JSFutil.addErrorMessage(ex, this.bundle.getString("UpdateError"));
+                JSFutil.addErrorMessage(ex, JSFutil.getMyBundle().getString("UpdateError"));
             }
         }
     }
@@ -205,6 +205,13 @@ public class PreferenceController implements Serializable {
         fonts.put("monospace", "monospace");
         fonts.put("Megrim", "Megrim");
         return fonts;
+    }
+
+    public Map<String, String> doGetLanguages() {
+        Map<String, String> langs = new TreeMap<>();
+        langs.put("Español", "es");
+        langs.put("English", "en");
+        return langs;
     }
     //********************************************
     // METODOS DEL LISTENER

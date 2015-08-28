@@ -28,8 +28,7 @@
                 <p:message for="tamanho"/>
                 <p:outputLabel value="Idioma:" for="idioma" />
                 <p:selectOneMenu id="idioma" value="#{PreferenceController.preference.idioma}" required="true" requiredMessage="#{bundle.Requerido}" >
-                    <f:selectItem itemLabel="Español" itemValue="es" />
-                    <f:selectItem itemLabel="English" itemValue="en" />
+                    <f:selectItems value="#{PreferenceController.doGetLanguages()}"/>
                 </p:selectOneMenu>
                 <p:message for="idioma"/>
                 <p:outputLabel value="Tema:" for="tema" />
