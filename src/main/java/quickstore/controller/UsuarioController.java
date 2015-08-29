@@ -158,7 +158,7 @@ public class UsuarioController implements Serializable {
             if (!this.tmpPasswd.isEmpty()) {
                 usuario.setContrasenha(JSFutil.getSecurePassword(tmpPasswd));
             }
-            if (this.usuario.getIdPreference() != null) {
+            if (this.usuario.getIdPreference() == null) {
                 //Recuperar la preferencia predeterminada
                 Preference p = preferenceDAO.find(0);
                 Preference newP = new Preference();

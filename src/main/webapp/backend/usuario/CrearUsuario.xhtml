@@ -12,7 +12,7 @@
         <h:form>
             <p:panelGrid columns="3">
                 <p:outputLabel value="Rol:" for="idRol" />
-                <p:selectOneMenu converter="RolConverter" id="idRol" value="#{UsuarioController.usuario.idRol}" >
+                <p:selectOneMenu converter="RolConverter" id="idRol" value="#{UsuarioController.usuario.idRol}" required="true" requiredMessage="#{bundle.Requerido}"  >
                     <f:selectItems value="#{RolController.rolSet}"/>
                 </p:selectOneMenu>
                 <p:message for="idRol"/>

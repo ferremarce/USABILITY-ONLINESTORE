@@ -152,7 +152,8 @@ public class ArticuloController implements Serializable {
     public String doListarForm() {
         this.clickCounter.setCount(0);
         this.criterioBusqueda = "";
-        this.doListar();
+        this.listaArticulo = new ArrayList<>();
+        //this.doListar();
         return "/backend/articulo/ListarArticulo";
     }
 
@@ -185,11 +186,11 @@ public class ArticuloController implements Serializable {
      * Listar
      */
     public void doListar() {
-//        try { 
-//            Thread.sleep(5000);
-//        } catch (InterruptedException ex) {
-//            Logger.getLogger(ArticuloController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(ArticuloController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         if (this.criterioBusqueda.length() > 0) {
             this.listaArticulo = articuloDAO.findAllbyCriterio(criterioBusqueda);
         } else {
